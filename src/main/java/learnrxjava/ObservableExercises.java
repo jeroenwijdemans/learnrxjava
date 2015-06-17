@@ -9,7 +9,7 @@ public class ObservableExercises {
     /**
      * Return an Observable that emits a single value "Hello World!"
      * 
-     * @return "Hello World!"
+     * Make us of the Observable class and take a look at the method just() method;
      */
     public Observable<String> exerciseHello() {
         return Observable.error(new RuntimeException("Not Implemented"));
@@ -18,7 +18,8 @@ public class ObservableExercises {
     /**
      * Transform the incoming Observable from "Hello" to "Hello [Name]" where [Name] is your name.
      *
-     * @param "Hello Name!"
+     * For example: name = John
+     * Return "Hello John!"
      */
     public Observable<String> exerciseMap(Observable<String> hello) {
         return Observable.error(new RuntimeException("Not Implemented"));
@@ -26,7 +27,7 @@ public class ObservableExercises {
 
     /**
      * Given a stream of numbers, choose the even ones and return a stream like:
-     * <p>
+     * 
      * 2-Even
      * 4-Even
      * 6-Even
@@ -41,7 +42,7 @@ public class ObservableExercises {
      * @param movieLists
      * @return Observable of Integers of Movies.videos.id
      */
-    public Observable<Integer> exerciseConcatMap(Observable<Movies> movies) {
+    public Observable<Integer> exerciseConcatMap(Observable<Movies> movieLists) {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
@@ -58,7 +59,7 @@ public class ObservableExercises {
      * @param movieLists
      * @return Observable of Integers of Movies.videos.id
      */
-    public Observable<Integer> exerciseFlatMap(Observable<Movies> movies) {
+    public Observable<Integer> exerciseFlatMap(Observable<Movies> movieLists) {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 

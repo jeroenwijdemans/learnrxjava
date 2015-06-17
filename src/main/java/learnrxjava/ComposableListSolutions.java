@@ -286,8 +286,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
     forEach() calls to retrieve the video IDs from each movieList and accumulate the results into a new List.
      */
     public static ComposableList<Integer> exercise9() {
-        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(
-            new MovieList(
+        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(new MovieList(
                 "New Releases",
                 ComposableListSolutions.of(
                         new Video(70111470, "Die Hard", 4.0),
@@ -370,10 +369,9 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
     Hint: nest a map() call within a concatMap().
      */
     public static ComposableList<Integer> exercise11() {
-        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(
-                new MovieList(
+        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(new MovieList(
                         "New Releases", // name
-                        ComposableListSolutions.of( // videos
+ComposableListSolutions.of( // videos
                                 new Video(70111470, "Die Hard", 4.0),
                                 new Video(654356453, "Bad Boys", 5.0))),
                 new MovieList(
@@ -407,11 +405,9 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
     including the List::get method.
     */
     public static ComposableList<JSON> exercise12() {
-        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(
-            new MovieList(
+        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(new MovieList(
                 "Instant Queue",
-                ComposableListSolutions.of(
-                    new Video(
+                ComposableListSolutions.of(new Video(
                         70111470,
                         "Die Hard",
                         5.0,
@@ -432,8 +428,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
             ),
             new MovieList(
                 "New Releases",
-                ComposableListSolutions.of(
-                    new Video(
+                ComposableListSolutions.of(new Video(
                         65432445,
                         "The Chamber",
                         4.0,
@@ -728,11 +723,9 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
     the boxarts list.
      */
     public static ComposableList<JSON> exercise19() {
-        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(
-                new MovieList(
+        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(new MovieList(
                     "New Releases",
-                    ComposableListSolutions.of(
-                        new Video(
+                    ComposableListSolutions.of(new Video(
                             70111470,
                             "Die Hard",
                             4.0,
@@ -754,8 +747,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
                 ),
                 new MovieList(
                     "Thrillers",
-                    ComposableListSolutions.of(
-                        new Video(
+                    ComposableListSolutions.of(new Video(
                             65432445,
                             "The Chamber",
                             3.0,
@@ -937,11 +929,9 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
     with zip(). Return an {id, title, time, url} JSON object for each video.
      */
     public static ComposableList<JSON> exercise23() {
-        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(
-            new MovieList(
+        ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(new MovieList(
                 "New Releases",
-                ComposableListSolutions.of(
-                    new Video(
+                ComposableListSolutions.of(new Video(
                         70111470,
                         "Die Hard",
                         4.0,
@@ -974,8 +964,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
             ),
             new MovieList(
                 "Instant Queue",
-                ComposableListSolutions.of(
-                    new Video(
+                ComposableListSolutions.of(new Video(
                         65432445,
                         "The Chamber",
                         4.0,
