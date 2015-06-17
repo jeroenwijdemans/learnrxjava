@@ -18,19 +18,19 @@ public class ComposableListExercisesTest {
     @Test
     public void testExercise01() {
         System.out.println("----------- testExercise1 ----------------");
-        ComposableListExercises.exercise1();
+        ComposableListExercises.exercise01();
     }
 
     @Test
     public void testExercise02() {
         System.out.println("----------- testExercise2 ----------------");
-        ComposableListExercises.exercise2();
+        ComposableListExercises.exercise02();
     }
 
     @Test
     public void testExercise03() {
         System.out.println("----------- testExercise3 ----------------");
-        ComposableList<JSON> e = ComposableListExercises.exercise3();
+        ComposableList<JSON> e = ComposableListExercises.exercise03();
         ComposableList<JSON> s = ComposableListSolutions.exercise3();
         assertMatch(e, s);
     }
@@ -46,7 +46,7 @@ public class ComposableListExercisesTest {
     @Test
     public void testExercise05() {
         System.out.println("----------- testExercise5 ----------------");
-        ComposableList<JSON> e = ComposableListExercises.exercise5();
+        ComposableList<JSON> e = ComposableListExercises.exercise05();
         ComposableList<JSON> s = ComposableListSolutions.exercise5();
         assertMatch(e, s);
     }
@@ -54,7 +54,7 @@ public class ComposableListExercisesTest {
     @Test
     public void testExercise06() {
         System.out.println("----------- testExercise6 ----------------");
-        ComposableList<Video> e = ComposableListExercises.exercise6();
+        ComposableList<Video> e = ComposableListExercises.exercise06();
         ComposableList<Video> s = ComposableListSolutions.exercise6();
         assertMatch(e, s);
     }
@@ -70,7 +70,7 @@ public class ComposableListExercisesTest {
     @Test
     public void testExercise08() {
         System.out.println("----------- testExercise8 ----------------");
-        ComposableList<Integer> e = ComposableListExercises.exercise8();
+        ComposableList<Integer> e = ComposableListExercises.exercise08();
         ComposableList<Integer> s = ComposableListSolutions.exercise8();
         assertMatch(e, s);
     }
@@ -78,7 +78,7 @@ public class ComposableListExercisesTest {
     @Test
     public void testExercise09() {
         System.out.println("----------- testExercise9 ----------------");
-        ComposableList<Integer> e = ComposableListExercises.exercise9();
+        ComposableList<Integer> e = ComposableListExercises.exercise09();
         ComposableList<Integer> s = ComposableListSolutions.exercise9();
         assertMatch(e, s);
     }
