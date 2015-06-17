@@ -418,6 +418,10 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     the boxart property in the result will be the url of the boxart object with dimensions of 150px width and 200px height. Let's 
     see if you can solve this problem using _only_ map(), concatMap(), and filter(). No other methods are allowed, 
     including the List::get method.
+    
+    Don't be worried if you find yourself struggling with this exercise. Try not 
+    to give up immediately. Persevere and you will succeed. This exercise will
+    help you with the shift from imperative to functional.
     */
     public static ComposableList<JSON> exercise12() {
         ComposableList<MovieList> movieLists = ComposableListExercises.of(new MovieList(
@@ -473,6 +477,11 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
         //   {"id": 675465,"title": "Fracture","boxart":"http://cdn-0.nflximg.com/images/2891/Fracture150.jpg" },
         // };
 
+        // Hint: when using nested lambda expressions, you can access the variables
+        //       defined in the outer lamdba from within the body of the inner
+        //       lambda. In fact you can use all variables that are
+        //       effectively final (http://stackoverflow.com/questions/20938095/difference-between-final-and-effectively-final)
+        
         // return movieLists.
         throw new UnsupportedOperationException("Not implemented yet.");
     }

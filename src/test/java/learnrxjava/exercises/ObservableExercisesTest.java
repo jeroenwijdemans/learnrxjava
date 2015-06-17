@@ -1,7 +1,7 @@
 package learnrxjava.exercises;
 
-import learnrxjava.exercises.ObservableExercises;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import rx.Observable;
 import static rx.Observable.error;
+import static rx.Observable.from;
 import static rx.Observable.just;
 import static rx.Observable.range;
 import rx.observers.TestSubscriber;
@@ -25,6 +26,42 @@ public class ObservableExercisesTest {
     }
 
     @Test
+    public void exercise01() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise01(from(asList("Remko", "Hedzer"))).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        assertEquals(2, ts.getOnNextEvents().size());
+        assertEquals(ts.getOnNextEvents(), asList("Hello Remko!", "Hello Hedzer!"));
+    }
+    
+    @Test
+    public void exercise02() {
+        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        getImpl().exercise02(range(1,10)).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        assertEquals(5, ts.getOnNextEvents().size());
+        assertEquals(ts.getOnNextEvents(), asList(2,4,6,8,10));
+    }
+    
+    @Test
+    public void exercise03() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise03(range(1, 10)).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("2-Even", "4-Even", "6-Even", "8-Even", "10-Even"));
+    }
+    
+    @Test
+    public void exercise04() {
+        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        int result = getImpl().exercise04(range(1, 10));
+        assertEquals(55, result);
+    }
+    
+    @Test
     public void exerciseHello() {
         TestSubscriber<String> ts = new TestSubscriber<>();
         getImpl().exerciseHello().subscribe(ts);
@@ -33,24 +70,7 @@ public class ObservableExercisesTest {
         ts.assertReceivedOnNext(Arrays.asList("Hello World!"));
     }
 
-    @Test
-    public void exerciseMap() {
-        TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exerciseMap(just("Hello")).subscribe(ts);
-        ts.awaitTerminalEvent();
-        ts.assertNoErrors();
-        assertEquals(1, ts.getOnNextEvents().size());
-        assertTrue(ts.getOnNextEvents().get(0).startsWith("Hello "));
-    }
-
-    @Test
-    public void exerciseFilterMap() {
-        TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exerciseFilterMap(range(1, 10)).subscribe(ts);
-        ts.awaitTerminalEvent();
-        ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList("2-Even", "4-Even", "6-Even", "8-Even", "10-Even"));
-    }
+    
 
     @Test
     public void exerciseConcatMap() {
