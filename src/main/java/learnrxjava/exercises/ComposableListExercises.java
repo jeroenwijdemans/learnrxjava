@@ -519,6 +519,8 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     /*
     Exercise 14: Implement reduce()
 
+    Persistent you are. Implement reduce you must now. May the force be with you.
+    
     Combining the value produced from the last computation with each value until a single value is produced 
     is a very common pattern. Many types of operations require us to process at least two items a time like 
     computing the minimum or the maximum value in a List. Let's create a helper function called reduce() to 
@@ -569,6 +571,9 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     /*
     Exercise 15: Implement a reduce overload that accepts an initial value
 
+    The previous reduce was a nice appetizer. You can do better! Reducing to
+    nothing. Did you forget the importance of initial values?
+    
     Sometimes when we reduce a list, we want the final reduced value to be a different type than the items 
     stored in the list. For example, let's say we have a list of videos and we want to reduce them to a 
     single map where the key is the video id and the value is the video's title.
@@ -838,6 +843,9 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     /*
     Exercise 21: Implement zip
 
+    It's time to wrap it up. Zip it up. This will be the last compositional method
+    you have to implement. Don't fail now.
+    
     Let's add a static zip() function to the ComposableList type. 
     The zip function accepts a combiner binary function, traverses each list at the same time, and calls 
     the combiner function on the current item on the left-hand-side and right-hand-side. The zip function 
