@@ -25,8 +25,12 @@ import learnrxjava.types.Video;
  * (map, filter, flatMap, reduce, zip) to compose together a data structure with which most developers 
  * are already familiar: a list.
  * 
- * By working your way through the exercises, you will gradually implement the ComposableList data structure
- * in this class.
+ * Java 8 already introduced these composable operations on lists by means of streams. However,
+ * we will reimplement this functionality on List itself by extending ArrayList with
+ * the functionality specified in ComposableList.
+ * By working your way through the exercises, you will implement the composition methods
+ * (map, filter, flatMap, etc.) step by step. You will start in an imperative way and slowly 
+ * discover how to use a more functional approach.
  */
 public class ComposableListExercises<T> extends ArrayList<T> implements ComposableList<T> {
     private static final long serialVersionUID = 1L;
@@ -36,7 +40,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
 
     Most Java developers are accustomed to consuming the data in a list using the for each loop:
      */
-    public static void exercise1() {
+    public static void exercise01() {
         ComposableList<String> names = ComposableListExercises.of("Ben", "Jafar", "Matt", "Priya", "Brian");
 
         // ------------ INSERT CODE HERE! ----------------------------
@@ -67,7 +71,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     The code below performs the same operation as the previous exercise, but this time
     uses the forEach method instead of the Java forEach loop.
      */
-    public static void exercise2() {
+    public static void exercise02() {
         ComposableList<String> names = ComposableListExercises.of("Ben", "Jafar", "Matt", "Priya", "Brian");
 
         // ------------ INSERT CODE HERE! ----------------------------
@@ -94,7 +98,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     List. You can create JSON objects like this: 
     json("id", 23, "title", "Die Hard")
      */
-    public static ComposableList<JSON> exercise3() {
+    public static ComposableList<JSON> exercise03() {
         ComposableList<Video> newReleases = ComposableListExercises.of(
                 new Video(70111470, "Die Hard", 4.0),
                 new Video(654356453, "Bad Boys", 5.0),
@@ -116,7 +120,10 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
 
     /*
     Exercise 4: Implement map() to help with list projection
-
+    
+    Hooray! Now you are ready to implement your first compostion method: map.    
+    Remember, every journey start with a first step!
+    
     All list projections share two operations in common:
 
     1. Traverse the source list
@@ -155,7 +162,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     Let's repeat exercise 3 and collect {id, title} JSON for each video in newReleases, but this time we'll 
     use ComposableList's map method instead of the forEach method.
     */
-    public static ComposableList<JSON> exercise5() {
+    public static ComposableList<JSON> exercise05() {
         ComposableList<Video> newReleases = ComposableListExercises.of(
             new Video(70111470, "Die Hard", 4.0),
             new Video(654356453, "Bad Boys", 5.0),
@@ -177,7 +184,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     Use forEach() to loop through the videos in the newReleases list and, if a video has a rating of 5.0, add it 
     to the videos list.
      */
-    public static ComposableList<Video> exercise6() {
+    public static ComposableList<Video> exercise06() {
         ComposableList<Video> newReleases = ComposableListExercises.of(
             new Video(
                     70111470,
@@ -217,6 +224,8 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     /*
     Exercise 7: Implement filter()
 
+    Well done, grasshopper! You may now continue and implement filter.
+    
     Notice that every filter operation shares some operations in common:
 
     1. Traverse the list
@@ -255,7 +264,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     In this Exercise, we will chain map and filter to collect the IDs of videos that have a rating of 5.0.
 
      */
-    public static ComposableList<Integer> exercise8() {
+    public static ComposableList<Integer> exercise08() {
         ComposableList<Video> newReleases = ComposableListExercises.of(
                     new Video(
                             70111470,
@@ -299,7 +308,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     In addition to flat lists, sometimes we need to query Trees. In the exercise below, we will use two nested 
     forEach() calls to retrieve the video IDs from each movieList and accumulate the results into a new List.
      */
-    public static ComposableList<Integer> exercise9() {
+    public static ComposableList<Integer> exercise09() {
         ComposableList<MovieList> movieLists = ComposableListExercises.of(new MovieList(
                 "New Releases",
                 ComposableListExercises.of(
@@ -325,14 +334,19 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     /*
     Exercise 10: Implement concatMap()
 
-    To flatten trees with nested forEach expressions we accumlate the results in a new flat list. Querying a List 
-    of data from a Tree is a very common operation. Ideally we'd be able to use a helper function to do the heavy 
-    lifting for us. 
+    Easy ride so far, wasn't it? Time to implement concatMap. Are you up for the
+    challenge?
+    
+    To flatten trees with nested forEach expressions we accumlate the results in 
+    a new flat list. Querying a List of data from a Tree is a very common operation. 
+    Ideally we'd be able to use a helper function to do the heavy lifting for us. 
 
-    Let's implement the concatMap() method for List. Like map(), the concatMap() function applies a projection 
-    function to each item in a list. However the projection function passed to concatMap tranforms each individual 
-    value into a _list of values_, creating a tree structure. Before returning the tree, the concatMap method 
-    flattens the tree by concatenating each inner list together in order. Here's an example of concatMap in action:
+    Let's implement the concatMap() method for List. Like map(), the concatMap() 
+    function applies a projection function to each item in a list. However the 
+    projection function passed to concatMap tranforms each individual value into 
+    a _list of values_, creating a tree structure. Before returning the tree, the 
+    concatMap method flattens the tree by concatenating each inner list together
+    in order. Here's an example of concatMap in action:
 
     ComposableList
         .of(
