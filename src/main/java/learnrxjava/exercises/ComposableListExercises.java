@@ -509,6 +509,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
                 if (currentSize > maxSize) {
                     // ****** INSERT CODE HERE ********
                     // Assign the largestBoxart to the current boxart, and assign the maxSize to the currentSize.
+                    // The definition of size is width * height
                     // ****** INSERT CODE HERE ********
                 }
             }
@@ -777,6 +778,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
         //   {"id": 70111470,"title": "Die Hard","boxart":"http://cdn-0.nflximg.com/images/2891/DieHard150.jpg" }
         // ];
 
+        // Note! We're looking for the smallest boxart size now.
         /*
         return movieLists.
             concatMap(movieList -> {
@@ -999,8 +1001,19 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
         */
         throw new UnsupportedOperationException("Not implemented yet.");
     }
-
-
+    
+    /***************************************************************************
+     * This is end, my friend. Of part 1 that is. Now you've mastered functional 
+     * composition with lists, it is only a small step from here to master 
+     * Observables. And after all, Observables are the main reason you've taken 
+     * this course.
+     * 
+     * So quit stalling and continue with ObservableExercises!
+     * 
+     * Below are utility methods. You can ignore them. Look at them. Change them.
+     * Whatever makes you happy. You've earned it!
+     **************************************************************************/
+    
     // This function can be used to build JSON objects within an expression
     private static JSON json(Object... keyOrValue) {
         JSON json = new JSON();

@@ -4,6 +4,21 @@ import learnrxjava.types.JSON;
 import learnrxjava.types.Movies;
 import rx.Observable;
 
+/*
+ * An Observable is a lot like an Event. Like an Event, an Observable is a sequence 
+ * of values that a data producer pushes to the consumer. However unlike an Event, 
+ * an Observable can signal to a listener that it has completed, and will send no more data.
+ *
+ * Observables can send data to consumers asynchronously. Observables are a sequence 
+ * of values, delivered one after the other. Therefore it's possible that an Observable 
+ * can go on sending data to a listener forever just like an infinite stream.
+ *			
+ * Querying Lists only gives us a snapshot. By contrast, querying Observables allows
+ * us to create data sets that react and update as the system changes over time. This 
+ * enables a very powerful type of programming known as reactive programming.
+ *
+ * Let's start off by contrasting Observable with Events...
+ */
 public class ObservableExercises {
 
     /**

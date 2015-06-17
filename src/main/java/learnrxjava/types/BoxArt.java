@@ -11,6 +11,10 @@ public class BoxArt {
         this.url = url;
     }
 
+    public int size() {
+        return width * height;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
