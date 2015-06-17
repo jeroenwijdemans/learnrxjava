@@ -1,5 +1,6 @@
-package learnrxjava;
+package learnrxjava.exercises;
 
+import learnrxjava.solutions.ComposableListSolutions;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
@@ -15,19 +16,19 @@ import org.junit.Test;
 public class ComposableListExercisesTest {
 
     @Test
-    public void testExercise1() {
+    public void testExercise01() {
         System.out.println("----------- testExercise1 ----------------");
         ComposableListExercises.exercise1();
     }
 
     @Test
-    public void testExercise2() {
+    public void testExercise02() {
         System.out.println("----------- testExercise2 ----------------");
         ComposableListExercises.exercise2();
     }
 
     @Test
-    public void testExercise3() {
+    public void testExercise03() {
         System.out.println("----------- testExercise3 ----------------");
         ComposableList<JSON> e = ComposableListExercises.exercise3();
         ComposableList<JSON> s = ComposableListSolutions.exercise3();
@@ -35,15 +36,15 @@ public class ComposableListExercisesTest {
     }
 
     @Test
-    public void testExercise4map() {
-        System.out.println("----------- testExercise4 map ----------------");
+    public void testExercise04() {
+        System.out.println("----------- testExercise4 ----------------");
         ComposableList<Integer> slr = ComposableListExercises.of(1, 2, 3).map(i -> i + 1);
         slr.forEach(System.out::println);
         assertEquals(Arrays.asList(2, 3, 4), slr);
     }
 
     @Test
-    public void testExercise5() {
+    public void testExercise05() {
         System.out.println("----------- testExercise5 ----------------");
         ComposableList<JSON> e = ComposableListExercises.exercise5();
         ComposableList<JSON> s = ComposableListSolutions.exercise5();
@@ -51,7 +52,7 @@ public class ComposableListExercisesTest {
     }
 
     @Test
-    public void testExercise6() {
+    public void testExercise06() {
         System.out.println("----------- testExercise6 ----------------");
         ComposableList<Video> e = ComposableListExercises.exercise6();
         ComposableList<Video> s = ComposableListSolutions.exercise6();
@@ -59,15 +60,15 @@ public class ComposableListExercisesTest {
     }
 
     @Test
-    public void testExercise7filter() {
-        System.out.println("----------- testExercise7 filter ----------------");
+    public void testExercise07() {
+        System.out.println("----------- testExercise7 ----------------");
         ComposableList<Integer> slr = ComposableListExercises.of(1, 2, 3).filter(i -> i <= 2);
         slr.forEach(System.out::println);
         assertEquals(Arrays.asList(1, 2), slr);
     }
 
     @Test
-    public void testExercise8() {
+    public void testExercise08() {
         System.out.println("----------- testExercise8 ----------------");
         ComposableList<Integer> e = ComposableListExercises.exercise8();
         ComposableList<Integer> s = ComposableListSolutions.exercise8();
@@ -75,7 +76,7 @@ public class ComposableListExercisesTest {
     }
 
     @Test
-    public void testExercise9() {
+    public void testExercise09() {
         System.out.println("----------- testExercise9 ----------------");
         ComposableList<Integer> e = ComposableListExercises.exercise9();
         ComposableList<Integer> s = ComposableListSolutions.exercise9();
@@ -121,16 +122,16 @@ public class ComposableListExercisesTest {
     }
 
     @Test
-    public void testExercise14reduce() {
-        System.out.println("----------- testExercise14 reduce ----------------");
+    public void testExercise14() {
+        System.out.println("----------- testExercise14 ----------------");
         ComposableList<Integer> slr = ComposableListExercises.of(1, 2, 3).reduce((s, i) -> s + i);
         slr.forEach(System.out::println);
         assertEquals(Arrays.asList(6), slr);
     }
 
     @Test
-    public void testExercise15reduce() {
-        System.out.println("----------- testExercise15 reduce ----------------");
+    public void testExercise15() {
+        System.out.println("----------- testExercise15 ----------------");
         ComposableList<Integer> slr = ComposableListExercises.of(1, 2, 3).reduce(1, (s, i) -> s + i);
         slr.forEach(System.out::println);
         assertEquals(Arrays.asList(7), slr);
@@ -177,8 +178,8 @@ public class ComposableListExercisesTest {
     }
 
     @Test
-    public void testExercise21zip() {
-        System.out.println("----------- testExercise21 zip ----------------");
+    public void testExercise21() {
+        System.out.println("----------- testExercise21 ----------------");
         ComposableList<Integer> slr = ComposableListExercises.zip(ComposableListExercises.of(1, 2, 3), ComposableListExercises.of(4, 5, 6), (l, r) -> l + r);
         slr.forEach(System.out::println);
         assertEquals(Arrays.asList(5, 7, 9), slr);

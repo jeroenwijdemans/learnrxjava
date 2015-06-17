@@ -1,5 +1,6 @@
-package learnrxjava;
+package learnrxjava.exercises;
 
+import learnrxjava.exercises.ObservableExercises;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;

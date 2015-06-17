@@ -1,4 +1,4 @@
-package learnrxjava;
+package learnrxjava.exercises;
 
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movies;

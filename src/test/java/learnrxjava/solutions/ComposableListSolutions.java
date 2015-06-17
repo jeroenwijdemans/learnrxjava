@@ -1,4 +1,4 @@
-package learnrxjava;
+package learnrxjava.solutions;
 
 import java.util.ArrayList;
 import java.util.HashMap;

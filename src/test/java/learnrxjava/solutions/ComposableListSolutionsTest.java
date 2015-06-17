@@ -1,4 +1,4 @@
-package learnrxjava;
+package learnrxjava.solutions;
 
 import static org.junit.Assert.assertEquals;
 
