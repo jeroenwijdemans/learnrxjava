@@ -62,6 +62,14 @@ public class ObservableExercisesTest {
     }
     
     @Test
+    public void exercise05() {
+        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        Observable<Integer> faulty = Observable.error(new RuntimeException("Faulty as Microsoft Windows"));
+        String result = getImpl().exercise05(faulty);
+        assertEquals("Faulty as Microsoft Windows", result);
+    }
+    
+    @Test
     public void exerciseHello() {
         TestSubscriber<String> ts = new TestSubscriber<>();
         getImpl().exerciseHello().subscribe(ts);

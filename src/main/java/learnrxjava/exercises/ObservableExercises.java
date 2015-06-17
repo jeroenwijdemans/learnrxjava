@@ -123,6 +123,49 @@ public class ObservableExercises {
         return sum.getSum();
     }
     
+    /**
+     * Exercise 5
+     * 
+     * The previous exercise should have looked familiar. In fact it is the standard
+     * Observable pattern as described by the Gang of Four [GoF]. However, this
+     * standard pattern misses two important concepts. Two concepts that are present on
+     * an Iterable.
+     * 
+     * Let's revisit Iterable. As we saw Iterable (by means of iterator) provides us with
+     * a couple of scenarios:
+     * 
+     * next()    - to get the next element, 
+     * hasNext() - to check if there are more elements and 
+     * it can throw an exception if anything is wrong.
+     * 
+     * Thus far we've only seen the next() equivalent for Observables (onNext()), but we
+     * still lack two.
+     * 
+     * First we will implement the onError() method, which is called if the observable
+     * throws an exception.
+     */
+    public String exercise05(Observable<Integer> faultyNums) {
+        
+        StringBuilder message = new StringBuilder();
+        
+        // Faulty nums is an Observable that will throw an exception
+        faultyNums.subscribe(new OnError<Integer>() {            
+            
+            @Override
+            public void onError(Throwable t) {
+                // ------------ INSERT CODE HERE! ----------------------------
+                // Extract the error message and return it
+                // ------------ INSERT CODE HERE! ----------------------------
+                // TODO add implementation
+                
+                throw new UnsupportedOperationException("Not Implemented");
+            }
+            
+        });
+        
+        return message.toString();
+    }
+    
     // Exercise onError
     // Exercise onCompleted
     
@@ -266,6 +309,21 @@ public class ObservableExercises {
             // NOOP
         }
 
+    }
+    
+    private static abstract class OnError<T> extends Subscriber<T> {
+
+        @Override
+        public void onCompleted() {
+            // NOOP
+        }
+
+        @Override
+        public void onNext(T t) {
+            // NOOP
+        }
+
+        
     }
     
     private static class Sum {
