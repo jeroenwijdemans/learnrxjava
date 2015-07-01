@@ -3,7 +3,11 @@ package learnrxjava.exercises;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movies;
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscriber;
+import rx.schedulers.Schedulers;
+
+import java.util.List;
 
 /**
  * Now you have mastered the ComposableList, it is time to move on. The exercises
@@ -13,39 +17,41 @@ import rx.Subscriber;
  * 
  * This means you can apply the same compositional methods (map, filter, etc) to 
  * Observables as to ComposableLists.
+ *
+ * TODO waar zijn de solutions gebleven?
  */
 public class ObservableExercises {
 
     /**
      * Exercise 1
-     * 
+     * <p/>
      * Transform the incoming Observable from just a list of names to a
      * friendly greeting, i.e. "Hello [Name]!".
-     *
-     * For example: 
+     * <p/>
+     * For example:
      * ["Remko", "Hedzer"] -> ["Hello Remko!", "Hello Hedzer!"]
      */
     public Observable<String> exercise01(Observable<String> names) {
-        
+
         // ------------ INSERT CODE HERE! ----------------------------
         // Change the Strings in the names Observable using map.
         // Hint: You can use autocomplete.
         // ------------ INSERT CODE HERE! ----------------------------
-        
+
         // return names. // TODO add implementation
-        
+
         return Observable.error(new RuntimeException("Not Implemented"));
     }
-    
+
     /**
      * Exercise 2
-     * 
+     * <p/>
      * Given an observable of numbers, filter out the even numbers:
-     * 
+     * <p/>
      * [1, 2, 3, 4, 5] -> [2, 4]
      */
     public Observable<Integer> exercise02(Observable<Integer> nums) {
-        
+
         // ------------ INSERT CODE HERE! ----------------------------
         // Filter out the even numbers        
         // ------------ INSERT CODE HERE! ----------------------------
@@ -53,148 +59,172 @@ public class ObservableExercises {
 
         return Observable.error(new RuntimeException("Not Implemented"));
     }
-    
+
     /**
      * Exercise 3
-     * 
+     * <p/>
      * Just like with our ComposableList we can compose different functions
-     * with Observables. 
-     * 
+     * with Observables.
+     * <p/>
      * Given an observable of numbers, filter out the even ones and transform them
      * to a String like the following:
-     * 
+     * <p/>
      * [1,2,3,4,5,6] -> ["2-Even", "4-Even", "6-Even"]
      */
     public Observable<String> exercise03(Observable<Integer> nums) {
-        
+
         // ------------ INSERT CODE HERE! ----------------------------
         // Compose filter and map
         // ------------ INSERT CODE HERE! ----------------------------
         // return nums. // TODO add implementation
-        
+
         return Observable.error(new RuntimeException("Not Implemented"));
     }
-    
+
     // TODO Difference between Iterable and Observable
     // - pull vs push
-    
+
     // Exercise onNext
-    
+
     /**
      * Exercise 4
-     * 
-     * When using an Iterable (like a normal List) we (the consumer) have to pull 
+     * <p/>
+     * When using an Iterable (like a normal List) we (the consumer) have to pull
      * the values out of the producer (the List). However, Observables are push
      * based, which turns things around. Now the producer (the Observable) chooses
-     * the moment to push a value to us (the consumer) and we have to react to that 
+     * the moment to push a value to us (the consumer) and we have to react to that
      * event, i.e. the reception of a new value.
-     * 
+     * <p/>
      * We specify how to react to such an event by supplying the Observable with
      * a subscription. On this subscription we give the Observable a handle (callback)
      * to use when it has another value.
-     * 
+     * <p/>
      * In the next exercise we will try to get a first look and feel for how this works.
      * The nums Observable will "push" (or "emit") values and you have add these values
-     * together thus producing their sum.
-     * 
+     * together thus producing their count.
+     * <p/>
      * For example:
      * [1,2,3,4,5,6] -> 21
      */
     public int exercise04(Observable<Integer> nums) {
-        
         Sum sum = new Sum();
-        
+
         // Here we subscribe to the Observable with our specific subscription. In our
         // subscription we can specify how to react to produced / pushed / emitted values.
-        nums.subscribe(new OnNext<Integer>() {            
-            
+        nums.subscribe(new OnNext<Integer>() {
+
             @Override
             public void onNext(Integer t) {
                 // ------------ INSERT CODE HERE! ----------------------------
-                // Update sum with the running total
+                // Update count with the running total
                 // Use autocomplete
                 // ------------ INSERT CODE HERE! ----------------------------
                 // TODO add implementation
-                throw new UnsupportedOperationException("Not Implemented");
             }
-            
+
         });
-        
-        return sum.getSum();
+
+        //return count.getCount();
+        throw new UnsupportedOperationException("Not Implemented");
     }
-    
+
     /**
      * Exercise 5
-     * 
+     * <p/>
      * The previous exercise should have looked familiar. In fact it is the standard
      * Observable pattern as described by the Gang of Four [GoF]. However, this
      * standard pattern misses two important concepts. Two concepts that are present on
      * an Iterable.
-     * 
+     * <p/>
      * Let's revisit Iterable. As we saw Iterable (by means of iterator) provides us with
      * a couple of scenarios:
-     * 
-     * next()    - to get the next element, 
-     * hasNext() - to check if there are more elements and 
+     * <p/>
+     * next()    - to get the next element,
+     * hasNext() - to check if there are more elements and
      * it can throw an exception if anything is wrong.
-     * 
+     * <p/>
      * Thus far we've only seen the next() equivalent for Observables (onNext()), but we
      * still lack two.
-     * 
+     * <p/>
      * First we will implement the onError() method, which is called if the observable
      * throws an exception.
      */
     public String exercise05(Observable<Integer> faultyNums) {
-        
         StringBuilder message = new StringBuilder();
-        
+
         // Faulty nums is an Observable that will throw an exception
-        faultyNums.subscribe(new OnError<Integer>() {            
-            
+        faultyNums.subscribe(new OnError<Integer>() {
+
             @Override
             public void onError(Throwable t) {
                 // ------------ INSERT CODE HERE! ----------------------------
                 // Extract the error message and return it
                 // ------------ INSERT CODE HERE! ----------------------------
                 // TODO add implementation
-                
+
                 throw new UnsupportedOperationException("Not Implemented");
             }
-            
+
         });
-        
+
         return message.toString();
     }
-    
-    // Exercise onError
-    // Exercise onCompleted
-    
+
+    /**
+     * Let's complete (pun intended!) our survey of the three Observable interface methods
+     * by using onCompleted() to aggregate the result of onNext()'ing through a stream
+     * of numbers.
+     *
+     * onComplete() can also be used to free any resources, if and when required.
+     */
+    public String exercise06(Observable<Integer> someNumbers) {
+        StringBuilder message = new StringBuilder();
+
+        someNumbers.subscribe(new OnComplete<Integer>() {
+            int count = 0;
+            @Override
+            public void onNext(Integer t) {
+                // ------------ INSERT CODE HERE! ----------------------------
+                // Increment count by one
+                // ------------ INSERT CODE HERE! ----------------------------
+                // TODO add implementation
+            }
+
+            @Override
+            public void onCompleted() {
+                // ------------ INSERT CODE HERE! ----------------------------
+                // Set the message to "found <count> items"
+                // ------------ INSERT CODE HERE! ----------------------------
+                // TODO add implementation
+            }
+
+        });
+
+        //return message.toString();
+        throw new UnsupportedOperationException("Not Implemented");
+    }
+
     // Timing
     // onNext called with time interval
-    // zip
-    // concatMap vs flatMap
-    
+
     // Asynchronous
-    
+
     // Throttling, etc
-    
-    
+
+    // TODO waar in de volgorde horen deze exercises? Ook: hernoemen naar execise<ii>
+
     /**
      * Return an Observable that emits a single value "Hello World!"
-     * 
+     * <p/>
      * Make us of the Observable class and take a look at the method just() method;
      */
     public Observable<String> exerciseHello() {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
-    
-
-    
-
     /**
      * Flatten out all video in the stream of Movies into a stream of videoIDs
-     * 
+     *
      * @param movieLists
      * @return Observable of Integers of Movies.videos.id
      */
@@ -204,14 +234,14 @@ public class ObservableExercises {
 
     /**
      * Flatten out all video in the stream of Movies into a stream of videoIDs
-     * 
+     * <p/>
      * Use flatMap this time instead of concatMap. In Observable streams
      * it is almost always flatMap that is wanted, not concatMap as flatMap
      * uses merge instead of concat and allows multiple concurrent streams
      * whereas concat only does one at a time.
-     * 
+     * <p/>
      * We'll see more about this later when we add concurrency.
-     * 
+     *
      * @param movieLists
      * @return Observable of Integers of Movies.videos.id
      */
@@ -221,7 +251,7 @@ public class ObservableExercises {
 
     /**
      * Retrieve the largest number.
-     * 
+     * <p/>
      * Use reduce to select the maximum value in a list of numbers.
      */
     public Observable<Integer> exerciseReduce(Observable<Integer> nums) {
@@ -230,13 +260,13 @@ public class ObservableExercises {
 
     /**
      * Retrieve the id, title, and <b>smallest</b> box art url for every video.
-     * 
+     * <p/>
      * Now let's try combining reduce() with our other functions to build more complex queries.
-     * 
+     * <p/>
      * This is a variation of the problem we solved earlier, where we retrieved the url of the boxart with a
      * width of 150px. This time we'll use reduce() instead of filter() to retrieve the _smallest_ box art in
      * the boxarts list.
-     * 
+     * <p/>
      * See Exercise 19 of ComposableListExercises
      */
     public Observable<JSON> exerciseMovie(Observable<Movies> movies) {
@@ -245,7 +275,7 @@ public class ObservableExercises {
 
     /**
      * Combine 2 streams into pairs using zip.
-     * 
+     * <p/>
      * a -> "one", "two", "red", "blue"
      * b -> "fish", "fish", "fish", "fish"
      * output -> "one fish", "two fish", "red fish", "blue fish"
@@ -271,6 +301,7 @@ public class ObservableExercises {
     }
 
     /*
+    * TODO waar hoort deze tekst?
      * An Observable is a lot like an Event. Like an Event, an Observable is a sequence 
      * of values that a data producer pushes to the consumer. However unlike an Event, 
      * an Observable can signal to a listener that it has completed, and will send no more data.
@@ -285,7 +316,70 @@ public class ObservableExercises {
      *
      * Let's start off by contrasting Observable with Events...
      */
-    
+
+    /**
+     * Sorting is a simple operation. Keep in mind that sorting requires buffering _all_ items - the last one may very well
+     * be the smallest. This is reflected by the fact that a _List_ of the input type is returned.
+     *
+     * The sort buffer may require quite some memory when streaming a large number of items, so be careful!
+     */
+    public Observable<List<String>> exerciseSortLexicographically(Observable<String> data) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use Observable's 'toSortedList' operator
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return data.toSortedList();
+        //return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Sorting is by default done by using the Comparable implementation of the items themselves.
+     *
+     * In this exercise, you will build an external sorter. Should be simple enough: supply the comparison as a lambda expression.
+     */
+    public Observable<List<String>> exerciseSortByLength(Observable<String> data) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use an overload of Observable's 'toSortedList' operator, supplying a sortFunction
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return data.toSortedList((string1, string2) -> string1.length() - string2.length());
+        //return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * One way of protecting against overload - e.g. if the stream needs to be sorted - is to filter out items from the stream.
+     *
+     * Of course, you'll have to decide, based on your specific domain, in which cases 'forgetting' items from the stream is desirable.
+     *
+     * Filtering can be done in any number of ways. Examples are:
+     * - sample(time): return one item per time interval
+     * - distinct: remove duplicates
+     * - first: take _only_ the first item
+     * - takeWhile(condition): take while 'condition' is true
+     * - skip(n), skip(time): skip n items, or skip until the time interval has passed
+     * - take(n), take(time), takeLast(n), takeLast(time): take the first or last n items
+     * - take(time), takeLast(time): take the first or last items in the specified time interval
+     *
+     * ... and many others, like skip(time), last, first(condition), firstOrDefault(default), lastOrDefault(default), elementAt(x), elementAtOrDefault(x, default),
+     *   skipLast(n), distinctUntilChanged, etc.
+     *
+     * You've already seen filter
+     */
+    public Observable<String> exerciseSkipThenDistinct(Observable<String> data) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Skip the first 3 items. Of the remaining items, return only the items that are different from what has already been emitted
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return data.skip(3).distinct();
+        //return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /*
+     * **************
+     * below are helper methods
+     * **************
+     */
+
     // This function can be used to build JSON objects within an expression
     private static JSON json(Object... keyOrValue) {
         JSON json = new JSON();
@@ -296,9 +390,8 @@ public class ObservableExercises {
 
         return json;
     }
-    
-    private static abstract class OnNext<T> extends Subscriber<T> {
 
+    public static abstract class OnNext<T> extends Subscriber<T> {
         @Override
         public void onCompleted() {
             // NOOP
@@ -310,9 +403,21 @@ public class ObservableExercises {
         }
 
     }
-    
-    private static abstract class OnError<T> extends Subscriber<T> {
 
+    public static abstract class OnComplete<T> extends Subscriber<T> {
+        @Override
+        public void onNext(T t) {
+            // NOOP
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // NOOP
+        }
+
+    }
+
+    public static abstract class OnError<T> extends Subscriber<T> {
         @Override
         public void onCompleted() {
             // NOOP
@@ -323,12 +428,12 @@ public class ObservableExercises {
             // NOOP
         }
 
-        
+
     }
-    
-    private static class Sum {
+
+    public static class Sum {
         private int sum;
-        
+
         public void increment(int withAmount) {
             sum += withAmount;
         }
@@ -336,6 +441,5 @@ public class ObservableExercises {
         public int getSum() {
             return sum;
         }
-        
     }
 }

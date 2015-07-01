@@ -3,6 +3,7 @@ package learnrxjava.exercises;
 import java.util.Arrays;
 import static java.util.Arrays.asList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import learnrxjava.types.BoxArt;
@@ -68,7 +69,44 @@ public class ObservableExercisesTest {
         String result = getImpl().exercise05(faulty);
         assertEquals("Faulty as Microsoft Windows", result);
     }
-    
+
+    @Test
+    public void exercise06() {
+        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        String result = getImpl().exercise06(range(1, 10));
+        assertEquals("found 10 items", result);
+    }
+
+    @Test
+    public void exerciseSortLexicographhically() {
+        TestSubscriber<List<String>> ts = new TestSubscriber<>();
+        getImpl().exerciseSortLexicographically(from(asList("Remko", "Hedzer", "Dirk", "Teije", "Gerlo", "Robbert"))).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        List<String> sortedNames = Arrays.asList("Dirk", "Gerlo", "Hedzer", "Remko", "Robbert", "Teije");
+        ts.assertReceivedOnNext(Arrays.asList(sortedNames));
+    }
+
+    @Test
+    public void exerciseSortByLength() {
+        TestSubscriber<List<String>> ts = new TestSubscriber<>();
+        getImpl().exerciseSortByLength(from(asList("Remko", "Hedzer", "Dirk", "Teije", "Gerlo", "Robbert"))).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        List<String> sortedNames = Arrays.asList("Dirk", "Remko", "Teije", "Gerlo", "Hedzer", "Robbert");
+        ts.assertReceivedOnNext(Arrays.asList(sortedNames));
+    }
+
+    @Test
+    public void exerciseSkipThenDistinct() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exerciseSkipThenDistinct(from(asList("aap", "noot", "mies", "Remko", "Robbert", "Hedzer", "Dirk", "Teije", "Hedzer", "Gerlo", "Robbert"))).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        List<String> sortedNames = Arrays.asList("Remko", "Robbert", "Hedzer", "Dirk", "Teije", "Gerlo");
+        ts.assertReceivedOnNext(sortedNames);
+    }
+
     @Test
     public void exerciseHello() {
         TestSubscriber<String> ts = new TestSubscriber<>();
@@ -77,8 +115,6 @@ public class ObservableExercisesTest {
         ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList("Hello World!"));
     }
-
-    
 
     @Test
     public void exerciseConcatMap() {
