@@ -10,6 +10,8 @@ import learnrxjava.types.BoxArt;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -75,6 +77,19 @@ public class ObservableExercisesTest {
         TestSubscriber<Integer> ts = new TestSubscriber<>();
         String result = getImpl().exercise06(range(1, 10));
         assertEquals("found 10 items", result);
+    }
+
+    @Test
+    public void exercise08() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise08(1).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("The number 42 divided by your input is: 42"));
+
+        getImpl().exercise08(0).subscribe(ts);
+        ts.awaitTerminalEvent();
+        assertEquals(ArithmeticException.class, ts.getOnErrorEvents().get(0).getClass());
     }
 
     @Test

@@ -17,8 +17,6 @@ import java.util.List;
  * 
  * This means you can apply the same compositional methods (map, filter, etc) to 
  * Observables as to ComposableLists.
- *
- * TODO waar zijn de solutions gebleven?
  */
 public class ObservableExercises {
 
@@ -81,13 +79,27 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
-    // TODO Difference between Iterable and Observable
-    // - pull vs push
-
-    // Exercise onNext
-
     /**
      * Exercise 4
+     * <p/>
+     * Flatten out all videos in the stream of Movies into a stream of videoIDs.
+     * Parameter movieLists effectively is an Observable of Observable of videoIDs.
+     * Operator concatMap will sequentially concatenate the items emitted by the inner Observable,
+     * resulting in a single 'layer' of Observable.
+     * <p/>
+     * Use the map operator to convert a Video to its id.
+     * <p/>
+     * @see ComposableListExercises#exercise11() - you can reuse your solution to that exercise here.
+     * <p/>
+     * @param movieLists
+     * @return Observable of Integers of Movies.videos.id
+     */
+    public Observable<Integer> exerciseConcatMap(Observable<Movies> movieLists) {
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 4 (TODO renumber)
      * <p/>
      * When using an Iterable (like a normal List) we (the consumer) have to pull
      * the values out of the producer (the List). However, Observables are push
@@ -116,15 +128,15 @@ public class ObservableExercises {
             @Override
             public void onNext(Integer t) {
                 // ------------ INSERT CODE HERE! ----------------------------
-                // Update count with the running total
-                // Use autocomplete
+                // Update sum with the running total
+                // Use auto complete
                 // ------------ INSERT CODE HERE! ----------------------------
                 // TODO add implementation
             }
 
         });
 
-        //return count.getCount();
+        //return sum.getSum();
         throw new UnsupportedOperationException("Not Implemented");
     }
 
@@ -204,14 +216,43 @@ public class ObservableExercises {
         throw new UnsupportedOperationException("Not Implemented");
     }
 
-    // Timing
-    // onNext called with time interval
+    /**
+     * Now we'll explore the producer side of the push mechanism.
+     * <p/>
+     * An Observable produces values; an Observer, with its subinterface Subscriber represents the consumer side
+     * of things.
+     * <p/>
+     * The previous three exercises focused on the consumer side, by accepting onNext, onComplete and onError events.
+     * Here, we will produce these events. The most basic step is to create an Observable
+     * TODO Hedzer, hier verder...
+     * @param name
+     * @return
+     */
+    public Observable<String> exercise08(String name) {
+        return Observable.create(subscriber -> {
+            subscriber.onNext(name);
+            subscriber.onCompleted();
+        });
+    }
 
-    // Asynchronous
-
-    // Throttling, etc
-
-    // TODO waar in de volgorde horen deze exercises? Ook: hernoemen naar execise<ii>
+    /**
+     *
+     * @param divisor will divide the number 42
+     * @return Observable that emits a single value "The number 42 divided by your input is: <number>"
+     */
+    public Observable<String> exercise08(int divisor) {
+        return Observable.create(subscriber -> {
+            try {
+                int quotient = 42 / divisor;
+                subscriber.onNext(String.format("The number 42 divided by your input is: %d", quotient));
+                subscriber.onCompleted();
+            } catch (Exception e) {
+                subscriber.onError(e);
+            }
+        });
+    }
+    // TODO waar in de volgorde horen deze exercises?
+    // TODO alles hernoemen naar execise<ii>
 
     /**
      * Return an Observable that emits a single value "Hello World!"
@@ -219,16 +260,6 @@ public class ObservableExercises {
      * Make us of the Observable class and take a look at the method just() method;
      */
     public Observable<String> exerciseHello() {
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * Flatten out all video in the stream of Movies into a stream of videoIDs
-     *
-     * @param movieLists
-     * @return Observable of Integers of Movies.videos.id
-     */
-    public Observable<Integer> exerciseConcatMap(Observable<Movies> movieLists) {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 

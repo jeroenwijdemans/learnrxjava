@@ -46,6 +46,18 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     /**
+     * Flatten out all video in the stream of Movies into a stream of videoIDs
+     *
+     * @param movies
+     * @return Observable of Integers of Movies.videos.id
+     */
+    public Observable<Integer> exerciseConcatMap(Observable<Movies> movies) {
+        return movies.<Integer> concatMap(ml -> {
+            return ml.videos.map(v -> v.id);
+        });
+    }
+
+    /**
      * Exercise 4
      * <p/>
      * When using an Iterable (like a normal List) we (the consumer) have to pull
@@ -168,19 +180,6 @@ public class ObservableSolutions extends ObservableExercises {
      */
     public Observable<String> exerciseFilterMap(Observable<Integer> nums) {
         return nums.filter(i -> i % 2 == 0).map(i -> i + "-Even");
-    }
-
-    /**
-     * Flatten out all video in the stream of Movies into a stream of videoIDs
-     *
-     * @param movies
-     * @return Observable of Integers of Movies.videos.id
-     * TODO improve test
-     */
-    public Observable<Integer> exerciseConcatMap(Observable<Movies> movies) {
-        return movies.<Integer> concatMap(ml -> {
-            return ml.videos.map(v -> v.id);
-        });
     }
 
     /**
