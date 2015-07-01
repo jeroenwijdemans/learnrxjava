@@ -153,7 +153,7 @@ public class ObservableSolutions extends ObservableExercises {
     /**
      * Transform the incoming Observable from "Hello" to "Hello [Name]" where [Name] is your name.
      *
-     * @param "Hello Name!"
+     * @param hello
      */
     public Observable<String> exerciseMap(Observable<String> hello) {
         return hello.map(t -> t + " Ben!");
@@ -173,8 +173,9 @@ public class ObservableSolutions extends ObservableExercises {
     /**
      * Flatten out all video in the stream of Movies into a stream of videoIDs
      *
-     * @param movieLists
+     * @param movies
      * @return Observable of Integers of Movies.videos.id
+     * TODO improve test
      */
     public Observable<Integer> exerciseConcatMap(Observable<Movies> movies) {
         return movies.<Integer> concatMap(ml -> {
