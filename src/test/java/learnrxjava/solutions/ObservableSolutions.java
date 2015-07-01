@@ -5,6 +5,8 @@ import learnrxjava.types.JSON;
 import learnrxjava.types.Movies;
 import rx.Observable;
 
+import java.util.concurrent.TimeUnit;
+
 public class ObservableSolutions extends ObservableExercises {
     /**
      * Exercise 1
@@ -153,13 +155,59 @@ public class ObservableSolutions extends ObservableExercises {
         return message.toString();
     }
 
+    public Observable<String> exercise07(String name) {
+        return Observable.create(subscriber -> {
+            subscriber.onNext(name);
+            subscriber.onCompleted();
+        });
+    }
+
+    public Observable<String> exercise08(int divisor) {
+        return Observable.create(subscriber -> {
+            try {
+                int quotient = 42 / divisor;
+                subscriber.onNext(String.format("The number 42 divided by your input is: %d", quotient));
+                subscriber.onCompleted();
+            } catch (Exception e) {
+                subscriber.onError(e);
+            }
+        });
+    }
+
     /**
      * Return an Observable that emits a single value "Hello World"
      *
      * @return "Hello World!"
      */
-    public Observable<String> exerciseHello() {
+    public Observable<String> exercise09() {
         return Observable.just("Hello World!");
+    }
+
+    /**
+     * Combine 2 streams into pairs using zip.
+     *
+     * a -> "one", "two", "red", "blue"
+     * b -> "fish", "fish", "fish", "fish"
+     * output -> "one fish", "two fish", "red fish", "blue fish"
+     */
+    public Observable<String> exercise10(Observable<String> a, Observable<String> b) {
+        return Observable.zip(a, b, (x, y) -> x + " " + y);
+    }
+
+    /**
+     * Now that we're familiar with just and zip, we can begin to add a touch of timing.
+     * We can exploit the fact that zip requires both values to be present at the same time - and thus
+     * has to wait until the last of each pair has arrived - to slow down a fast-paced stream. Zipping that
+     * with the interval Observable will do just that.
+     * <p/>
+     * @return an Observable with items "one 1", "two 2", etc., each 1 second apart
+     */
+    public Observable<String> exercise11() {
+        Observable<String> data = Observable.just("one", "two", "three", "four", "five");
+        Observable<Long> interval = Observable.interval(1, TimeUnit.SECONDS);
+        return Observable.zip(data, interval, (d, t) -> {
+            return d + " " + (t+1);
+        });
     }
 
     /**
@@ -192,7 +240,7 @@ public class ObservableSolutions extends ObservableExercises {
      *
      * We'll see more about this later when we add concurrency.
      *
-     * @param movieLists
+     * @param movies
      * @return Observable of Integers of Movies.videos.id
      */
     public Observable<Integer> exerciseFlatMap(Observable<Movies> movies) {
@@ -243,17 +291,6 @@ public class ObservableSolutions extends ObservableExercises {
                 });
             });
         });
-    }
-
-    /**
-     * Combine 2 streams into pairs using zip.
-     *
-     * a -> "one", "two", "red", "blue"
-     * b -> "fish", "fish", "fish", "fish"
-     * output -> "one fish", "two fish", "red fish", "blue fish"
-     */
-    public Observable<String> exerciseZip(Observable<String> a, Observable<String> b) {
-        return Observable.zip(a, b, (x, y) -> x + " " + y);
     }
 
     /**

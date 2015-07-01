@@ -5,6 +5,7 @@ import static java.util.Arrays.asList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import learnrxjava.types.BoxArt;
 import learnrxjava.types.JSON;
@@ -21,6 +22,8 @@ import static rx.Observable.from;
 import static rx.Observable.just;
 import static rx.Observable.range;
 import rx.observers.TestSubscriber;
+import rx.schedulers.Schedulers;
+import rx.schedulers.TestScheduler;
 
 public class ObservableExercisesTest {
 
@@ -80,6 +83,15 @@ public class ObservableExercisesTest {
     }
 
     @Test
+    public void exercise07() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise07("Just - a single value").subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("Just - a single value"));
+    }
+
+    @Test
     public void exercise08() {
         TestSubscriber<String> ts = new TestSubscriber<>();
         getImpl().exercise08(1).subscribe(ts);
@@ -93,7 +105,34 @@ public class ObservableExercisesTest {
     }
 
     @Test
-    public void exerciseSortLexicographhically() {
+    public void exercise09() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise09().subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("Hello World!"));
+    }
+
+    @Test
+    public void exercise10() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise10(just("one", "two", "blue", "red"), just("fish", "fish", "fish", "fish", "fish")).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("one fish", "two fish", "blue fish", "red fish"));
+    }
+
+    @Test
+    public void exercise11() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise11().subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("one 1", "two 2", "three 3", "four 4", "five 5"));
+    }
+
+    @Test
+    public void exerciseSortLexicographically() {
         TestSubscriber<List<String>> ts = new TestSubscriber<>();
         getImpl().exerciseSortLexicographically(from(asList("Remko", "Hedzer", "Dirk", "Teije", "Gerlo", "Robbert"))).subscribe(ts);
         ts.awaitTerminalEvent();
@@ -120,15 +159,6 @@ public class ObservableExercisesTest {
         ts.assertNoErrors();
         List<String> sortedNames = Arrays.asList("Remko", "Robbert", "Hedzer", "Dirk", "Teije", "Gerlo");
         ts.assertReceivedOnNext(sortedNames);
-    }
-
-    @Test
-    public void exerciseHello() {
-        TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exerciseHello().subscribe(ts);
-        ts.awaitTerminalEvent();
-        ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList("Hello World!"));
     }
 
     @Test
@@ -251,15 +281,6 @@ public class ObservableExercisesTest {
         assertEquals(map.get(65432445).toString(), "{boxart=http://cdn-0.nflximg.com/images/2891/TheChamber130.jpg, id=65432445, title=The Chamber}");
         assertTrue(map.containsKey(675465));
         assertEquals(map.get(675465).toString(), "{boxart=http://cdn-0.nflximg.com/images/2891/Fracture120.jpg, id=675465, title=Fracture}");
-    }
-
-    @Test
-    public void exerciseZip() {
-        TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exerciseZip(just("one", "two", "blue", "red"), just("fish", "fish", "fish", "fish")).subscribe(ts);
-        ts.awaitTerminalEvent();
-        ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList("one fish", "two fish", "blue fish", "red fish"));
     }
 
     @Test

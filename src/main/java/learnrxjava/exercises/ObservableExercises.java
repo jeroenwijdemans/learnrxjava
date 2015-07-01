@@ -8,6 +8,7 @@ import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Now you have mastered the ComposableList, it is time to move on. The exercises
@@ -219,24 +220,29 @@ public class ObservableExercises {
     /**
      * Now we'll explore the producer side of the push mechanism.
      * <p/>
-     * An Observable produces values; an Observer, with its subinterface Subscriber represents the consumer side
+     * An Observable produces values; an Observer, with its sub-interface Subscriber represents the consumer side
      * of things.
      * <p/>
      * The previous three exercises focused on the consumer side, by accepting onNext, onComplete and onError events.
-     * Here, we will produce these events. The most basic step is to create an Observable
-     * TODO Hedzer, hier verder...
-     * @param name
+     * Here, we will _produce_ these events. The most basic producer creates an Observable that emits just a single value.
+     * After emitting that value, the subscriber must be informed that the stream is complete.
+     * @param name value to emit
      * @return
      */
-    public Observable<String> exercise08(String name) {
+    public Observable<String> exercise07(String name) {
         return Observable.create(subscriber -> {
-            subscriber.onNext(name);
-            subscriber.onCompleted();
+            // ------------ INSERT CODE HERE! ----------------------------
+            // Signal 2 events to the subscriber that has been handed to us by Observable.create()
+            // ------------ INSERT CODE HERE! ----------------------------
+            // TODO add implementation
+            throw new UnsupportedOperationException("Not Implemented");
         });
     }
 
     /**
-     *
+     * Now we'll add error propagation to the mix. A producer can emit an error - in the form of a Throwable -
+     * to signal an exceptional situation. The enables the consumer to take corrective action.
+     * <p/>
      * @param divisor will divide the number 42
      * @return Observable that emits a single value "The number 42 divided by your input is: <number>"
      */
@@ -244,25 +250,80 @@ public class ObservableExercises {
         return Observable.create(subscriber -> {
             try {
                 int quotient = 42 / divisor;
-                subscriber.onNext(String.format("The number 42 divided by your input is: %d", quotient));
-                subscriber.onCompleted();
+                // ------------ INSERT CODE HERE! ----------------------------
+                // Emit just the value "The number 42 divided by your input is: <quotient>"
+                // ------------ INSERT CODE HERE! ----------------------------
+                // TODO add implementation
+                throw new UnsupportedOperationException("Not Implemented");
             } catch (Exception e) {
-                subscriber.onError(e);
+                // ------------ INSERT CODE HERE! ----------------------------
+                // emit - not throw! - the Exception
+                // ------------ INSERT CODE HERE! ----------------------------
+                // TODO add implementation
+                throw new UnsupportedOperationException("Not Implemented");
             }
         });
     }
-    // TODO waar in de volgorde horen deze exercises?
-    // TODO alles hernoemen naar execise<ii>
 
     /**
-     * Return an Observable that emits a single value "Hello World!"
+     * rxjava actually has an operator to do that which you have just (!) programmed in exercises 07 and 08.
      * <p/>
-     * Make us of the Observable class and take a look at the method just() method;
+     * Its name is - just as you expected - Observable.just().
+     * <p/>
+     * Contrary to what you'd expect with this name, it's actually also possible to have it emit multiple
+     * values, by supplying up to 9 arguments.
      */
-    public Observable<String> exerciseHello() {
+    public Observable<String> exercise09() {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // emit a single value "Hello World!"
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    /**
+     * @see ComposableListExercises#exercise22() for your first encounter with zip.
+     * Here, we will use it to simply combine 2 streams of Strings into pairs using zip.
+     * <p/>
+     * Example data appearing in the input streams:
+     * a -> "one", "two", "red", "blue"
+     * b -> "fish", "fish", "fish", "fish", "fish", "fish", "fish", "fish"
+     * output to be produced -> "one fish", "two fish", "red fish", "blue fish"
+     * <p/>
+     * Note that any items without a counterpart in the sibling input stream will be dropped - the number of items in the
+     * output will be equal to _the minimum_ of the number of items in both of the input streams.
+     */
+    public Observable<String> exercise10(Observable<String> a, Observable<String> b) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // zip up Observable a and b using a combiner function that concatenates the input from both values
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+    /**
+     * Now that we're familiar with just and zip, we can begin to add a touch of timing.
+     * We can exploit the fact that zip requires both values to be present at the same time - and thus
+     * has to wait until the last of each pair has arrived - to slow down a fast-paced stream. Zipping that
+     * with the interval Observable will do just that.
+     * <p/>
+     * @return an Observable with items "one 1", "two 2", etc., each 1 second apart
+     */
+    public Observable<String> exercise11() {
+        Observable<String> data = Observable.just("one", "two", "three", "four", "five");
+
+        // ------------ INSERT CODE HERE! ----------------------------
+        // use Observable.interval to get an item emitted each second.
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        Observable<Long> interval = Observable.error(new RuntimeException("Not Implemented"));
+
+        return Observable.zip(data, interval, (d, t) -> {
+            return d + " " + (t+1);
+        });
+    }
+
+    // TODO waar in de volgorde horen deze exercises?
+    // TODO alles hernoemen naar execise<ii>
     /**
      * Flatten out all video in the stream of Movies into a stream of videoIDs
      * <p/>
@@ -301,17 +362,6 @@ public class ObservableExercises {
      * See Exercise 19 of ComposableListExercises
      */
     public Observable<JSON> exerciseMovie(Observable<Movies> movies) {
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * Combine 2 streams into pairs using zip.
-     * <p/>
-     * a -> "one", "two", "red", "blue"
-     * b -> "fish", "fish", "fish", "fish"
-     * output -> "one fish", "two fish", "red fish", "blue fish"
-     */
-    public Observable<String> exerciseZip(Observable<String> a, Observable<String> b) {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
