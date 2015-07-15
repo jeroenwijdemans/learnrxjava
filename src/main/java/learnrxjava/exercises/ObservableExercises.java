@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class ObservableExercises {
 
     /**
-     * Exercise 1
+     * Exercise 0 - mapping
      * <p/>
      * Transform the incoming Observable from just a list of names to a
      * friendly greeting, i.e. "Hello [Name]!".
@@ -30,7 +30,7 @@ public class ObservableExercises {
      * For example:
      * ["Remko", "Hedzer"] -> ["Hello Remko!", "Hello Hedzer!"]
      */
-    public Observable<String> exercise01(Observable<String> names) {
+    public Observable<String> exercise00(Observable<String> names) {
 
         // ------------ INSERT CODE HERE! ----------------------------
         // Change the Strings in the names Observable using map.
@@ -43,13 +43,13 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 2
+     * Exercise 1 - filtering
      * <p/>
      * Given an observable of numbers, filter out the even numbers:
      * <p/>
      * [1, 2, 3, 4, 5] -> [2, 4]
      */
-    public Observable<Integer> exercise02(Observable<Integer> nums) {
+    public Observable<Integer> exercise01(Observable<Integer> nums) {
 
         // ------------ INSERT CODE HERE! ----------------------------
         // Filter out the even numbers        
@@ -60,7 +60,7 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 3
+     * Exercise 2 - composition
      * <p/>
      * Just like with our ComposableList we can compose different functions
      * with Observables.
@@ -70,7 +70,7 @@ public class ObservableExercises {
      * <p/>
      * [1,2,3,4,5,6] -> ["2-Even", "4-Even", "6-Even"]
      */
-    public Observable<String> exercise03(Observable<Integer> nums) {
+    public Observable<String> exercise02(Observable<Integer> nums) {
 
         // ------------ INSERT CODE HERE! ----------------------------
         // Compose filter and map
@@ -81,7 +81,7 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 4
+     * Exercise 3 - composing two operators
      * <p/>
      * Flatten out all videos in the stream of Movies into a stream of videoIDs.
      * Parameter movieLists effectively is an Observable of Observable of videoIDs.
@@ -95,12 +95,12 @@ public class ObservableExercises {
      * @param movieLists
      * @return Observable of Integers of Movies.videos.id
      */
-    public Observable<Integer> exerciseConcatMap(Observable<Movies> movieLists) {
+    public Observable<Integer> exercise03(Observable<Movies> movieLists) {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
-     * Exercise 4 (TODO renumber)
+     * Exercise 4 - Observable basics
      * <p/>
      * When using an Iterable (like a normal List) we (the consumer) have to pull
      * the values out of the producer (the List). However, Observables are push
@@ -142,7 +142,7 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 5
+     * Exercise 5 - error
      * <p/>
      * The previous exercise should have looked familiar. In fact it is the standard
      * Observable pattern as described by the Gang of Four [GoF]. However, this
@@ -184,6 +184,8 @@ public class ObservableExercises {
     }
 
     /**
+     * Exercise 6 - completion
+     * <p/>
      * Let's complete (pun intended!) our survey of the three Observable interface methods
      * by using onCompleted() to aggregate the result of onNext()'ing through a stream
      * of numbers.
@@ -218,6 +220,8 @@ public class ObservableExercises {
     }
 
     /**
+     * Exercise 7 - production
+     * <p/>
      * Now we'll explore the producer side of the push mechanism.
      * <p/>
      * An Observable produces values; an Observer, with its sub-interface Subscriber represents the consumer side
@@ -240,6 +244,8 @@ public class ObservableExercises {
     }
 
     /**
+     * Exercise 8 - wrapping up the basics
+     * <p/>
      * Now we'll add error propagation to the mix. A producer can emit an error - in the form of a Throwable -
      * to signal an exceptional situation. The enables the consumer to take corrective action.
      * <p/>
@@ -266,6 +272,8 @@ public class ObservableExercises {
     }
 
     /**
+     * Exercise 9 - just do it
+     * <p/>
      * rxjava actually has an operator to do that which you have just (!) programmed in exercises 07 and 08.
      * <p/>
      * Its name is - just as you expected - Observable.just().
@@ -282,6 +290,8 @@ public class ObservableExercises {
     }
 
     /**
+     * Exercise 10 - zip it up
+     * <p/>
      * @see ComposableListExercises#exercise22() for your first encounter with zip.
      * Here, we will use it to simply combine 2 streams of Strings into pairs using zip.
      * <p/>
@@ -300,7 +310,10 @@ public class ObservableExercises {
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
+
     /**
+     * Exercise 11 - timing is everything
+     * <p/>
      * Now that we're familiar with just and zip, we can begin to add a touch of timing.
      * We can exploit the fact that zip requires both values to be present at the same time - and thus
      * has to wait until the last of each pair has arrived - to slow down a fast-paced stream. Zipping that
@@ -322,10 +335,13 @@ public class ObservableExercises {
         });
     }
 
-    // TODO waar in de volgorde horen deze exercises?
-    // TODO alles hernoemen naar execise<ii>
     /**
-     * Flatten out all video in the stream of Movies into a stream of videoIDs
+     * Exercise 12 - flat vs. concat; ordering and concurrency
+     * <p/>
+     * Let's revisit the nice domain of videos, of which we temporarily strayed
+     * in the dull non-domain-oriented exercises above.
+     * <p/>
+     * Flatten out all video in the stream of Movies into a stream of videoIDs.
      * <p/>
      * Use flatMap this time instead of concatMap. In Observable streams
      * it is almost always flatMap that is wanted, not concatMap as flatMap
@@ -337,10 +353,43 @@ public class ObservableExercises {
      * @param movieLists
      * @return Observable of Integers of Movies.videos.id
      */
-    public Observable<Integer> exerciseFlatMap(Observable<Movies> movieLists) {
+    public Observable<Integer> exercise12(Observable<Movies> movieLists) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use flatMap
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    /**
+     * Exercise 13 - RTFM!
+     * <p/>
+     * Let's read up on marble diagrams. Marble diagrams depict data flows for each of the reactive Observables.
+     * They help enormously in understanding what's going on.
+     * <p/>
+     * For your convenience, they're included in the rxjava javadoc. You can revisit
+     * your solutions to two previous exercises, and lookup the javadoc in your IDE.
+     * <p/>
+     * @see ObservableExercises#exercise03(Observable) - here you used concatMap
+     * @see ObservableExercises#exercise12(Observable) - here you used flatMap
+     * <p/>
+     * Look carefully at both diagrams. Where do they differ? Can you relate this to section 3 in
+     * the description in exercise 12?
+     * If & when you understand, please say so in the code below, and progress to exercise 14.
+     * <p/>
+     * For more info, please visit:
+     * <ul>
+     *     <li>https://github.com/ReactiveX/RxJava/wiki</li>
+     *     <li>http://reactivex.iohttp://reactivex.io/documentation/operators/flatmap.html</li>
+     * </ul>
+     * @return true when you understand what's going on
+     */
+    public boolean exercise13() {
+        return false;
+    }
+
+    // TODO waar in de volgorde horen deze exercises?
+    // TODO alles hernoemen naar exercise<ii>
     /**
      * Retrieve the largest number.
      * <p/>
@@ -380,6 +429,8 @@ public class ObservableExercises {
     public Observable<String> retry(Observable<String> data) {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
+
+    // TODO de 3 (zelfgemaakte) exercises hieronder staan nog niet in de Solutions (tests zijn er wel)
 
     /*
     * TODO waar hoort deze tekst?

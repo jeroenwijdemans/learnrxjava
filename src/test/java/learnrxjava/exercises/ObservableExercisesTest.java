@@ -1,29 +1,23 @@
 package learnrxjava.exercises;
 
-import java.util.Arrays;
-import static java.util.Arrays.asList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import learnrxjava.types.BoxArt;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import rx.Observable;
-import static rx.Observable.error;
-import static rx.Observable.from;
-import static rx.Observable.just;
-import static rx.Observable.range;
 import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
-import rx.schedulers.TestScheduler;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static rx.Observable.*;
 
 public class ObservableExercisesTest {
 
@@ -32,9 +26,9 @@ public class ObservableExercisesTest {
     }
 
     @Test
-    public void exercise01() {
+    public void exercise00() {
         TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exercise01(from(asList("Remko", "Hedzer"))).subscribe(ts);
+        getImpl().exercise00(from(asList("Remko", "Hedzer"))).subscribe(ts);
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
         assertEquals(2, ts.getOnNextEvents().size());
@@ -42,9 +36,9 @@ public class ObservableExercisesTest {
     }
     
     @Test
-    public void exercise02() {
+    public void exercise01() {
         TestSubscriber<Integer> ts = new TestSubscriber<>();
-        getImpl().exercise02(range(1,10)).subscribe(ts);
+        getImpl().exercise01(range(1, 10)).subscribe(ts);
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
         assertEquals(5, ts.getOnNextEvents().size());
@@ -52,24 +46,45 @@ public class ObservableExercisesTest {
     }
     
     @Test
-    public void exercise03() {
+    public void exercise02() {
         TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exercise03(range(1, 10)).subscribe(ts);
+        getImpl().exercise02(range(1, 10)).subscribe(ts);
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList("2-Even", "4-Even", "6-Even", "8-Even", "10-Even"));
     }
-    
+
+    @Test
+    public void exercise03() {
+        TestSubscriber<Integer> ts = new TestSubscriber<>();
+
+        Observable<Movies> movies = just(
+                new Movies(
+                        "New Releases", // name
+                        Arrays.asList( // videos
+                                new Movie(70111470, "Die Hard", 4.0),
+                                new Movie(654356453, "Bad Boys", 5.0))),
+                new Movies(
+                        "Dramas",
+                        Arrays.asList(
+                                new Movie(65432445, "The Chamber", 4.0),
+                                new Movie(675465, "Fracture", 5.0)))
+        );
+
+        getImpl().exercise03(movies).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList(70111470, 654356453, 65432445, 675465));
+    }
+
     @Test
     public void exercise04() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
         int result = getImpl().exercise04(range(1, 10));
         assertEquals(55, result);
     }
     
     @Test
     public void exercise05() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
         Observable<Integer> faulty = Observable.error(new RuntimeException("Faulty as Microsoft Windows"));
         String result = getImpl().exercise05(faulty);
         assertEquals("Faulty as Microsoft Windows", result);
@@ -77,7 +92,6 @@ public class ObservableExercisesTest {
 
     @Test
     public void exercise06() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
         String result = getImpl().exercise06(range(1, 10));
         assertEquals("found 10 items", result);
     }
@@ -126,11 +140,43 @@ public class ObservableExercisesTest {
     public void exercise11() {
         TestSubscriber<String> ts = new TestSubscriber<>();
         getImpl().exercise11().subscribe(ts);
+        // note that we don't assert on timing. Should be possible using TestScheduler though.
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList("one 1", "two 2", "three 3", "four 4", "five 5"));
     }
 
+    @Test
+    public void exercise12() {
+        TestSubscriber<Map<Integer, Integer>> ts = new TestSubscriber<>();
+
+        Observable<Movies> movies = just(
+                new Movies(
+                        "New Releases", // name
+                        Arrays.asList( // videos
+                                new Movie(70111470, "Die Hard", 4.0),
+                                new Movie(654356453, "Bad Boys", 5.0))),
+                new Movies(
+                        "Dramas",
+                        Arrays.asList(
+                                new Movie(65432445, "The Chamber", 4.0),
+                                new Movie(675465, "Fracture", 5.0)))
+        );
+
+        // as we can't rely on the ordering this time, we use different assertions for exercise03
+        Map<Integer, Integer> map = getImpl().exercise12(movies).toMap(i -> i).toBlocking().single();
+        assertTrue(map.containsKey(70111470));
+        assertTrue(map.containsKey(654356453));
+        assertTrue(map.containsKey(65432445));
+        assertTrue(map.containsKey(675465));
+    }
+
+    @Test
+    public void exercise13() {
+        assertTrue(getImpl().exercise13());
+    }
+
+        // TODO rename/rework from here on downwards
     @Test
     public void exerciseSortLexicographically() {
         TestSubscriber<List<String>> ts = new TestSubscriber<>();
@@ -159,53 +205,6 @@ public class ObservableExercisesTest {
         ts.assertNoErrors();
         List<String> sortedNames = Arrays.asList("Remko", "Robbert", "Hedzer", "Dirk", "Teije", "Gerlo");
         ts.assertReceivedOnNext(sortedNames);
-    }
-
-    @Test
-    public void exerciseConcatMap() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
-
-        Observable<Movies> movies = just(
-                new Movies(
-                        "New Releases", // name
-                        Arrays.asList( // videos
-                                new Movie(70111470, "Die Hard", 4.0),
-                                new Movie(654356453, "Bad Boys", 5.0))),
-                new Movies(
-                        "Dramas",
-                        Arrays.asList(
-                                new Movie(65432445, "The Chamber", 4.0),
-                                new Movie(675465, "Fracture", 5.0)))
-                );
-
-        getImpl().exerciseConcatMap(movies).subscribe(ts);
-        ts.awaitTerminalEvent();
-        ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList(70111470, 654356453, 65432445, 675465));
-    }
-
-    @Test
-    public void exerciseFlatMap() {
-        TestSubscriber<Map<Integer, Integer>> ts = new TestSubscriber<>();
-
-        Observable<Movies> movies = just(
-                new Movies(
-                        "New Releases", // name
-                        Arrays.asList( // videos
-                                new Movie(70111470, "Die Hard", 4.0),
-                                new Movie(654356453, "Bad Boys", 5.0))),
-                new Movies(
-                        "Dramas",
-                        Arrays.asList(
-                                new Movie(65432445, "The Chamber", 4.0),
-                                new Movie(675465, "Fracture", 5.0)))
-                );
-
-        Map<Integer, Integer> map = getImpl().exerciseFlatMap(movies).toMap(i -> i).toBlocking().single();
-        assertTrue(map.containsKey(70111470));
-        assertTrue(map.containsKey(654356453));
-        assertTrue(map.containsKey(65432445));
-        assertTrue(map.containsKey(675465));
     }
 
     @Test

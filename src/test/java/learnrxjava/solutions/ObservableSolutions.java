@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ObservableSolutions extends ObservableExercises {
     /**
-     * Exercise 1
+     * Exercise 0
      * <p/>
      * Transform the incoming Observable from just a list of names to a
      * friendly greeting, i.e. "Hello [Name]!".
@@ -17,23 +17,23 @@ public class ObservableSolutions extends ObservableExercises {
      * For example:
      * ["Remko", "Hedzer"] -> ["Hello Remko!", "Hello Hedzer!"]
      */
-    public Observable<String> exercise01(Observable<String> names) {
+    public Observable<String> exercise00(Observable<String> names) {
         return names.map(name -> "Hello " + name + "!");
     }
 
     /**
-     * Exercise 2
+     * Exercise 1
      * <p/>
      * Given an observable of numbers, filter out the even numbers:
      * <p/>
      * [1, 2, 3, 4, 5] -> [2, 4]
      */
-    public Observable<Integer> exercise02(Observable<Integer> nums) {
+    public Observable<Integer> exercise01(Observable<Integer> nums) {
         return nums.filter(i -> i % 2 == 0);
     }
 
     /**
-     * Exercise 3
+     * Exercise 2
      * <p/>
      * Just like with our ComposableList we can compose different functions
      * with Observables.
@@ -43,17 +43,19 @@ public class ObservableSolutions extends ObservableExercises {
      * <p/>
      * [1,2,3,4,5,6] -> ["2-Even", "4-Even", "6-Even"]
      */
-    public Observable<String> exercise03(Observable<Integer> nums) {
+    public Observable<String> exercise02(Observable<Integer> nums) {
         return nums.filter(i -> i % 2 == 0).map(i -> i + "-Even");
     }
 
     /**
+     * Exercise 3
+     * <p/>
      * Flatten out all video in the stream of Movies into a stream of videoIDs
      *
      * @param movies
      * @return Observable of Integers of Movies.videos.id
      */
-    public Observable<Integer> exerciseConcatMap(Observable<Movies> movies) {
+    public Observable<Integer> exercise03(Observable<Movies> movies) {
         return movies.<Integer> concatMap(ml -> {
             return ml.videos.map(v -> v.id);
         });
@@ -211,26 +213,6 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     /**
-     * Transform the incoming Observable from "Hello" to "Hello [Name]" where [Name] is your name.
-     *
-     * @param hello
-     */
-    public Observable<String> exerciseMap(Observable<String> hello) {
-        return hello.map(t -> t + " Ben!");
-    }
-
-    /**
-     * Given a stream of numbers, choose the even ones and return a stream like:
-     * <p>
-     * 2-Even
-     * 4-Even
-     * 6-Even
-     */
-    public Observable<String> exerciseFilterMap(Observable<Integer> nums) {
-        return nums.filter(i -> i % 2 == 0).map(i -> i + "-Even");
-    }
-
-    /**
      * Flatten out all video in the stream of Movies into a stream of videoIDs
      *
      * Use flatMap this time instead of concatMap. In Observable streams
@@ -243,18 +225,24 @@ public class ObservableSolutions extends ObservableExercises {
      * @param movies
      * @return Observable of Integers of Movies.videos.id
      */
-    public Observable<Integer> exerciseFlatMap(Observable<Movies> movies) {
+    public Observable<Integer> exercise12(Observable<Movies> movies) {
         return movies.<Integer> flatMap(ml -> {
             return ml.videos.map(v -> v.id);
         });
     }
 
+    public boolean exercise13() {
+        return true;
+    }
+
+    // TODO rename/fix from here downwards
     /**
      * Retrieve the largest number.
      *
      * Use reduce to select the maximum value in a list of numbers.
      */
     public Observable<Integer> exerciseReduce(Observable<Integer> nums) {
+        // as oneliner: return nums.reduce(Math::max);
         return nums.reduce((max, item) -> {
             if (item > max) {
                 return item;
