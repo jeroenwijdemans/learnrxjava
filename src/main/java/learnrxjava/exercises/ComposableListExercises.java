@@ -727,7 +727,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
 
     Nice work. Now let's try combining reduce() with our other functions to build more complex queries.
     
-    This is a variation of the problem we solved earlier, where we retrieved the url of the boxart with a 
+    This is a variation of the problem we solved earlier in exercise12, where we retrieved the url of the boxart with a
     width of 150px. This time we'll use reduce() instead of filter() to retrieve the _smallest_ box art in 
     the boxarts list.
      */

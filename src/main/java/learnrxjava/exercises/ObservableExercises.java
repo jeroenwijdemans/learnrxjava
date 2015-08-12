@@ -18,6 +18,19 @@ import java.util.concurrent.TimeUnit;
  * 
  * This means you can apply the same compositional methods (map, filter, etc) to 
  * Observables as to ComposableLists.
+ *
+ * An Observable is a lot like an Event as sent to the age-old JDK EventListener.
+ * Like an Event, an Observable represents a sequence
+ * of values that a data producer pushes to the consumer. However unlike an Event,
+ * an Observable can signal to a listener that it has completed, and will send no more data.
+ *
+ * Observables can send data to consumers asynchronously. Observables are a sequence
+ * of values, delivered one after the other. Therefore it's possible that an Observable
+ * can go on sending data to a listener forever just like an infinite stream.
+ *
+ * Querying (pull-based) Lists only gives us a snapshot. By contrast, querying (push-based)
+ * Observables allows us to create data sets that react and update as the system changes over time. This
+ * enables a very powerful type of programming known as reactive programming.
  */
 public class ObservableExercises {
 
@@ -278,7 +291,7 @@ public class ObservableExercises {
      * <p/>
      * Its name is - just as you expected - Observable.just().
      * <p/>
-     * Contrary to what you'd expect with this name, it's actually also possible to have it emit multiple
+     * Contrary to what you'd expect with this name, it's actually also possible to have it emit _multiple_
      * values, by supplying up to 9 arguments.
      */
     public Observable<String> exercise09() {
@@ -388,124 +401,6 @@ public class ObservableExercises {
         return false;
     }
 
-    // TODO waar in de volgorde horen deze exercises?
-    // TODO alles hernoemen naar exercise<ii>
-    /**
-     * Retrieve the largest number.
-     * <p/>
-     * Use reduce to select the maximum value in a list of numbers.
-     */
-    public Observable<Integer> exerciseReduce(Observable<Integer> nums) {
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * Retrieve the id, title, and <b>smallest</b> box art url for every video.
-     * <p/>
-     * Now let's try combining reduce() with our other functions to build more complex queries.
-     * <p/>
-     * This is a variation of the problem we solved earlier, where we retrieved the url of the boxart with a
-     * width of 150px. This time we'll use reduce() instead of filter() to retrieve the _smallest_ box art in
-     * the boxarts list.
-     * <p/>
-     * See Exercise 19 of ComposableListExercises
-     */
-    public Observable<JSON> exerciseMovie(Observable<Movies> movies) {
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * Don't modify any values in the stream but do handle the error
-     * and replace it with "default-value".
-     */
-    public Observable<String> handleError(Observable<String> data) {
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * The data stream fails intermittently so return the stream
-     * with retry capability.
-     */
-    public Observable<String> retry(Observable<String> data) {
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    // TODO de 3 (zelfgemaakte) exercises hieronder staan nog niet in de Solutions (tests zijn er wel)
-
-    /*
-    * TODO waar hoort deze tekst?
-     * An Observable is a lot like an Event. Like an Event, an Observable is a sequence 
-     * of values that a data producer pushes to the consumer. However unlike an Event, 
-     * an Observable can signal to a listener that it has completed, and will send no more data.
-     *
-     * Observables can send data to consumers asynchronously. Observables are a sequence 
-     * of values, delivered one after the other. Therefore it's possible that an Observable 
-     * can go on sending data to a listener forever just like an infinite stream.
-     *			
-     * Querying Lists only gives us a snapshot. By contrast, querying Observables allows
-     * us to create data sets that react and update as the system changes over time. This 
-     * enables a very powerful type of programming known as reactive programming.
-     *
-     * Let's start off by contrasting Observable with Events...
-     */
-
-    /**
-     * Sorting is a simple operation. Keep in mind that sorting requires buffering _all_ items - the last one may very well
-     * be the smallest. This is reflected by the fact that a _List_ of the input type is returned.
-     *
-     * The sort buffer may require quite some memory when streaming a large number of items, so be careful!
-     */
-    public Observable<List<String>> exerciseSortLexicographically(Observable<String> data) {
-        // ------------ INSERT CODE HERE! ----------------------------
-        // Use Observable's 'toSortedList' operator
-        // ------------ INSERT CODE HERE! ----------------------------
-        // TODO add implementation
-        return data.toSortedList();
-        //return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * Sorting is by default done by using the Comparable implementation of the items themselves.
-     *
-     * In this exercise, you will build an external sorter. Should be simple enough: supply the comparison as a lambda expression.
-     */
-    public Observable<List<String>> exerciseSortByLength(Observable<String> data) {
-        // ------------ INSERT CODE HERE! ----------------------------
-        // Use an overload of Observable's 'toSortedList' operator, supplying a sortFunction
-        // ------------ INSERT CODE HERE! ----------------------------
-        // TODO add implementation
-        return data.toSortedList((string1, string2) -> string1.length() - string2.length());
-        //return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * One way of protecting against overload - e.g. if the stream needs to be sorted - is to filter out items from the stream.
-     *
-     * Of course, you'll have to decide, based on your specific domain, in which cases 'forgetting' items from the stream is desirable.
-     *
-     * Filtering can be done in any number of ways. Examples are:
-     * - sample(time): return one item per time interval
-     * - distinct: remove duplicates
-     * - first: take _only_ the first item
-     * - takeWhile(condition): take while 'condition' is true
-     * - skip(n), skip(time): skip n items, or skip until the time interval has passed
-     * - take(n), take(time), takeLast(n), takeLast(time): take the first or last n items
-     * - take(time), takeLast(time): take the first or last items in the specified time interval
-     *
-     * ... and many others, like skip(time), last, first(condition), firstOrDefault(default), lastOrDefault(default), elementAt(x), elementAtOrDefault(x, default),
-     *   skipLast(n), distinctUntilChanged, etc.
-     *
-     * You've already seen filter
-     */
-    public Observable<String> exerciseSkipThenDistinct(Observable<String> data) {
-        // ------------ INSERT CODE HERE! ----------------------------
-        // Skip the first 3 items. Of the remaining items, return only the items that are different from what has already been emitted
-        // ------------ INSERT CODE HERE! ----------------------------
-        // TODO add implementation
-        return data.skip(3).distinct();
-        //return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
     /*
      * **************
      * below are helper methods
@@ -513,7 +408,7 @@ public class ObservableExercises {
      */
 
     // This function can be used to build JSON objects within an expression
-    private static JSON json(Object... keyOrValue) {
+    public static JSON json(Object... keyOrValue) {
         JSON json = new JSON();
 
         for (int counter = 0; counter < keyOrValue.length; counter += 2) {
@@ -533,7 +428,6 @@ public class ObservableExercises {
         public void onError(Throwable e) {
             // NOOP
         }
-
     }
 
     public static abstract class OnComplete<T> extends Subscriber<T> {
@@ -546,7 +440,6 @@ public class ObservableExercises {
         public void onError(Throwable e) {
             // NOOP
         }
-
     }
 
     public static abstract class OnError<T> extends Subscriber<T> {
@@ -559,8 +452,6 @@ public class ObservableExercises {
         public void onNext(T t) {
             // NOOP
         }
-
-
     }
 
     public static class Sum {

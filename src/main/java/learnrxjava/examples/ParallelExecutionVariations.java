@@ -3,7 +3,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
-public class ParallelExecution {
+public class ParallelExecutionVariations {
 
     public static void main(String[] args) {
         System.out.println("------------ mergingAsync");
