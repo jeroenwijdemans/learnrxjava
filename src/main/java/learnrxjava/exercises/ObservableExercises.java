@@ -9,6 +9,7 @@ import rx.schedulers.Schedulers;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import learnrxjava.types.Movie;
 
 /**
  * Now you have mastered the ComposableList, it is time to move on. The exercises
@@ -348,6 +349,8 @@ public class ObservableExercises {
         });
     }
 
+    // TODO RDJ Sampling goes better after timing or at least somewhere near
+    
     /**
      * Exercise 12 - flat vs. concat; ordering and concurrency
      * <p/>
@@ -388,7 +391,7 @@ public class ObservableExercises {
      * <p/>
      * Look carefully at both diagrams. Where do they differ? Can you relate this to section 3 in
      * the description in exercise 12?
-     * If & when you understand, please say so in the code below, and progress to exercise 14.
+     * If and when you understand, please say so in the code below, and progress to exercise 14.
      * <p/>
      * For more info, please visit:
      * <ul>
@@ -401,6 +404,50 @@ public class ObservableExercises {
         return false;
     }
 
+    // TODO RDJ & HW determine the order
+    
+    /**
+     * Exercise 14 - First come, first served
+     * <p/>
+     * Observable comes with a lot of nifty convenience methods. first() is one of
+     * them. It can help you when you don't feel the need to look further.
+     * <p/>
+     * So don't look further and finish the exercise. Just for fun, we threw in
+     * a little flatMap as well...
+     * 
+     * @param movieLists an observable of lists of movies to work your magic on
+     * @return the title of the first video of the first list of movies
+     */
+    public Observable<String> exercise14(Observable<Movies> movieLists) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use Observable.first(), you might need some flatMap too...
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+    
+    /**
+     * Exercise 15 - A sample of a fine exercise
+     * <p/>
+     * Lazy as we are, we are not going to continuously watch a possibly infinite stream.
+     * That would like watching the output of your compiler. And who does that?
+     * Much better, we are going to take sample now and then and look at that.
+     * <p/>
+     * For this exercise, we are going to sample every four seconds. 
+     * 
+     * @see http://reactivex.io/RxJava/javadoc/rx/Observable.html#sample(long, java.util.concurrent.TimeUnit)
+     * @param movieLists an observable of lists of movies that will spit out something every three seconds
+     * @param scheduler the scheduler you should use for sampling
+     * @return the titles of the movies at the point of sampling (after four seconds)
+     */
+    public Observable<String> exercise15(Observable<Movies> movieLists, Scheduler scheduler) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use Observable.sample() and the provided scheduler
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+    
     /*
      * **************
      * below are helper methods

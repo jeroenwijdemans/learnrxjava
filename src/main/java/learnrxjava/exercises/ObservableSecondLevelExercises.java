@@ -320,7 +320,7 @@ public class ObservableSecondLevelExercises {
      * The focal point, however, is the retry() operator. The conditionalRetry() method 'lifts'
      * it to (infinitely) retry only *recoverable* errors.
      *
-     * This feature is illustrated by simply concatening the results of an (eventually) succeeding Observable, and one
+     * This feature is illustrated by simply concatenating the results of an (eventually) succeeding Observable, and one
      * that fails with an unrecoverable IllegalStateException.
      *
      * There is no code to be added for this 'exercise'. Simply read, execute & learn.

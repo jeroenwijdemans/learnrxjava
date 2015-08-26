@@ -1,5 +1,6 @@
 package learnrxjava.exercises;
 
+import java.util.ArrayList;
 import learnrxjava.types.BoxArt;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movie;
@@ -15,9 +16,14 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Arrays.asList;
+import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static rx.Observable.*;
+import rx.Scheduler;
+import rx.schedulers.Schedulers;
+import rx.schedulers.TestScheduler;
 
 public class ObservableExercisesTest {
 
@@ -57,21 +63,7 @@ public class ObservableExercisesTest {
     @Test
     public void exercise03() {
         TestSubscriber<Integer> ts = new TestSubscriber<>();
-
-        Observable<Movies> movies = just(
-                new Movies(
-                        "New Releases", // name
-                        Arrays.asList( // videos
-                                new Movie(70111470, "Die Hard", 4.0),
-                                new Movie(654356453, "Bad Boys", 5.0))),
-                new Movies(
-                        "Dramas",
-                        Arrays.asList(
-                                new Movie(65432445, "The Chamber", 4.0),
-                                new Movie(675465, "Fracture", 5.0)))
-        );
-
-        getImpl().exercise03(movies).subscribe(ts);
+        getImpl().exercise03(gimmeSomeMovies()).subscribe(ts);
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList(70111470, 654356453, 65432445, 675465));
@@ -149,22 +141,8 @@ public class ObservableExercisesTest {
     @Test
     public void exercise12() {
         TestSubscriber<Map<Integer, Integer>> ts = new TestSubscriber<>();
-
-        Observable<Movies> movies = just(
-                new Movies(
-                        "New Releases", // name
-                        Arrays.asList( // videos
-                                new Movie(70111470, "Die Hard", 4.0),
-                                new Movie(654356453, "Bad Boys", 5.0))),
-                new Movies(
-                        "Dramas",
-                        Arrays.asList(
-                                new Movie(65432445, "The Chamber", 4.0),
-                                new Movie(675465, "Fracture", 5.0)))
-        );
-
         // as we can't rely on the ordering this time, we use different assertions for exercise03
-        Map<Integer, Integer> map = getImpl().exercise12(movies).toMap(i -> i).toBlocking().single();
+        Map<Integer, Integer> map = getImpl().exercise12(gimmeSomeMovies()).toMap(i -> i).toBlocking().single();
         assertTrue(map.containsKey(70111470));
         assertTrue(map.containsKey(654356453));
         assertTrue(map.containsKey(65432445));
@@ -176,4 +154,49 @@ public class ObservableExercisesTest {
         assertTrue(getImpl().exercise13());
     }
 
+    @Test
+    public void exercise14() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise14(gimmeSomeMovies()).subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("Die Hard"));
+    }
+    
+    @Test
+    public void exercise15() {
+        TestScheduler scheduler = Schedulers.test();
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise15(gimmeSomeMoviesEvery(3, SECONDS, scheduler), scheduler).subscribe(ts);
+        scheduler.advanceTimeBy(4, SECONDS);
+        ts.assertReceivedOnNext(Arrays.asList("Die Hard", "Bad Boys"));
+        scheduler.advanceTimeBy(8, SECONDS);
+        ts.assertTerminalEvent();
+    }
+    
+    /*
+     * **************
+     * below are helper methods
+     * **************
+     */
+    private Observable<Movies> gimmeSomeMoviesEvery(long value, TimeUnit timeUnit, Scheduler scheduler) {
+        Observable<Long> interval = Observable.interval(value, timeUnit, scheduler);
+        return Observable.zip(gimmeSomeMovies(), interval, (movie, t) -> {
+            return movie;
+        });
+    }
+    
+    private Observable<Movies> gimmeSomeMovies() {
+        return just(
+                new Movies(
+                        "New Releases", // name
+                        Arrays.asList( // videos
+                                new Movie(70111470, "Die Hard", 4.0),
+                                new Movie(654356453, "Bad Boys", 5.0))),
+                new Movies(
+                        "Dramas",
+                        Arrays.asList(
+                                new Movie(65432445, "The Chamber", 4.0),
+                                new Movie(675465, "Fracture", 5.0)))
+        );
+    }
 }
