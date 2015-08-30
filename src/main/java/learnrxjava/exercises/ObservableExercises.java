@@ -425,7 +425,7 @@ public class ObservableExercises {
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
-    
+
     /**
      * Exercise 15 - A sample of a fine exercise
      * <p/>
@@ -443,6 +443,80 @@ public class ObservableExercises {
     public Observable<String> exercise15(Observable<Movies> movieLists, Scheduler scheduler) {
         // ------------ INSERT CODE HERE! ----------------------------
         // Use Observable.sample() and the provided scheduler
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+
+    /**
+     * Exercise 16 - Latest and Greatest
+     * <p/>
+     * This time we want the last in movie that the Observable emits and matches a specific rating
+     * <p/>
+     *
+     * @param movieList an observable of movies to work your magic on
+     * @return the title of the latest movie that matches a rating
+     */
+    public Observable<String> exercise16(Observable<Movie> movieList, double rating) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Get the last movie title that the Observable emits that matches the given rating.
+        // Use Observable.last()
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 17 - It's all about the first ones
+     * <p/>
+     * Return an Observable that returns the first 5 movies
+     * <p/>
+     *
+     * @param movieLists an observable of lists of movies to work your magic on
+     * @return the first 5 movies
+     */
+    public Observable<String> exercise17(Observable<Movies> movieLists) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Get the first 5 movie titles
+        // Use Observable.take()
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 18 - Which movies are on the second page?
+     * <p/>
+     * Return an observable that returns all the movies on the second page
+     * <p/>
+     *
+     * @param movieList an observable of lists of movies to work your magic on
+     * @return the movies on the second page
+     */
+    public Observable<Movie> exercise18(Observable<Movie> movieList, int pageLength) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Skip the movies on the first page and return the movies that are on the second page.
+        // Use Observable.skip()
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 19 - Just give me some good ones!
+     * <p/>
+     * Return an observable that only emits the best movies!
+     * Only give me a few though, I still want to pretend that I have a life.
+     * <p/>
+     *
+     * @param movieList an observable of movies to work your magic on
+     * @return all movies with a rating equal or higher than 4.5 and no more than 5
+     */
+    public Observable<Movie> exercise19(Observable<Movie> movieList) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Return all movies that are equal to or higher than 4.5 in rating. Also just give me 5 good ones or less.
+        // Use Observable.limit().
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));

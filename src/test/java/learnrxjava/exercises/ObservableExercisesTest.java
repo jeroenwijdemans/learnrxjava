@@ -1,29 +1,24 @@
 package learnrxjava.exercises;
 
-import java.util.ArrayList;
-import learnrxjava.types.BoxArt;
-import learnrxjava.types.JSON;
 import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
 import org.junit.Test;
 import rx.Observable;
+import rx.Scheduler;
+import rx.observers.TestObserver;
 import rx.observers.TestSubscriber;
+import rx.schedulers.Schedulers;
+import rx.schedulers.TestScheduler;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.Arrays.asList;
-import java.util.concurrent.TimeUnit;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static rx.Observable.*;
-import rx.Scheduler;
-import rx.schedulers.Schedulers;
-import rx.schedulers.TestScheduler;
 
 public class ObservableExercisesTest {
 
@@ -40,7 +35,7 @@ public class ObservableExercisesTest {
         assertEquals(2, ts.getOnNextEvents().size());
         assertEquals(ts.getOnNextEvents(), asList("Hello Remko!", "Hello Hedzer!"));
     }
-    
+
     @Test
     public void exercise01() {
         TestSubscriber<Integer> ts = new TestSubscriber<>();
@@ -50,7 +45,7 @@ public class ObservableExercisesTest {
         assertEquals(5, ts.getOnNextEvents().size());
         assertEquals(ts.getOnNextEvents(), asList(2,4,6,8,10));
     }
-    
+
     @Test
     public void exercise02() {
         TestSubscriber<String> ts = new TestSubscriber<>();
@@ -74,7 +69,7 @@ public class ObservableExercisesTest {
         int result = getImpl().exercise04(range(1, 10));
         assertEquals(55, result);
     }
-    
+
     @Test
     public void exercise05() {
         Observable<Integer> faulty = Observable.error(new RuntimeException("Faulty as Microsoft Windows"));
@@ -161,7 +156,7 @@ public class ObservableExercisesTest {
         ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList("Die Hard"));
     }
-    
+
     @Test
     public void exercise15() {
         TestScheduler scheduler = Schedulers.test();
@@ -172,7 +167,49 @@ public class ObservableExercisesTest {
         scheduler.advanceTimeBy(8, SECONDS);
         ts.assertTerminalEvent();
     }
-    
+
+    @Test
+    public void exercise16() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise16(gimmeSomeMoreMovies().first().flatMap(movies -> movies.videos), 4.0).subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("Bad Boys"));
+
+        TestSubscriber<String> ts2 = new TestSubscriber<>();
+        getImpl().exercise16(gimmeSomeMoreMovies().first().flatMap(movies -> movies.videos), 5.0).subscribe(ts2);
+        ts2.assertNoErrors();
+        ts2.assertReceivedOnNext(Arrays.asList("Interstellar"));
+    }
+
+    @Test
+    public void exercise17() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise17(gimmeSomeMoreMovies()).subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("Die Hard", "MIB2", "Interstellar", "Bad Boys", "The Chamber"));
+    }
+
+    @Test
+    public void exercise18() {
+        TestObserver<Movie> testObserver = new TestObserver<>();
+        getImpl().exercise18(gimmeSomeMoreMovies().last().flatMap(movies -> movies.videos), 3).subscribe(testObserver);
+        assertEquals(3, testObserver.getOnNextEvents().size());
+        assertEquals("Valhalla Rising", testObserver.getOnNextEvents().get(0).title);
+    }
+
+    @Test
+    public void excercise19() {
+        TestObserver<Movie> testObserver = new TestObserver<>();
+        getImpl().exercise19(gimmeSomeMoreMovies().last().flatMap(movies -> movies.videos)).subscribe(testObserver);
+        assertEquals("My Little Pony", testObserver.getOnNextEvents().get(4).title);
+        assertEquals(5, testObserver.getOnNextEvents().size());
+
+        TestObserver<Movie> testObserver2 = new TestObserver<>();
+        getImpl().exercise19(gimmeSomeMoreMovies().first().flatMap(movies -> movies.videos)).subscribe(testObserver2);
+        assertEquals(2, testObserver2.getOnNextEvents().size());
+        assertEquals("Interstellar", testObserver2.getOnNextEvents().get(1).title);
+    }
+
     /*
      * **************
      * below are helper methods
@@ -180,11 +217,9 @@ public class ObservableExercisesTest {
      */
     private Observable<Movies> gimmeSomeMoviesEvery(long value, TimeUnit timeUnit, Scheduler scheduler) {
         Observable<Long> interval = Observable.interval(value, timeUnit, scheduler);
-        return Observable.zip(gimmeSomeMovies(), interval, (movie, t) -> {
-            return movie;
-        });
+        return Observable.zip(gimmeSomeMovies(), interval, (movie, t) -> movie);
     }
-    
+
     private Observable<Movies> gimmeSomeMovies() {
         return just(
                 new Movies(
@@ -197,6 +232,30 @@ public class ObservableExercisesTest {
                         Arrays.asList(
                                 new Movie(65432445, "The Chamber", 4.0),
                                 new Movie(675465, "Fracture", 5.0)))
+        );
+    }
+
+    private Observable<Movies> gimmeSomeMoreMovies() {
+        return just(
+                new Movies(
+                        "New Releases",
+                        Arrays.asList(
+                                new Movie(70111470, "Die Hard", 4.0),
+                                new Movie(70111472, "MIB2", 5.0),
+                                new Movie(70111473, "Interstellar", 5.0),
+                                new Movie(654356453, "Bad Boys", 4.0))),
+                new Movies(
+                        "Dramas",
+                        Arrays.asList(
+                                new Movie(65432445, "The Chamber", 4.0),
+                                new Movie(675465, "Fracture", 5.0),
+                                new Movie(675466, "Gladiator", 4.5),
+                                new Movie(675467, "Valhalla Rising", 6.0),
+                                new Movie(675468, "The Experiment", 3.0),
+                                new Movie(675469, "All quiet on the Western front", 4.3),
+                                new Movie(675470, "Hitman", 4.3),
+                                new Movie(675471, "Fury", 4.8),
+                                new Movie(6754, "My Little Pony", 5.0)))
         );
     }
 }
