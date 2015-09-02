@@ -121,7 +121,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     /*
     Exercise 4: Implement map() to help with list projection
     
-    Hooray! Now you are ready to implement your first compostion method: map.    
+    Hooray! Now you are ready to implement your first composition method: map.
     Remember, every journey start with a first step!
     
     All list projections share two operations in common:
