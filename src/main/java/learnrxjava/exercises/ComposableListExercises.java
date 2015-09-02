@@ -1012,7 +1012,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     }
     
     /***************************************************************************
-     * This is end, my friend. Of part 1 that is. Now you've mastered functional 
+     * This is the end, my friend. Of part 1 that is. Now you've mastered functional 
      * composition with lists, it is only a small step from here to master 
      * Observables. And after all, Observables are the main reason you've taken 
      * this course.
