@@ -326,7 +326,101 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 11 - timing is everything
+     * Exercise 11 - First come, first served
+     * <p/>
+     * Observable comes with a lot of nifty convenience methods. first() is one of
+     * them. It can help you when you don't feel the need to look further.
+     * <p/>
+     * So don't look further and finish the exercise. Just for fun, we threw in
+     * a little flatMap as well...
+     * 
+     * @param movieLists an observable of lists of movies to work your magic on
+     * @return the title of the first video of the first list of movies
+     */
+    public Observable<String> exercise11(Observable<Movies> movieLists) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use Observable.first(), you might need some flatMap too...
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+    
+    /**
+     * Exercise 12 - The 'last' exercise
+     * <p/>
+     * This time we are looking for the title of the last movie that the 
+     * Observable emits that matches a specific rating
+     * <p/>
+     *
+     * @param movieList an observable of movies to work your magic on
+     * @return the title of the latest movie that matches a rating
+     */
+    public Observable<String> exercise12(Observable<Movies> movieLists, double rating) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Get the last movie title that the Observable emits that matches the given rating.
+        // Use Observable.last()
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 13 - Take it or leave it
+     * <p/>
+     * Return an Observable that returns the first 5 movies
+     * <p/>
+     *
+     * @param movieLists an observable of lists of movies to work your magic on
+     * @return the titles of the first 5 movies
+     */
+    public Observable<String> exercise13(Observable<Movies> movieLists) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Get the first 5 movie titles
+        // Use Observable.take()
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 14 - Don't skip this one
+     * <p/>
+     * Return an observable that returns the titles of the movies on the second page
+     * <p/>
+     *
+     * @param movieList an observable of lists of movies to work your magic on
+     * @return the movies on the second page
+     */
+    public Observable<String> exercise14(Observable<Movies> movieLists, int pageLength) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Skip the movies on the first page and return the titles of the movies 
+        // that are on the second page. Use Observable.skip()
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 15 - Just give me some good ones!
+     * <p/>
+     * Return an observable that only emits the best movies!
+     * Only give me a few though, I still want to pretend that I have a life.
+     * <p/>
+     *
+     * @param movieList an observable of movies to work your magic on
+     * @return all movies with a rating equal or higher than 4.5 and no more than 5
+     */
+    public Observable<String> exercise15(Observable<Movies> movieLists) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Return all movies that are equal to or higher than 4.5 in rating. 
+        // Also just give me 5 good ones or less. Use Observable.limit().
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+    
+    /**
+     * Exercise 18 - Timing is everything
      * <p/>
      * Now that we're familiar with just and zip, we can begin to add a touch of timing.
      * We can exploit the fact that zip requires both values to be present at the same time - and thus
@@ -335,7 +429,7 @@ public class ObservableExercises {
      * <p/>
      * @return an Observable with items "one 1", "two 2", etc., each 1 second apart
      */
-    public Observable<String> exercise11() {
+    public Observable<String> exercise18() {
         Observable<String> data = Observable.just("one", "two", "three", "four", "five");
 
         // ------------ INSERT CODE HERE! ----------------------------
@@ -349,10 +443,8 @@ public class ObservableExercises {
         });
     }
 
-    // TODO RDJ Sampling goes better after timing or at least somewhere near
-    
     /**
-     * Exercise 12 - flat vs. concat; ordering and concurrency
+     * Exercise 20 - flatMap vs. concatMap; ordering and concurrency
      * <p/>
      * Let's revisit the nice domain of videos, of which we temporarily strayed
      * in the dull non-domain-oriented exercises above.
@@ -369,7 +461,7 @@ public class ObservableExercises {
      * @param movieLists
      * @return Observable of Integers of Movies.videos.id
      */
-    public Observable<Integer> exercise12(Observable<Movies> movieLists) {
+    public Observable<Integer> exercise20(Observable<Movies> movieLists) {
         // ------------ INSERT CODE HERE! ----------------------------
         // Use flatMap
         // ------------ INSERT CODE HERE! ----------------------------
@@ -378,7 +470,7 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 13 - RTFM!
+     * Exercise 21 - RTFM!
      * <p/>
      * Let's read up on marble diagrams. Marble diagrams depict data flows for each of the reactive Observables.
      * They help enormously in understanding what's going on.
@@ -387,11 +479,11 @@ public class ObservableExercises {
      * your solutions to two previous exercises, and lookup the javadoc in your IDE.
      * <p/>
      * @see ObservableExercises#exercise03(Observable) - here you used concatMap
-     * @see ObservableExercises#exercise12(Observable) - here you used flatMap
+     * @see ObservableExercises#exercise20(Observable) - here you used flatMap
      * <p/>
      * Look carefully at both diagrams. Where do they differ? Can you relate this to section 3 in
-     * the description in exercise 12?
-     * If and when you understand, please say so in the code below, and progress to exercise 14.
+     * the description in exercise 20?
+     * If and when you understand, please say so in the code below, and progress to the next exercise.
      * <p/>
      * For more info, please visit:
      * <ul>
@@ -400,34 +492,12 @@ public class ObservableExercises {
      * </ul>
      * @return true when you understand what's going on
      */
-    public boolean exercise13() {
+    public boolean exercise21() {
         return false;
     }
 
-    // TODO RDJ & HW determine the order
-    
     /**
-     * Exercise 14 - First come, first served
-     * <p/>
-     * Observable comes with a lot of nifty convenience methods. first() is one of
-     * them. It can help you when you don't feel the need to look further.
-     * <p/>
-     * So don't look further and finish the exercise. Just for fun, we threw in
-     * a little flatMap as well...
-     * 
-     * @param movieLists an observable of lists of movies to work your magic on
-     * @return the title of the first video of the first list of movies
-     */
-    public Observable<String> exercise14(Observable<Movies> movieLists) {
-        // ------------ INSERT CODE HERE! ----------------------------
-        // Use Observable.first(), you might need some flatMap too...
-        // ------------ INSERT CODE HERE! ----------------------------
-        // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * Exercise 15 - A sample of a fine exercise
+     * Exercise 22 - A sample of a fine exercise
      * <p/>
      * Lazy as we are, we are not going to continuously watch a possibly infinite stream.
      * That would like watching the output of your compiler. And who does that?
@@ -440,83 +510,9 @@ public class ObservableExercises {
      * @param scheduler the scheduler you should use for sampling
      * @return the titles of the movies at the point of sampling (after four seconds)
      */
-    public Observable<String> exercise15(Observable<Movies> movieLists, Scheduler scheduler) {
+    public Observable<String> exercise22(Observable<Movies> movieLists, Scheduler scheduler) {
         // ------------ INSERT CODE HERE! ----------------------------
         // Use Observable.sample() and the provided scheduler
-        // ------------ INSERT CODE HERE! ----------------------------
-        // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-
-    /**
-     * Exercise 16 - Latest and Greatest
-     * <p/>
-     * This time we want the last in movie that the Observable emits and matches a specific rating
-     * <p/>
-     *
-     * @param movieList an observable of movies to work your magic on
-     * @return the title of the latest movie that matches a rating
-     */
-    public Observable<String> exercise16(Observable<Movie> movieList, double rating) {
-        // ------------ INSERT CODE HERE! ----------------------------
-        // Get the last movie title that the Observable emits that matches the given rating.
-        // Use Observable.last()
-        // ------------ INSERT CODE HERE! ----------------------------
-        // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * Exercise 17 - It's all about the first ones
-     * <p/>
-     * Return an Observable that returns the first 5 movies
-     * <p/>
-     *
-     * @param movieLists an observable of lists of movies to work your magic on
-     * @return the first 5 movies
-     */
-    public Observable<String> exercise17(Observable<Movies> movieLists) {
-        // ------------ INSERT CODE HERE! ----------------------------
-        // Get the first 5 movie titles
-        // Use Observable.take()
-        // ------------ INSERT CODE HERE! ----------------------------
-        // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * Exercise 18 - Which movies are on the second page?
-     * <p/>
-     * Return an observable that returns all the movies on the second page
-     * <p/>
-     *
-     * @param movieList an observable of lists of movies to work your magic on
-     * @return the movies on the second page
-     */
-    public Observable<Movie> exercise18(Observable<Movie> movieList, int pageLength) {
-        // ------------ INSERT CODE HERE! ----------------------------
-        // Skip the movies on the first page and return the movies that are on the second page.
-        // Use Observable.skip()
-        // ------------ INSERT CODE HERE! ----------------------------
-        // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
-    }
-
-    /**
-     * Exercise 19 - Just give me some good ones!
-     * <p/>
-     * Return an observable that only emits the best movies!
-     * Only give me a few though, I still want to pretend that I have a life.
-     * <p/>
-     *
-     * @param movieList an observable of movies to work your magic on
-     * @return all movies with a rating equal or higher than 4.5 and no more than 5
-     */
-    public Observable<Movie> exercise19(Observable<Movie> movieList) {
-        // ------------ INSERT CODE HERE! ----------------------------
-        // Return all movies that are equal to or higher than 4.5 in rating. Also just give me 5 good ones or less.
-        // Use Observable.limit().
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));

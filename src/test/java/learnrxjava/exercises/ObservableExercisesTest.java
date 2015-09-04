@@ -126,7 +126,52 @@ public class ObservableExercisesTest {
     @Test
     public void exercise11() {
         TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exercise11().subscribe(ts);
+        getImpl().exercise11(gimmeSomeMovies()).subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("Die Hard"));
+    }
+
+    @Test
+    public void exercise12() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise12(gimmeSomeMoreMovies(), 5.0).subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("My Little Pony"));
+    }
+
+    @Test
+    public void exercise13() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise13(gimmeSomeMoreMovies()).subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("Die Hard", "MIB2", "Interstellar", "Bad Boys", "The Chamber"));
+    }
+    
+    @Test
+    public void exercise14() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise14(gimmeSomeMoreMovies(), 3).subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("Bad Boys", "The Chamber", "Fracture"));
+    }
+
+    @Test
+    public void excercise15() {
+//        TestObserver<Movie> testObserver = new TestObserver<>();
+//        getImpl().exercise15(gimmeSomeMoreMovies().last().flatMap(movies -> movies.videos)).subscribe(testObserver);
+//        assertEquals("My Little Pony", testObserver.getOnNextEvents().get(4).title);
+//        assertEquals(5, testObserver.getOnNextEvents().size());
+//
+//        TestObserver<Movie> testObserver2 = new TestObserver<>();
+//        getImpl().exercise15(gimmeSomeMoreMovies().first().flatMap(movies -> movies.videos)).subscribe(testObserver2);
+//        assertEquals(2, testObserver2.getOnNextEvents().size());
+//        assertEquals("Interstellar", testObserver2.getOnNextEvents().get(1).title);
+    }
+    
+    @Test
+    public void exercise18() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise18().subscribe(ts);
         // note that we don't assert on timing. Should be possible using TestScheduler though.
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
@@ -134,10 +179,10 @@ public class ObservableExercisesTest {
     }
 
     @Test
-    public void exercise12() {
+    public void exercise20() {
         TestSubscriber<Map<Integer, Integer>> ts = new TestSubscriber<>();
         // as we can't rely on the ordering this time, we use different assertions for exercise03
-        Map<Integer, Integer> map = getImpl().exercise12(gimmeSomeMovies()).toMap(i -> i).toBlocking().single();
+        Map<Integer, Integer> map = getImpl().exercise20(gimmeSomeMovies()).toMap(i -> i).toBlocking().single();
         assertTrue(map.containsKey(70111470));
         assertTrue(map.containsKey(654356453));
         assertTrue(map.containsKey(65432445));
@@ -145,69 +190,19 @@ public class ObservableExercisesTest {
     }
 
     @Test
-    public void exercise13() {
-        assertTrue(getImpl().exercise13());
+    public void exercise21() {
+        assertTrue(getImpl().exercise21());
     }
 
     @Test
-    public void exercise14() {
-        TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exercise14(gimmeSomeMovies()).subscribe(ts);
-        ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList("Die Hard"));
-    }
-
-    @Test
-    public void exercise15() {
+    public void exercise22() {
         TestScheduler scheduler = Schedulers.test();
         TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exercise15(gimmeSomeMoviesEvery(3, SECONDS, scheduler), scheduler).subscribe(ts);
+        getImpl().exercise22(gimmeSomeMoviesEvery(3, SECONDS, scheduler), scheduler).subscribe(ts);
         scheduler.advanceTimeBy(4, SECONDS);
         ts.assertReceivedOnNext(Arrays.asList("Die Hard", "Bad Boys"));
         scheduler.advanceTimeBy(8, SECONDS);
         ts.assertTerminalEvent();
-    }
-
-    @Test
-    public void exercise16() {
-        TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exercise16(gimmeSomeMoreMovies().first().flatMap(movies -> movies.videos), 4.0).subscribe(ts);
-        ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList("Bad Boys"));
-
-        TestSubscriber<String> ts2 = new TestSubscriber<>();
-        getImpl().exercise16(gimmeSomeMoreMovies().first().flatMap(movies -> movies.videos), 5.0).subscribe(ts2);
-        ts2.assertNoErrors();
-        ts2.assertReceivedOnNext(Arrays.asList("Interstellar"));
-    }
-
-    @Test
-    public void exercise17() {
-        TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exercise17(gimmeSomeMoreMovies()).subscribe(ts);
-        ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList("Die Hard", "MIB2", "Interstellar", "Bad Boys", "The Chamber"));
-    }
-
-    @Test
-    public void exercise18() {
-        TestObserver<Movie> testObserver = new TestObserver<>();
-        getImpl().exercise18(gimmeSomeMoreMovies().last().flatMap(movies -> movies.videos), 3).subscribe(testObserver);
-        assertEquals(3, testObserver.getOnNextEvents().size());
-        assertEquals("Valhalla Rising", testObserver.getOnNextEvents().get(0).title);
-    }
-
-    @Test
-    public void excercise19() {
-        TestObserver<Movie> testObserver = new TestObserver<>();
-        getImpl().exercise19(gimmeSomeMoreMovies().last().flatMap(movies -> movies.videos)).subscribe(testObserver);
-        assertEquals("My Little Pony", testObserver.getOnNextEvents().get(4).title);
-        assertEquals(5, testObserver.getOnNextEvents().size());
-
-        TestObserver<Movie> testObserver2 = new TestObserver<>();
-        getImpl().exercise19(gimmeSomeMoreMovies().first().flatMap(movies -> movies.videos)).subscribe(testObserver2);
-        assertEquals(2, testObserver2.getOnNextEvents().size());
-        assertEquals("Interstellar", testObserver2.getOnNextEvents().get(1).title);
     }
 
     /*
