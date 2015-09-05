@@ -401,10 +401,9 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 15 - Just give me some good ones!
+     * Exercise 15 - No limit
      * <p/>
-     * Return an observable that only emits the best movies!
-     * Only give me a few though, I still want to pretend that I have a life.
+     * Return an observable that only emits the best movies.
      * <p/>
      *
      * @param movieList an observable of movies to work your magic on

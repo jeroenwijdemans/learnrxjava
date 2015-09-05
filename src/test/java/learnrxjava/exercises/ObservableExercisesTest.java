@@ -157,15 +157,10 @@ public class ObservableExercisesTest {
 
     @Test
     public void excercise15() {
-//        TestObserver<Movie> testObserver = new TestObserver<>();
-//        getImpl().exercise15(gimmeSomeMoreMovies().last().flatMap(movies -> movies.videos)).subscribe(testObserver);
-//        assertEquals("My Little Pony", testObserver.getOnNextEvents().get(4).title);
-//        assertEquals(5, testObserver.getOnNextEvents().size());
-//
-//        TestObserver<Movie> testObserver2 = new TestObserver<>();
-//        getImpl().exercise15(gimmeSomeMoreMovies().first().flatMap(movies -> movies.videos)).subscribe(testObserver2);
-//        assertEquals(2, testObserver2.getOnNextEvents().size());
-//        assertEquals("Interstellar", testObserver2.getOnNextEvents().get(1).title);
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise15(gimmeSomeMoreMovies()).subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("MIB2", "Interstellar", "Fracture", "Gladiator", "Valhalla Rising"));
     }
     
     @Test
@@ -201,7 +196,7 @@ public class ObservableExercisesTest {
         getImpl().exercise22(gimmeSomeMoviesEvery(3, SECONDS, scheduler), scheduler).subscribe(ts);
         scheduler.advanceTimeBy(4, SECONDS);
         ts.assertReceivedOnNext(Arrays.asList("Die Hard", "Bad Boys"));
-        scheduler.advanceTimeBy(8, SECONDS);
+        scheduler.advanceTimeBy(4, SECONDS);
         ts.assertTerminalEvent();
     }
 

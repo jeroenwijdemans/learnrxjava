@@ -6,6 +6,7 @@ import learnrxjava.types.Movies;
 import rx.Observable;
 
 import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import learnrxjava.types.Movie;
 import rx.Scheduler;
 
@@ -136,10 +137,9 @@ public class ObservableSolutions extends ObservableExercises {
         return movieLists.flatMap(movieList -> movieList.videos).skip(pageLength).take(pageLength).map(video -> video.title);
     }
     
-    // TODO Renumber
     @Override
     public Observable<String> exercise15(Observable<Movies> movieLists) {
-        return super.exercise15(movieLists); //To change body of generated methods, choose Tools | Templates.
+        return movieLists.flatMap(movieList -> movieList.videos).filter(video -> video.rating >= 4.5).limit(5).map(video -> video.title);
     }
 
     
@@ -164,10 +164,9 @@ public class ObservableSolutions extends ObservableExercises {
         return true;
     }
 
-    //TODO RDJ
     @Override
     public Observable<String> exercise22(Observable<Movies> movieLists, Scheduler scheduler) {
-        return super.exercise22(movieLists, scheduler); //To change body of generated methods, choose Tools | Templates.
+        return movieLists.sample(4, SECONDS, scheduler).flatMap(movieList -> movieList.videos).map(video -> video.title);
     }
 
     /*
