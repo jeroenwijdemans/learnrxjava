@@ -7,7 +7,6 @@ import rx.Observable;
 
 import java.util.concurrent.TimeUnit;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import learnrxjava.types.Movie;
 import rx.Scheduler;
 
 public class ObservableSolutions extends ObservableExercises {
@@ -116,12 +115,12 @@ public class ObservableSolutions extends ObservableExercises {
 
     @Override
     public Observable<String> exercise11(Observable<Movies> movieLists) {
-        return movieLists.first().flatMap(movieList -> movieList.videos.first().map(video -> video.title));
+        return movieLists.first().concatMap(movieList -> movieList.videos.first().map(video -> video.title));
     }
 
     @Override
     public Observable<String> exercise12(Observable<Movies> movieLists, double rating) {
-        return movieLists.last().flatMap(movieList -> 
+        return movieLists.last().concatMap(movieList -> 
                 movieList.videos.last(movie -> movie.rating == rating)
                         .map(video -> video.title)
         );
@@ -129,17 +128,17 @@ public class ObservableSolutions extends ObservableExercises {
    
     @Override
     public Observable<String> exercise13(Observable<Movies> movieLists) {
-        return movieLists.flatMap(movieList -> movieList.videos).take(5).map(video -> video.title);
+        return movieLists.concatMap(movieList -> movieList.videos).take(5).map(video -> video.title);
     }
 
     @Override
     public Observable<String> exercise14(Observable<Movies> movieLists, int pageLength) {
-        return movieLists.flatMap(movieList -> movieList.videos).skip(pageLength).take(pageLength).map(video -> video.title);
+        return movieLists.concatMap(movieList -> movieList.videos).skip(pageLength).take(pageLength).map(video -> video.title);
     }
     
     @Override
     public Observable<String> exercise15(Observable<Movies> movieLists) {
-        return movieLists.flatMap(movieList -> movieList.videos).filter(video -> video.rating >= 4.5).limit(5).map(video -> video.title);
+        return movieLists.concatMap(movieList -> movieList.videos).filter(video -> video.rating >= 4.5).limit(5).map(video -> video.title);
     }
 
     

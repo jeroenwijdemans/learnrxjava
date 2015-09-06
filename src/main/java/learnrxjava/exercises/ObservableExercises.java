@@ -340,7 +340,7 @@ public class ObservableExercises {
      */
     public Observable<String> exercise11(Observable<Movies> movieLists) {
         // ------------ INSERT CODE HERE! ----------------------------
-        // Use Observable.first(), you might need some flatMap too...
+        // Use Observable.first(), you might need some concatMap too...
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
