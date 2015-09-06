@@ -337,7 +337,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
     Easy ride so far, wasn't it? Time to implement concatMap. Are you up for the
     challenge?
     
-    To flatten trees with nested forEach expressions we accumlate the results in 
+    To flatten trees with nested forEach expressions we accumulate the results in 
     a new flat list. Querying a List of data from a Tree is a very common operation. 
     Ideally we'd be able to use a helper function to do the heavy lifting for us. 
 

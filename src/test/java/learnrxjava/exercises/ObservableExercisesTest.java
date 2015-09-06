@@ -156,7 +156,7 @@ public class ObservableExercisesTest {
     }
 
     @Test
-    public void excercise15() {
+    public void exercise15() {
         TestSubscriber<String> ts = new TestSubscriber<>();
         getImpl().exercise15(gimmeSomeMoreMovies()).subscribe(ts);
         ts.assertNoErrors();

@@ -22,4 +22,6 @@ public interface ComposableList<T> extends Iterable<T> {
     public void forEach(Consumer<? super T> action);
 
     public T get(int index);
+    
+    public boolean add(T t);
 }
