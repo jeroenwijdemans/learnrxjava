@@ -153,6 +153,12 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     @Override
+    public Observable<Long> exercise19(Observable<Long> odd, Observable<Long> even, Scheduler scheduler) {
+        return odd.mergeWith(even);
+    }
+
+    
+    @Override
     public Observable<Integer> exercise20(Observable<Movies> movies) {
         return movies.<Integer> flatMap(ml -> {
             return ml.videos.map(v -> v.id);

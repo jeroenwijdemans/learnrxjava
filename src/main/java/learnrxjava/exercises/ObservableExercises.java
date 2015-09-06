@@ -9,6 +9,7 @@ import rx.schedulers.Schedulers;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import learnrxjava.types.Movie;
 
 /**
@@ -433,15 +434,32 @@ public class ObservableExercises {
 
         // ------------ INSERT CODE HERE! ----------------------------
         // use Observable.interval to get an item emitted each second.
+        // Use Observable.zip to achieve the desired output
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        Observable<Long> interval = Observable.error(new RuntimeException("Not Implemented"));
-
-        return Observable.zip(data, interval, (d, t) -> {
-            return d + " " + (t+1);
-        });
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    /**
+     * Exercise 19 - Merge hell
+     * <p/>
+     * Timing matters when choosing which method to use. Merging is an operation
+     * that preserves timing, as you will see below. Go ahead and take a look at
+     * the corresponding unit test as well.
+     * 
+     * @param odd  an observable that emits an odd number every odd second
+     * @param even an observable that emits an even number every even second
+     * @param scheduler the scheduler you should use to merge
+     * @return an Observable with the results
+     */
+    public Observable<Long> exercise19(Observable<Long> odd, Observable<Long> even, Scheduler scheduler) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // use Observable.mergeWith to interleave the two streams
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+    
     /**
      * Exercise 20 - flatMap vs. concatMap; ordering and concurrency
      * <p/>

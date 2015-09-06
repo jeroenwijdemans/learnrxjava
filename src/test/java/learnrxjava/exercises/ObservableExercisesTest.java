@@ -174,6 +174,17 @@ public class ObservableExercisesTest {
     }
 
     @Test
+    public void exercise19() {
+        TestScheduler scheduler = Schedulers.test();
+        TestSubscriber<Long> ts = new TestSubscriber<>();
+        Observable<Long> odd = Observable.interval(1, SECONDS, scheduler).filter(i -> i % 2 != 0);
+        Observable<Long> even = Observable.interval(1, SECONDS, scheduler).filter(i -> i % 2 == 0);
+        getImpl().exercise19(odd, even, scheduler).subscribe(ts);
+        scheduler.advanceTimeBy(10, SECONDS);
+        ts.assertReceivedOnNext(Arrays.asList(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L));
+    }
+    
+    @Test
     public void exercise20() {
         TestSubscriber<Map<Integer, Integer>> ts = new TestSubscriber<>();
         // as we can't rely on the ordering this time, we use different assertions for exercise03
