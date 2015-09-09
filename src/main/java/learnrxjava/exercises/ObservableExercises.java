@@ -326,6 +326,8 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    // The following exercises are meant to obtain some API knowledge
+
     /**
      * Exercise 11 - First come, first served
      * <p/>
@@ -353,7 +355,7 @@ public class ObservableExercises {
      * Observable emits that matches a specific rating
      * <p/>
      *
-     * @param movieList an observable of movies to work your magic on
+     * @param movieLists an observable of movies to work your magic on
      * @return the title of the latest movie that matches a rating
      */
     public Observable<String> exercise12(Observable<Movies> movieLists, double rating) {
@@ -389,7 +391,7 @@ public class ObservableExercises {
      * Return an observable that returns the titles of the movies on the second page
      * <p/>
      *
-     * @param movieList an observable of lists of movies to work your magic on
+     * @param movieLists an observable of lists of movies to work your magic on
      * @return the movies on the second page
      */
     public Observable<String> exercise14(Observable<Movies> movieLists, int pageLength) {
@@ -407,7 +409,7 @@ public class ObservableExercises {
      * Return an observable that only emits the best movies.
      * <p/>
      *
-     * @param movieList an observable of movies to work your magic on
+     * @param movieLists an observable of movies to work your magic on
      * @return all movies with a rating equal or higher than 4.5 and no more than 5
      */
     public Observable<String> exercise15(Observable<Movies> movieLists) {
@@ -418,7 +420,43 @@ public class ObservableExercises {
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
-    
+
+    /**
+     * Exercise 16 - Are there epic movies?
+     * <p/>
+     * Return an Observable that emits true if there are any epic interestingMoments in a movie
+     * <p/>
+     *
+     * @param movies an observable of movies to work your magic on
+     * @return An Observable that emits true if there is an epic movies
+     */
+    public Observable<Boolean> exercise16(Observable<Movie> movies) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Return true is there is an epic movie.
+        // Use Observable.exists();
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 17 - Are these movies suitable?
+     * <p/>
+     * Return true if all movies in the marathon suitable for lower than 18;
+     * <p/>
+     *
+     * @param marathonCandidates an observable of movies to work your magic on
+     * @return An Observable that emits true if the marathonCandidates are suitable
+     */
+    public Observable<Boolean> exercise17(Observable<Movie> marathonCandidates) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Return true if all movies are of minimal age lower than 18
+        // Use Observable.all();
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
     /**
      * Exercise 18 - Timing is everything
      * <p/>

@@ -1,16 +1,17 @@
 package learnrxjava.exercises;
 
+import learnrxjava.types.InterestingMoment;
 import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
 import org.junit.Test;
 import rx.Observable;
 import rx.Scheduler;
-import rx.observers.TestObserver;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -162,6 +163,34 @@ public class ObservableExercisesTest {
         ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList("MIB2", "Interstellar", "Fracture", "Gladiator", "Valhalla Rising"));
     }
+
+    @Test
+    public void exercise16() {
+        TestSubscriber<Boolean> ts = new TestSubscriber<>();
+        getImpl().exercise16(gimmeSomeMoreMovies().first()
+                .concatMap(movies -> movies.videos)).subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList(false, false, false, true));
+    }
+
+    @Test
+    public void exercise17() {
+        TestSubscriber<Boolean> ts = new TestSubscriber<>();
+        getImpl().exercise17(gimmeSomeMovies()
+                .first()
+                .concatMap(movies -> movies.videos))
+                .subscribe(ts);
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Collections.singletonList(false));
+
+        TestSubscriber<Boolean> ts2 = new TestSubscriber<>();
+        getImpl().exercise17(gimmeSomeMovies()
+                .last()
+                .concatMap(movies -> movies.videos))
+                .subscribe(ts2);
+        ts2.assertNoErrors();
+        ts2.assertReceivedOnNext(Collections.singletonList(true));
+    }
     
     @Test
     public void exercise18() {
@@ -226,13 +255,13 @@ public class ObservableExercisesTest {
                 new Movies(
                         "New Releases", // name
                         Arrays.asList( // videos
-                                new Movie(70111470, "Die Hard", 4.0),
-                                new Movie(654356453, "Bad Boys", 5.0))),
+                                new Movie(70111470, "Die Hard", 4.0, 18),
+                                new Movie(654356453, "Bad Boys", 5.0, 12))),
                 new Movies(
                         "Dramas",
                         Arrays.asList(
-                                new Movie(65432445, "The Chamber", 4.0),
-                                new Movie(675465, "Fracture", 5.0)))
+                                new Movie(65432445, "The Chamber", 4.0, 12),
+                                new Movie(675465, "Fracture", 5.0, 8)))
         );
     }
 
@@ -241,10 +270,35 @@ public class ObservableExercisesTest {
                 new Movies(
                         "New Releases",
                         Arrays.asList(
-                                new Movie(70111470, "Die Hard", 4.0),
-                                new Movie(70111472, "MIB2", 5.0),
-                                new Movie(70111473, "Interstellar", 5.0),
-                                new Movie(654356453, "Bad Boys", 4.0))),
+                                new Movie(70111470, "Die Hard", 4.0,
+                                        Arrays.asList(
+                                                new InterestingMoment("End", 45632456),
+                                                new InterestingMoment("Start", 234534),
+                                                new InterestingMoment("Middle", 3453434)
+                                        )
+                                ),
+                                new Movie(70111472, "MIB2", 5.0,
+                                        Arrays.asList(
+                                                new InterestingMoment("End", 753492),
+                                                new InterestingMoment("Start", 153263),
+                                                new InterestingMoment("Middle", 3453434)
+                                        )
+                                ),
+                                new Movie(70111473, "Interstellar", 5.0,
+                                        Arrays.asList(
+                                                new InterestingMoment("End", 423732456),
+                                                new InterestingMoment("Start", 1254223),
+                                                new InterestingMoment("Middle", 3146434)
+                                        )
+                                ),
+                                new Movie(654356453, "Bad Boys", 4.0,
+                                        Arrays.asList(
+                                                new InterestingMoment("End", 45632456),
+                                                new InterestingMoment("Start", 234534),
+                                                new InterestingMoment("epic", 234900),
+                                                new InterestingMoment("Middle", 3453434)
+                                        )
+                                ))),
                 new Movies(
                         "Dramas",
                         Arrays.asList(

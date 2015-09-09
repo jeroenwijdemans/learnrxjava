@@ -16,6 +16,7 @@ public class Movie {
     public Observable<Bookmark> bookmarks;
     public Observable<BoxArt> boxarts;
     public Observable<InterestingMoment> interestingMoments;
+    public int minimalAge;
     
     private List<Bookmark> _bookmarks;
     private List<BoxArt> _boxarts;
@@ -25,6 +26,19 @@ public class Movie {
         this.id = id;
         this.title = title;
         this.rating = rating;
+    }
+
+    public Movie(int id, String title, double rating, int minimalAge) {
+        this.id = id;
+        this.title = title;
+        this.rating = rating;
+        this.minimalAge = minimalAge;
+    }
+
+    public Movie(int id, String title, double rating, List<InterestingMoment> interestingMoments) {
+        this(id, title, rating);
+        this.interestingMoments = Observable.from(interestingMoments);
+        this._interestingMoments = interestingMoments;
     }
 
     public Movie(int id, String title, double rating, List<Bookmark> bookmarks, List<BoxArt> boxarts) {
@@ -40,7 +54,7 @@ public class Movie {
         this.bookmarks = Observable.from(bookmarks);
         this.boxarts = Observable.from(boxarts);
         this.interestingMoments = Observable.from(interestingMoments);
-        
+
         this._bookmarks = bookmarks;
         this._boxarts = boxarts;
         this._interestingMoments = interestingMoments;

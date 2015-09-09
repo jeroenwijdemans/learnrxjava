@@ -2,6 +2,7 @@ package learnrxjava.solutions;
 
 import learnrxjava.exercises.ObservableExercises;
 import learnrxjava.types.JSON;
+import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
 import rx.Observable;
 
@@ -141,7 +142,16 @@ public class ObservableSolutions extends ObservableExercises {
         return movieLists.concatMap(movieList -> movieList.videos).filter(video -> video.rating >= 4.5).limit(5).map(video -> video.title);
     }
 
-    
+    @Override
+    public Observable<Boolean> exercise16(Observable<Movie> movies) {
+        return movies.concatMap(movie -> movie.interestingMoments.exists(interestingMoment -> "epic".equals(interestingMoment.type)));
+    }
+
+    @Override
+    public Observable<Boolean> exercise17(Observable<Movie> marathonCandidates) {
+        return marathonCandidates.all(movies -> movies.minimalAge < 18);
+    }
+
     @Override
     public Observable<String> exercise18() {
         Observable<String> data = Observable.just("one", "two", "three", "four", "five");
