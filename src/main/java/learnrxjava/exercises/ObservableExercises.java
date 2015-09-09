@@ -1,16 +1,13 @@
 package learnrxjava.exercises;
 
 import learnrxjava.types.JSON;
+import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
-import rx.schedulers.Schedulers;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import learnrxjava.types.Movie;
 
 /**
  * Now you have mastered the ComposableList, it is time to move on. The exercises
@@ -124,8 +121,10 @@ public class ObservableExercises {
      * event, i.e. the reception of a new value.
      * <p/>
      * We specify how to react to such an event by supplying the Observable with
-     * a subscription. On this subscription we give the Observable a handle (callback)
-     * to use when it has another value.
+     * a subscription, by invoking Observable.subscribe(). On this subscription we
+     * give the Observable a handle ('callback') to use when it has another value,
+     * by passing in an instance of Subscriber (encapsulated in OnNext&lt;Integer&gt; here, for your
+     * convenience).
      * <p/>
      * In the next exercise we will try to get a first look and feel for how this works.
      * The nums Observable will "push" (or "emit") values and you have add these values
@@ -251,7 +250,8 @@ public class ObservableExercises {
     public Observable<String> exercise07(String name) {
         return Observable.create(subscriber -> {
             // ------------ INSERT CODE HERE! ----------------------------
-            // Signal 2 events to the subscriber that has been handed to us by Observable.create()
+            // Signal 2 events to the subscriber that has been handed to us by Observable.create().
+            // The first event must emit the name, the second must signal 'end-of-names'.
             // ------------ INSERT CODE HERE! ----------------------------
             // TODO add implementation
             throw new UnsupportedOperationException("Not Implemented");
@@ -572,7 +572,34 @@ public class ObservableExercises {
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
-    
+
+    /**
+     * Exercise 23 - buffer that burst, or the bubble will burst!
+     *
+     * Picture this: an external service pushes ids of suggested video's to watch.
+     * Being an external service on a network, its traffic can be 'bursty': the one moment a lot of data,
+     * the other hardly anything. The bursts might swamp us.
+     *
+     * The buffer operator partially insulates us from these bursts, by buffering them up and emitting the
+     * buffers as a List of items. On what conditions these Lists are emitted is entirely configurable,
+     * by way of 12 different overloads of Observable.buffer()!
+     *
+     * The objective: buffer the incoming burstySuggestedVideoIds in intervals of 500ms.
+     *
+     * Your task: look up the buffer operator at http://reactivex.io/documentation/operators/buffer.html.
+     * Click through to the RxJava Language-Specific Information, and find the required variant.
+
+     * @param burstySuggestedVideoIds
+     * @return buffered Lists of suggestedVideoIds at 500ms intervals
+     */
+    public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use Observable.buffer()
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
     /*
      * **************
      * below are helper methods

@@ -1,20 +1,11 @@
 package learnrxjava.exercises;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import learnrxjava.types.*;
+
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
-import learnrxjava.types.Bookmark;
-import learnrxjava.types.BoxArt;
-import learnrxjava.types.ComposableList;
-import learnrxjava.types.InterestingMoment;
-import learnrxjava.types.JSON;
-import learnrxjava.types.MovieList;
-import learnrxjava.types.Video;
 
 /**
  * Mastering concurrency is challenging, But we can make it much easier by simply choosing the right 
@@ -343,7 +334,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
 
     Let's implement the concatMap() method for List. Like map(), the concatMap() 
     function applies a projection function to each item in a list. However the 
-    projection function passed to concatMap tranforms each individual value into 
+    projection function passed to concatMap transforms each individual value into
     a _list of values_, creating a tree structure. Before returning the tree, the 
     concatMap method flattens the tree by concatenating each inner list together
     in order. Here's an example of concatMap in action:
@@ -706,7 +697,7 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
             reduce(
             // Use an empty map as the initial value instead of the first item in
             // the list.
-            new HashMap<Integer, String> (),
+                    Collections.unmodifiableMap(new HashMap <Integer, String> ()),
             (accumulatedMap, video) -> {
                 // ************ INSERT CODE HERE ************
                 // Remember that you the functions passed to map, filter, concatMap, reduce, and zip can only 

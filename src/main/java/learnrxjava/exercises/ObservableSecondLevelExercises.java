@@ -40,7 +40,6 @@ import java.util.function.Predicate;
  * - materialize / dematerialize
  * - error
  * - retry
- * - skip
  * - distinct
  * - toSortedList
  * - range

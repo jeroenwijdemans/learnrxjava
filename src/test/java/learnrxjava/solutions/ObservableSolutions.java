@@ -5,10 +5,13 @@ import learnrxjava.types.JSON;
 import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
 import rx.Observable;
-
-import java.util.concurrent.TimeUnit;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import rx.Scheduler;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class ObservableSolutions extends ObservableExercises {
     
@@ -182,6 +185,10 @@ public class ObservableSolutions extends ObservableExercises {
     @Override
     public Observable<String> exercise22(Observable<Movies> movieLists, Scheduler scheduler) {
         return movieLists.sample(4, SECONDS, scheduler).flatMap(movieList -> movieList.videos).map(video -> video.title);
+    }
+
+    public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds) {
+        return burstySuggestedVideoIds.buffer(500, MILLISECONDS);
     }
 
     /*

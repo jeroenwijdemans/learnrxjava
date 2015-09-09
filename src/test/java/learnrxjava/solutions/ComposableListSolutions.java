@@ -1,20 +1,11 @@
 package learnrxjava.solutions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import learnrxjava.types.*;
+
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
-import learnrxjava.types.Bookmark;
-import learnrxjava.types.BoxArt;
-import learnrxjava.types.ComposableList;
-import learnrxjava.types.InterestingMoment;
-import learnrxjava.types.JSON;
-import learnrxjava.types.MovieList;
-import learnrxjava.types.Video;
 
 public class ComposableListSolutions<T> extends ArrayList<T> implements ComposableList<T> {
     private static final long serialVersionUID = 1L;
@@ -363,11 +354,12 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
 
         return videos.
             reduce(
-            new HashMap<Integer, String> (),
-            (accumulatedMap, video) -> {
-                accumulatedMap.put(video.id, video.title);
-                return accumulatedMap;
-            });
+                Collections.unmodifiableMap(new HashMap<Integer, String>()),
+                (accumulatedMap, video) -> {
+                    Map<Integer, String> newMap = new HashMap<Integer, String>(accumulatedMap);
+                    newMap.put(video.id, video.title);
+                    return Collections.unmodifiableMap(newMap);
+                });
     }
 
     public static ComposableList<JSON> exercise19() {

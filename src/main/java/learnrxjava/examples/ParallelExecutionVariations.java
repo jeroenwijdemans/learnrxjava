@@ -51,15 +51,16 @@ public class ParallelExecutionVariations {
     }
 
     private static void flatMapBufferedExampleAsync() {
-        Observable.range(0, 5000).buffer(500).flatMap(i -> {
-            return Observable.from(i).subscribeOn(Schedulers.computation()).map(item -> {
+        Observable.range(0, 5000).buffer(500).flatMap(itemList -> {
+            return Observable.from(itemList).subscribeOn(Schedulers.computation()).map(item -> {
                 // simulate computational work
-                    try {
-                        Thread.sleep(1);
-                    } catch (Exception e) {
-                    }
-                    return item + " processed " + Thread.currentThread();
-                });
+                try {
+                    Thread.sleep(1);
+                } catch (Exception e) {
+                    // ignore
+                }
+                return "item " + item + " processed on " + Thread.currentThread();
+            });
         }).toBlocking().forEach(System.out::println);
     }
 

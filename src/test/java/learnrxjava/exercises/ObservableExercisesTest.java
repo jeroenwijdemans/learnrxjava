@@ -14,11 +14,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static rx.Observable.*;
 
 public class ObservableExercisesTest {
@@ -240,11 +240,62 @@ public class ObservableExercisesTest {
         ts.assertTerminalEvent();
     }
 
+    @Test
+    public void exercise23() {
+        final int NUMBER_OF_BURSTY_ITEMS = 10000;
+
+        Observable<Integer> burstyParallelNumbers =
+            Observable
+                .range(0, NUMBER_OF_BURSTY_ITEMS)
+                .flatMap(item ->
+                                Observable
+                                        .just(item)
+                                        .subscribeOn(Schedulers.computation())
+                                        .doOnNext(i -> /* simulate computational work */ sleep(1))
+                );
+
+        AtomicInteger totalBuffers = new AtomicInteger();
+        AtomicInteger totalNumbers = new AtomicInteger();
+        AtomicInteger minBufferSize = new AtomicInteger(Integer.MAX_VALUE);
+        AtomicInteger maxBufferSize = new AtomicInteger(Integer.MIN_VALUE);
+        getImpl().exercise23(burstyParallelNumbers).doOnNext(numbersBuffer -> {
+            totalBuffers.incrementAndGet();
+            totalNumbers.addAndGet(numbersBuffer.size());
+            boolean casSuccess;
+            do {
+                int currentMin = minBufferSize.get();
+                int newMin = Math.min(currentMin, numbersBuffer.size());
+                casSuccess = minBufferSize.compareAndSet(currentMin, newMin);
+            } while (!casSuccess);
+            do {
+                int currentMax = maxBufferSize.get();
+                int newMax = Math.max(currentMax, numbersBuffer.size());
+                casSuccess = maxBufferSize.compareAndSet(currentMax, newMax);
+            } while (!casSuccess);
+        }).toBlocking().last();
+
+        assertEquals(NUMBER_OF_BURSTY_ITEMS, totalNumbers.get());
+        // 3000ms is the approx. runtime on a 4-core CPU for 10000 items (so test might fail on 8-core or higher)
+        assertTrue(totalBuffers.get() >= 3000 / 500 || totalBuffers.get() == 1); // sometimes, some delay seems to cause all 10000 items to be buffered in one buffer?!
+
+        System.out.println("min: " +  minBufferSize.get() + ", max: " + maxBufferSize.get());
+        assertNotEquals(minBufferSize.get(), 500);
+        assertNotEquals(maxBufferSize.get(), 500);
+    }
+
     /*
      * **************
      * below are helper methods
      * **************
      */
+    private void sleep(int i) {
+        try {
+            Thread.sleep(1);
+        } catch (Exception e) {
+            // ignore
+        }
+    }
+
     private Observable<Movies> gimmeSomeMoviesEvery(long value, TimeUnit timeUnit, Scheduler scheduler) {
         Observable<Long> interval = Observable.interval(value, timeUnit, scheduler);
         return Observable.zip(gimmeSomeMovies(), interval, (movie, t) -> movie);
