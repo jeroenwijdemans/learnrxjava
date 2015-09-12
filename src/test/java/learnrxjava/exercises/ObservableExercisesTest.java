@@ -17,9 +17,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Arrays.asList;
+import java.util.HashMap;
+import java.util.List;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import learnrxjava.types.Bookmark;
+import learnrxjava.types.BoxArt;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static rx.Observable.*;
+import rx.observables.GroupedObservable;
 
 public class ObservableExercisesTest {
 
@@ -283,6 +289,30 @@ public class ObservableExercisesTest {
         assertNotEquals(maxBufferSize.get(), 500);
     }
 
+    @Test
+    public void exercise29() {
+        TestSubscriber<GroupedObservable<String, Double>> ts = new TestSubscriber<>();
+        getImpl().exercise29(gimmeSomeMoreMovies()).subscribe(ts);
+        ts.assertNoErrors();
+        List<GroupedObservable<String, Double>> ratingsPerActor = ts.getOnNextEvents();
+        assertThat(ratingsPerActor.size(), is(7));        
+        
+        Map<String, List<Double>> expectedRatingsPerActor = new HashMap<>();
+        expectedRatingsPerActor.put("Bruce Willis", Arrays.asList(4.0));
+        expectedRatingsPerActor.put("Will Smith", Arrays.asList(5.0, 4.0));
+        expectedRatingsPerActor.put("Tommy Lee Jones", Arrays.asList(5.0));
+        expectedRatingsPerActor.put("Matt Damon", Arrays.asList(5.0));
+        expectedRatingsPerActor.put("Anne Hathaway", Arrays.asList(5.0));
+        expectedRatingsPerActor.put("Matthew McConaughey", Arrays.asList(5.0));
+        expectedRatingsPerActor.put("Martin Lawrence", Arrays.asList(4.0));
+        
+        ratingsPerActor.stream().forEach(actorRatings -> {            
+            TestSubscriber<Double> ts1 = new TestSubscriber<>();
+            actorRatings.subscribe(ts1);
+            ts1.assertReceivedOnNext(expectedRatingsPerActor.get(actorRatings.getKey()));
+        });
+    }
+    
     /*
      * **************
      * below are helper methods
@@ -323,32 +353,89 @@ public class ObservableExercisesTest {
                         Arrays.asList(
                                 new Movie(70111470, "Die Hard", 4.0,
                                         Arrays.asList(
+                                                new Bookmark(470, 23432),
+                                                new Bookmark(453, 234324),
+                                                new Bookmark(445, 987834)
+                                        ),
+                                        Arrays.asList(
+                                                new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/DieHard200.jpg"),
+                                                new BoxArt(150, 200, "http://cdn-0.nflximg.com/images/2891/DieHard150.jpg"),
+                                                new BoxArt(300, 200, "http://cdn-0.nflximg.com/images/2891/DieHard300.jpg")
+                                        ),
+                                        Arrays.asList(
                                                 new InterestingMoment("End", 45632456),
                                                 new InterestingMoment("Start", 234534),
                                                 new InterestingMoment("Middle", 3453434)
+                                        ),
+                                        Arrays.asList(
+                                                "Bruce Willis"
                                         )
                                 ),
                                 new Movie(70111472, "MIB2", 5.0,
                                         Arrays.asList(
+                                                new Bookmark(470, 23432),
+                                                new Bookmark(453, 234324),
+                                                new Bookmark(445, 987834)
+                                        ),
+                                        Arrays.asList(
+                                                new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/MIB2200.jpg"),
+                                                new BoxArt(150, 200, "http://cdn-0.nflximg.com/images/2891/MIB2150.jpg"),
+                                                new BoxArt(400, 200, "http://cdn-0.nflximg.com/images/2891/MIB2300.jpg")
+                                        ),
+                                        Arrays.asList(
                                                 new InterestingMoment("End", 753492),
                                                 new InterestingMoment("Start", 153263),
                                                 new InterestingMoment("Middle", 3453434)
+                                        ),
+                                        Arrays.asList(
+                                                "Will Smith",
+                                                "Tommy Lee Jones"
                                         )
                                 ),
                                 new Movie(70111473, "Interstellar", 5.0,
                                         Arrays.asList(
+                                                new Bookmark(470, 23432),
+                                                new Bookmark(453, 234324),
+                                                new Bookmark(445, 987834)
+                                        ),
+                                        Arrays.asList(
+                                                new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/Interstellar200.jpg"),
+                                                new BoxArt(150, 200, "http://cdn-0.nflximg.com/images/2891/Interstellar150.jpg"),
+                                                new BoxArt(300, 200, "http://cdn-0.nflximg.com/images/2891/Interstellar300.jpg")
+                                        ),
+                                        Arrays.asList(
                                                 new InterestingMoment("End", 423732456),
                                                 new InterestingMoment("Start", 1254223),
                                                 new InterestingMoment("Middle", 3146434)
+                                        ),
+                                        Arrays.asList(
+                                                "Matt Damon",
+                                                "Anne Hathaway",
+                                                "Matthew McConaughey"
                                         )
                                 ),
                                 new Movie(654356453, "Bad Boys", 4.0,
+                                        Arrays.asList(
+                                                new Bookmark(470, 23432),
+                                                new Bookmark(453, 234324),
+                                                new Bookmark(445, 987834)
+                                        ),
+                                        Arrays.asList(
+                                                new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/BadBoys200.jpg"),
+                                                new BoxArt(150, 200, "http://cdn-0.nflximg.com/images/2891/BadBoys150.jpg"),
+                                                new BoxArt(300, 200, "http://cdn-0.nflximg.com/images/2891/BadBoys300.jpg")
+                                        ),
                                         Arrays.asList(
                                                 new InterestingMoment("End", 45632456),
                                                 new InterestingMoment("Start", 234534),
                                                 new InterestingMoment("epic", 234900),
                                                 new InterestingMoment("Middle", 3453434)
+                                        ),
+                                        Arrays.asList(
+                                                "Will Smith",
+                                                "Martin Lawrence"
                                         )
+                                        
                                 ))),
                 new Movies(
                         "Dramas",

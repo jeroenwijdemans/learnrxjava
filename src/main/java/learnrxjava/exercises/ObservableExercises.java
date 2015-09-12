@@ -8,6 +8,7 @@ import rx.Scheduler;
 import rx.Subscriber;
 
 import java.util.List;
+import rx.observables.GroupedObservable;
 
 /**
  * Now you have mastered the ComposableList, it is time to move on. The exercises
@@ -600,6 +601,24 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    /**
+     * Exercise 29 - Group By
+     * 
+     * This exercise is more advanced. Don't worry if it takes some time to wrap your head around it.
+     * 
+     * @param movieLists an observable of movies to work your magic on
+     * @return the ratings of all the movies made per actor
+     */
+    public Observable<GroupedObservable<String, Double>> exercise29(Observable<Movies> movieLists) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use Observable.groupBy()
+        // Hint1: You can find the actors in the topCast property of a Movie
+        // Hint2: You can use AbstractMap.SimpleEntry<K, V> to store the relation between an actor and its movies
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+    
     /*
      * **************
      * below are helper methods

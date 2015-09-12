@@ -11,7 +11,12 @@
     <dependency>
         <groupId>io.reactivex</groupId>
         <artifactId>rxjava</artifactId>
-        <version>1.0.0-rc.10</version>
+        <version>1.0.0</version>
+    </dependency>
+    <dependency>
+        <groupId>io.reactivex</groupId>
+        <artifactId>rxjava-math</artifactId>
+        <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

@@ -1,5 +1,6 @@
 package learnrxjava.solutions;
 
+import java.util.AbstractMap;
 import learnrxjava.exercises.ObservableExercises;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movie;
@@ -12,6 +13,9 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import rx.observables.GroupedObservable;
+import rx.observables.MathObservable;
+import static rx.observables.MathObservable.averageDouble;
 
 public class ObservableSolutions extends ObservableExercises {
     
@@ -187,8 +191,19 @@ public class ObservableSolutions extends ObservableExercises {
         return movieLists.sample(4, SECONDS, scheduler).flatMap(movieList -> movieList.videos).map(video -> video.title);
     }
 
+    @Override
     public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds) {
         return burstySuggestedVideoIds.buffer(500, MILLISECONDS);
+    }
+
+    @Override
+    public Observable<GroupedObservable<String, Double>> exercise29(Observable<Movies> movieLists) {
+        return movieLists.flatMap(movieList -> movieList.videos)
+                .flatMap(movie -> 
+                        movie.topCast.map(actor -> 
+                            new AbstractMap.SimpleEntry<String, Double>(actor, movie.rating)
+                        )
+                    ).groupBy(entry -> entry.getKey(), entry -> entry.getValue());
     }
 
     /*
