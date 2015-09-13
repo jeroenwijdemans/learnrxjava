@@ -1,14 +1,12 @@
 package learnrxjava.exercises;
 
 import learnrxjava.types.JSON;
-import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import rx.observables.GroupedObservable;
 
 /**
@@ -591,7 +589,7 @@ public class ObservableExercises {
      * Your task: look up the buffer operator at http://reactivex.io/documentation/operators/buffer.html.
      * Click through to the RxJava Language-Specific Information, and find the required variant.
 
-     * @param burstySuggestedVideoIds
+     * @param burstySuggestedVideoIds an Observable that emits a lot of video id's
      * @return buffered Lists of suggestedVideoIds at 500ms intervals
      */
     public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds) {
@@ -610,7 +608,7 @@ public class ObservableExercises {
      *
      * Have a look at http://reactivex.io/documentation/operators/window.html to see the difference between buffer and window.
      *
-     * @param movies an Observable of movies to work your your magic on
+     * @param burstySuggestedVideoIds an Observable that emits a lot of video id's
      * @return video id's incremented with 5, where foreach second we will create a window of 200 milliseconds
      */
     public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
@@ -619,6 +617,26 @@ public class ObservableExercises {
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 26 - Throttling!
+     *
+     * By now you should be familiar with the Observable.sample(). (Exercise 22)
+     * With the throttling methods of Observable you have more options in how to take a _sample_ of a stream.
+     *
+     * Let's sample this stream of movies every 200 milliseconds and figure what the average rating is.
+     * MathObservable will be your friend :)
+     *
+     * @param movieLists an Observable of movies to work your your magic on
+     * @return The average rating of the _throttled_ movies
+     */
+    public Observable<Double> exercise26(Observable<Movies> movieLists) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use Observable.throttleFirst()
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**

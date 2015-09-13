@@ -164,7 +164,7 @@ public class ObservableSolutions extends ObservableExercises {
         Observable<String> data = Observable.just("one", "two", "three", "four", "five");
         Observable<Long> interval = Observable.interval(1, TimeUnit.SECONDS);
         return Observable.zip(data, interval, (d, t) -> {
-            return d + " " + (t+1);
+            return d + " " + (t + 1);
         });
     }
 
@@ -200,6 +200,14 @@ public class ObservableSolutions extends ObservableExercises {
     public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
         return burstySuggestedVideoIds.window(200, 1000, TimeUnit.MILLISECONDS)
                 .map(integerObservable -> integerObservable.map(videoId -> videoId + 5));
+    }
+
+    @Override
+    public Observable<Double> exercise26(Observable<Movies> movieLists) {
+        return MathObservable.averageDouble(
+                movieLists.concatMap(movies -> movies.videos)
+                        .throttleLast(200, TimeUnit.MILLISECONDS)
+                        .map(movie1 -> movie1.rating));
     }
 
     @Override

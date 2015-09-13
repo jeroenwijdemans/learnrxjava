@@ -51,7 +51,7 @@ public class ObservableExercisesTest {
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
         assertEquals(5, ts.getOnNextEvents().size());
-        assertEquals(ts.getOnNextEvents(), asList(2,4,6,8,10));
+        assertEquals(ts.getOnNextEvents(), asList(2, 4, 6, 8, 10));
     }
 
     @Test
@@ -177,7 +177,7 @@ public class ObservableExercisesTest {
         getImpl().exercise16(gimmeSomeMoreMovies()).subscribe(ts);
         ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList(false, false, false, true
-        , false, false, false, false, false, false, false, false, false));
+                , false, false, false, false, false, false, false, false, false));
     }
 
     @Test
@@ -281,15 +281,21 @@ public class ObservableExercisesTest {
 
     @Test
     public void exercise24() {
-        TestSubscriber<Observable<Integer>> ts2 = new TestSubscriber<>();
+        TestSubscriber<Observable<Integer>> ts = new TestSubscriber<>();
         Observable<Integer> objectObservable = Observable.range(0, 2500).doOnNext(integer -> sleep(1));
 
-        getImpl().exercise24(objectObservable).subscribe(ts2);
+        getImpl().exercise24(objectObservable).subscribe(ts);
 
-        ts2.assertNoErrors();
-        List<Observable<Integer>> onNextEvents = ts2.getOnNextEvents();
+        ts.assertNoErrors();
+        List<Observable<Integer>> onNextEvents = ts.getOnNextEvents();
         assertEquals(Integer.valueOf(15), onNextEvents.get(0).skip(10).take(1).toBlocking().first());
         assertTrue(onNextEvents.size() > 3);
+    }
+
+    @Test
+    public void exercise26() {
+        TestSubscriber<Double> testSubscriber = new TestSubscriber<>();
+        getImpl().exercise26(gimmeSomeMoreMovies()).subscribe(testSubscriber);
     }
 
     @Test
@@ -309,7 +315,7 @@ public class ObservableExercisesTest {
         expectedRatingsPerActor.put("Matthew McConaughey", Arrays.asList(5.0));
         expectedRatingsPerActor.put("Martin Lawrence", Arrays.asList(4.0));
         
-        ratingsPerActor.stream().forEach(actorRatings -> {            
+        ratingsPerActor.stream().forEach(actorRatings -> {
             TestSubscriber<Double> ts1 = new TestSubscriber<>();
             actorRatings.subscribe(ts1);
             ts1.assertReceivedOnNext(expectedRatingsPerActor.get(actorRatings.getKey()));
@@ -337,8 +343,8 @@ public class ObservableExercisesTest {
     private Observable<Movies> gimmeSomeMovies() {
         return just(
                 new Movies(
-                        "New Releases", // name
-                        Arrays.asList( // videos
+                        "New Releases",
+                        Arrays.asList(
                                 new Movie(70111470, "Die Hard", 4.0, 18),
                                 new Movie(654356453, "Bad Boys", 5.0, 12))),
                 new Movies(
