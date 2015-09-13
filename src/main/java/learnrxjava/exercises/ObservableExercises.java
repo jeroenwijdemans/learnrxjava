@@ -602,30 +602,20 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
-    public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
-        // ------------ INSERT CODE HERE! ----------------------------
-        // Use Observable.window()
-        // ------------ INSERT CODE HERE! ----------------------------
-        // TODO add implementation
-        //return Observable.error(new RuntimeException("Not Implemented"));
-        return burstySuggestedVideoIds.window(200, 500, TimeUnit.MILLISECONDS);
-    }
-
     /**
      * Exercise 24 - Windows
      *
-     * In this situation we have a service that returns a lot of movies.
-     * Again we would like to have a buffer, but don't want to return a list because that limits our options.
+     * This time we have the same service but instead of buffering the video id's to a list we want to buffer the video id's to an Observable.
+     * In order to do this we can make use of the Observable.window() method.
      *
-     * Have a look at http://reactivex.io/documentation/operators/window.html to understand the difference between window and buffer
-     * You will find that de buffer and window methods are nearly identical.
+     * Have a look at http://reactivex.io/documentation/operators/window.html to see the difference between buffer and window.
      *
      * @param movies an Observable of movies to work your your magic on
-     * @return videos where we take 2 videos for each 4
+     * @return video id's incremented with 5, where foreach second we will create a window of 200 milliseconds
      */
-    public Observable<Observable<Movie>> exercise24(Observable<Movies> movies) {
+    public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
         // ------------ INSERT CODE HERE! ----------------------------
-        // Use and find the correct Observable.window() method.
+        // Use Observable.window() and increment each id with 5
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));

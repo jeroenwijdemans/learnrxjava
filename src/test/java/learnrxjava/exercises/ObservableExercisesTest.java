@@ -281,29 +281,16 @@ public class ObservableExercisesTest {
 
     @Test
     public void exercise24() {
-        TestSubscriber<Integer> ts = new TestSubscriber<>();
-        final Observable<Integer> burstyNumbers = Observable.range(0, 2500).subscribeOn(Schedulers.computation())
-                .doOnNext(i -> /* simulate computational work */ sleep(1));
+        TestSubscriber<Observable<Integer>> ts2 = new TestSubscriber<>();
+        Observable<Integer> objectObservable = Observable.range(0, 2500).doOnNext(integer -> sleep(1));
 
-        Observable.merge(getImpl().exercise24(burstyNumbers)).count()./*reduce((i,j) -> i+j).*/subscribe(ts);
-        ts.awaitTerminalEvent();
+        getImpl().exercise24(objectObservable).subscribe(ts2);
 
-        System.out.println("size: " + ts.getOnNextEvents().size());
-        assertTrue(ts.getOnNextEvents().size() < 2500);
+        ts2.assertNoErrors();
+        List<Observable<Integer>> onNextEvents = ts2.getOnNextEvents();
+        assertEquals(Integer.valueOf(15), onNextEvents.get(0).skip(10).take(1).toBlocking().first());
+        assertTrue(onNextEvents.size() > 3);
     }
-
-    @Test
-    public void exercise24() {
-        TestSubscriber<Observable<Movie>> testSubscriber = new TestSubscriber<>();
-        getImpl().exercise24(gimmeSomeMoreMovies()).subscribe(testSubscriber);
-        testSubscriber.assertNoErrors();
-        List<Observable<Movie>> onNextEvents = testSubscriber.getOnNextEvents();
-        assertEquals(Integer.valueOf(2), onNextEvents.get(0).count().toBlocking().first());
-        BlockingObservable<Movie> actual = onNextEvents.get(3).toBlocking();
-        assertEquals("Hitman", actual.last().title);
-    }
-
-
 
     @Test
     public void exercise29() {

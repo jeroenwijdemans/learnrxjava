@@ -197,8 +197,9 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     @Override
-    public Observable<Observable<Movie>> exercise24(Observable<Movies> movies) {
-        return movies.concatMap(movies2 -> movies2.videos).window(2, 3);
+    public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
+        return burstySuggestedVideoIds.window(200, 1000, TimeUnit.MILLISECONDS)
+                .map(integerObservable -> integerObservable.map(videoId -> videoId + 5));
     }
 
     @Override
