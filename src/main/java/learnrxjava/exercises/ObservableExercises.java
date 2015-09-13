@@ -602,6 +602,26 @@ public class ObservableExercises {
     }
 
     /**
+     * Exercise 24 - Windows
+     *
+     * In this situation we have a service that returns a lot of movies.
+     * Again we would like to have a buffer, but don't want to return a list because that limits our options.
+     *
+     * Have a look at http://reactivex.io/documentation/operators/window.html to understand the difference between window and buffer
+     * You will find that de buffer and window methods are nearly identical.
+     *
+     * @param movies an Observable of movies to work your your magic on
+     * @return videos where we take 2 videos for each 4
+     */
+    public Observable<Observable<Movie>> exercise24(Observable<Movies> movies) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use and find the correct Observable.window() method.
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
      * Exercise 29 - Group By
      * 
      * This exercise is more advanced. Don't worry if it takes some time to wrap your head around it.

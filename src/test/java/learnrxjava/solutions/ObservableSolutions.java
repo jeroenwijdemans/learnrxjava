@@ -197,6 +197,11 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     @Override
+    public Observable<Observable<Movie>> exercise24(Observable<Movies> movies) {
+        return movies.concatMap(movies2 -> movies2.videos).window(2, 3);
+    }
+
+    @Override
     public Observable<GroupedObservable<String, Double>> exercise29(Observable<Movies> movieLists) {
         return movieLists.flatMap(movieList -> movieList.videos)
                 .flatMap(movie -> 

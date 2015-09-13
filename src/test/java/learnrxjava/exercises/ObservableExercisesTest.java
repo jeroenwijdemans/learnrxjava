@@ -6,6 +6,7 @@ import learnrxjava.types.Movies;
 import org.junit.Test;
 import rx.Observable;
 import rx.Scheduler;
+import rx.observables.BlockingObservable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
@@ -278,10 +279,23 @@ public class ObservableExercisesTest {
         // 3000ms is the approx. runtime on a 4-core CPU for 10000 items (so test might fail on 8-core or higher)
         assertTrue(totalBuffers.get() >= 3000 / 500 || totalBuffers.get() == 1); // sometimes, some delay seems to cause all 10000 items to be buffered in one buffer?!
 
-        System.out.println("min: " +  minBufferSize.get() + ", max: " + maxBufferSize.get());
-        assertNotEquals(minBufferSize.get(), 500);
-        assertNotEquals(maxBufferSize.get(), 500);
+        System.out.println("min: " + minBufferSize.get() + ", max: " + maxBufferSize.get());
+        assertNotEquals(500, minBufferSize.get());
+        assertNotEquals(500, maxBufferSize.get());
     }
+
+    @Test
+    public void exercise24() {
+        TestSubscriber<Observable<Movie>> testSubscriber = new TestSubscriber<>();
+        getImpl().exercise24(gimmeSomeMoreMovies()).subscribe(testSubscriber);
+        testSubscriber.assertNoErrors();
+        List<Observable<Movie>> onNextEvents = testSubscriber.getOnNextEvents();
+        assertEquals(Integer.valueOf(2), onNextEvents.get(0).count().toBlocking().first());
+        BlockingObservable<Movie> actual = onNextEvents.get(3).toBlocking();
+        assertEquals("Hitman", actual.last().title);
+    }
+
+
 
     @Test
     public void exercise29() {
