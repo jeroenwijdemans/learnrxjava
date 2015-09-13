@@ -173,27 +173,21 @@ public class ObservableExercisesTest {
     @Test
     public void exercise16() {
         TestSubscriber<Boolean> ts = new TestSubscriber<>();
-        getImpl().exercise16(gimmeSomeMoreMovies().first()
-                .concatMap(movies -> movies.videos)).subscribe(ts);
+        getImpl().exercise16(gimmeSomeMoreMovies()).subscribe(ts);
         ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList(false, false, false, true));
+        ts.assertReceivedOnNext(Arrays.asList(false, false, false, true
+        , false, false, false, false, false, false, false, false, false));
     }
 
     @Test
     public void exercise17() {
         TestSubscriber<Boolean> ts = new TestSubscriber<>();
-        getImpl().exercise17(gimmeSomeMovies()
-                .first()
-                .concatMap(movies -> movies.videos))
-                .subscribe(ts);
+        getImpl().exercise17(gimmeSomeMovies().first()).subscribe(ts);
         ts.assertNoErrors();
         ts.assertReceivedOnNext(Collections.singletonList(false));
 
         TestSubscriber<Boolean> ts2 = new TestSubscriber<>();
-        getImpl().exercise17(gimmeSomeMovies()
-                .last()
-                .concatMap(movies -> movies.videos))
-                .subscribe(ts2);
+        getImpl().exercise17(gimmeSomeMovies().last()).subscribe(ts2);
         ts2.assertNoErrors();
         ts2.assertReceivedOnNext(Collections.singletonList(true));
     }

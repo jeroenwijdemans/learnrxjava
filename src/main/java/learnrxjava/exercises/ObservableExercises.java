@@ -429,9 +429,9 @@ public class ObservableExercises {
      * <p/>
      *
      * @param movies an observable of movies to work your magic on
-     * @return An Observable that emits true if there is an epic movies
+     * @return An Observable that emits true if a movie has an epic interestingMoment
      */
-    public Observable<Boolean> exercise16(Observable<Movie> movies) {
+    public Observable<Boolean> exercise16(Observable<Movies> movies) {
         // ------------ INSERT CODE HERE! ----------------------------
         // Return true is there is an epic movie.
         // Use Observable.exists();
@@ -443,15 +443,15 @@ public class ObservableExercises {
     /**
      * Exercise 17 - Are these movies suitable?
      * <p/>
-     * Return true if all movies in the marathon suitable for lower than 18;
+     * Return true if all movies in the marathonCandidates are suitable for everyone;
      * <p/>
      *
      * @param marathonCandidates an observable of movies to work your magic on
      * @return An Observable that emits true if the marathonCandidates are suitable
      */
-    public Observable<Boolean> exercise17(Observable<Movie> marathonCandidates) {
+    public Observable<Boolean> exercise17(Observable<Movies> marathonCandidates) {
         // ------------ INSERT CODE HERE! ----------------------------
-        // Return true if all movies are of minimal age lower than 18
+        // Return true if all movies have a minimalAge lower than 18
         // Use Observable.all();
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation

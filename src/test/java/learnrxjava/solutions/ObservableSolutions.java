@@ -150,13 +150,13 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     @Override
-    public Observable<Boolean> exercise16(Observable<Movie> movies) {
-        return movies.concatMap(movie -> movie.interestingMoments.exists(interestingMoment -> "epic".equals(interestingMoment.type)));
+    public Observable<Boolean> exercise16(Observable<Movies> movies) {
+        return movies.concatMap(movies1 -> movies1.videos).concatMap(movie -> movie.interestingMoments.exists(interestingMoment -> "epic".equals(interestingMoment.type)));
     }
 
     @Override
-    public Observable<Boolean> exercise17(Observable<Movie> marathonCandidates) {
-        return marathonCandidates.all(movies -> movies.minimalAge < 18);
+    public Observable<Boolean> exercise17(Observable<Movies> marathonCandidates) {
+        return marathonCandidates.concatMap(movies -> movies.videos).all(movies -> movies.minimalAge < 18);
     }
 
     @Override
