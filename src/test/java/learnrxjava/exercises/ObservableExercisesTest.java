@@ -248,12 +248,8 @@ public class ObservableExercisesTest {
         Observable<Integer> burstyParallelNumbers =
             Observable
                 .range(0, NUMBER_OF_BURSTY_ITEMS)
-                .flatMap(item ->
-                                Observable
-                                        .just(item)
-                                        .subscribeOn(Schedulers.computation())
-                                        .doOnNext(i -> /* simulate computational work */ sleep(1))
-                );
+                .subscribeOn(Schedulers.computation())
+                .doOnNext(i -> /* simulate computational work */ sleep(1));
 
         AtomicInteger totalBuffers = new AtomicInteger();
         AtomicInteger totalNumbers = new AtomicInteger();
@@ -279,9 +275,21 @@ public class ObservableExercisesTest {
         // 3000ms is the approx. runtime on a 4-core CPU for 10000 items (so test might fail on 8-core or higher)
         assertTrue(totalBuffers.get() >= 3000 / 500 || totalBuffers.get() == 1); // sometimes, some delay seems to cause all 10000 items to be buffered in one buffer?!
 
-        System.out.println("min: " + minBufferSize.get() + ", max: " + maxBufferSize.get());
-        assertNotEquals(500, minBufferSize.get());
-        assertNotEquals(500, maxBufferSize.get());
+        assertNotEquals(minBufferSize.get(), 500);
+        assertNotEquals(maxBufferSize.get(), 500);
+    }
+
+    @Test
+    public void exercise24() {
+        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        final Observable<Integer> burstyNumbers = Observable.range(0, 2500).subscribeOn(Schedulers.computation())
+                .doOnNext(i -> /* simulate computational work */ sleep(1));
+
+        Observable.merge(getImpl().exercise24(burstyNumbers)).count()./*reduce((i,j) -> i+j).*/subscribe(ts);
+        ts.awaitTerminalEvent();
+
+        System.out.println("size: " + ts.getOnNextEvents().size());
+        assertTrue(ts.getOnNextEvents().size() < 2500);
     }
 
     @Test

@@ -8,6 +8,7 @@ import rx.Scheduler;
 import rx.Subscriber;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import rx.observables.GroupedObservable;
 
 /**
@@ -599,6 +600,15 @@ public class ObservableExercises {
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use Observable.window()
+        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        //return Observable.error(new RuntimeException("Not Implemented"));
+        return burstySuggestedVideoIds.window(200, 500, TimeUnit.MILLISECONDS);
     }
 
     /**
