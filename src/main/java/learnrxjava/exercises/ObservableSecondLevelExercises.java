@@ -16,8 +16,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
-// TODO maak Solutions(Test) companion
-
 /**
  * My Padawan, advanced to the second level you have?
  *
@@ -59,8 +57,7 @@ public class ObservableSecondLevelExercises {
         // Use Observable's 'toSortedList' operator
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        return data.toSortedList();
-        //return Observable.error(new RuntimeException("Not Implemented"));
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -75,8 +72,7 @@ public class ObservableSecondLevelExercises {
         // Use an overload of Observable's 'toSortedList' operator, supplying a sortFunction
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        return data.toSortedList((string1, string2) -> string1.length() - string2.length());
-        //return Observable.error(new RuntimeException("Not Implemented"));
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -107,8 +103,7 @@ public class ObservableSecondLevelExercises {
         // Skip the first 3 movies. Of the remaining movies, return only the movies that are different from what has already been emitted
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        return movieIds.skip(3).distinct();
-        //return Observable.error(new RuntimeException("Not Implemented"));
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -137,9 +132,7 @@ public class ObservableSecondLevelExercises {
         // use from() with a timeout of 2 TimeUnit.SECONDS
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        //return Observable.error(new RuntimeException("Not Implemented"));
-
-        return Observable.from(videoId, 2, TimeUnit.SECONDS);
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -161,17 +154,7 @@ public class ObservableSecondLevelExercises {
         // use reduce()
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-
-        // these 7 lines as oneliner: return nums.reduce(Math::max);
-        return nums.reduce((max, item) -> {
-            if (item > max) {
-                return item;
-            } else {
-                return max;
-            }
-        });
-
-        //return Observable.error(new RuntimeException("Not Implemented"));
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -197,9 +180,7 @@ public class ObservableSecondLevelExercises {
         // use scan()
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        //return Observable.error(new RuntimeException("Not Implemented"));
-
-        return nums.scan(Math::max);
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -221,23 +202,7 @@ public class ObservableSecondLevelExercises {
         // use reduce() - see ComposableListSolutions#exercise19() for more hints
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        //return Observable.error(new RuntimeException("Not Implemented"));
-
-        return movies.flatMap(ml -> {
-            return ml.videos.<JSON> flatMap(v -> {
-                return v.boxarts.reduce((max, box) -> {
-                    int maxSize = max.height * max.width;
-                    int boxSize = box.height * box.width;
-                    if (boxSize < maxSize) {
-                        return box;
-                    } else {
-                        return max;
-                    }
-                }).map(maxBoxart -> {
-                    return ObservableExercises.json("id", v.id, "title", v.title, "boxart", maxBoxart.url);
-                });
-            });
-        });
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -252,9 +217,7 @@ public class ObservableSecondLevelExercises {
         // resume from an error using Observable.just("fallback-data")
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        //return Observable.error(new RuntimeException("Not Implemented"));
-
-        return data.onErrorResumeNext(Observable.just("fallback-data"));
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -268,9 +231,7 @@ public class ObservableSecondLevelExercises {
         // use retry()
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        //return Observable.error(new RuntimeException("Not Implemented"));
-
-        return data.retry();
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -299,9 +260,7 @@ public class ObservableSecondLevelExercises {
                         // use Notification.createOnNext()
                         // ------------ INSERT CODE HERE! ----------------------------
                         // TODO add implementation
-                        //return Observable.error(new RuntimeException("Not Implemented"));
-
-                        return Observable.just(Notification.createOnNext(notification.getValue() + 1));
+                        return Observable.error(new RuntimeException("Not Implemented"));
                     case OnError:
                         return Observable.error(notification.getThrowable());
                     case OnCompleted:
@@ -416,8 +375,6 @@ public class ObservableSecondLevelExercises {
         // assert all items which must have been emitted after 1000ms.
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
-        //throw new RuntimeException("Not Implemented");
-
-        ts.assertReceivedOnNext(Arrays.asList("0 value", "1 value", "2 value", "3 value", "4 value"));
+        throw new RuntimeException("Not Implemented");
     }
 }
