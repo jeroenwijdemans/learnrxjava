@@ -282,7 +282,7 @@ public class ObservableExercisesTest {
     @Test
     public void exercise24() {
         TestSubscriber<Observable<Integer>> ts = new TestSubscriber<>();
-        Observable<Integer> objectObservable = Observable.range(0, 2500).doOnNext(integer -> sleep(1));
+        Observable<Integer> objectObservable = Observable.range(0, 3000).doOnNext(integer -> sleep(1));
 
         getImpl().exercise24(objectObservable).subscribe(ts);
 

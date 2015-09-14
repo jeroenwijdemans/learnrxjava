@@ -205,7 +205,7 @@ public class ObservableSolutions extends ObservableExercises {
     @Override
     public Observable<Double> exercise26(Observable<Movies> movieLists) {
         return MathObservable.averageDouble(
-                movieLists.concatMap(movies -> movies.videos)
+                movieLists.flatMap(movies -> movies.videos)
                         .throttleLast(200, TimeUnit.MILLISECONDS)
                         .map(movie1 -> movie1.rating));
     }

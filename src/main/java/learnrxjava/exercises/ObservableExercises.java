@@ -609,7 +609,7 @@ public class ObservableExercises {
      * Have a look at http://reactivex.io/documentation/operators/window.html to see the difference between buffer and window.
      *
      * @param burstySuggestedVideoIds an Observable that emits a lot of video id's
-     * @return video id's incremented with 5, where foreach second we will create a window of 200 milliseconds
+     * @return video id's incremented with 5, where foreach second we will create a window of 200 milliseconds each 1000 milliseconds
      */
     public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
         // ------------ INSERT CODE HERE! ----------------------------
