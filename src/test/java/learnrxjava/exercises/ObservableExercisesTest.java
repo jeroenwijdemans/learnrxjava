@@ -97,7 +97,7 @@ public class ObservableExercisesTest {
         getImpl().exercise07("Just - a single value").subscribe(ts);
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList("Just - a single value"));
+        ts.assertReceivedOnNext(Arrays.asList("Just - a single value", "end-of-names"));
     }
 
     @Test
