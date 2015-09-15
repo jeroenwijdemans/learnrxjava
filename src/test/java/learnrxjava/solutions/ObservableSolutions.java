@@ -94,6 +94,7 @@ public class ObservableSolutions extends ObservableExercises {
     public Observable<String> exercise07(String name) {
         return Observable.create(subscriber -> {
             subscriber.onNext(name);
+            subscriber.onNext("end-of-names");
             subscriber.onCompleted();
         });
     }
