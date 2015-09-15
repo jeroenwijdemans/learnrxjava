@@ -41,7 +41,7 @@ public class ObservableExercisesTest {
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
         assertEquals(2, ts.getOnNextEvents().size());
-        assertEquals(ts.getOnNextEvents(), asList("Hello Remko!", "Hello Hedzer!"));
+        assertEquals(asList("Hello Remko!", "Hello Hedzer!"), ts.getOnNextEvents());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ObservableExercisesTest {
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
         assertEquals(5, ts.getOnNextEvents().size());
-        assertEquals(ts.getOnNextEvents(), asList(2, 4, 6, 8, 10));
+        assertEquals(asList(2, 4, 6, 8, 10), ts.getOnNextEvents());
     }
 
     @Test
