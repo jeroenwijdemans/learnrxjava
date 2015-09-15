@@ -427,10 +427,10 @@ public class ObservableExercises {
      * Return an Observable that emits true if there are any epic interestingMoments in a movie
      * <p/>
      *
-     * @param movies an observable of movies to work your magic on
+     * @param movieLists an observable of movies to work your magic on
      * @return An Observable that emits true if a movie has an epic interestingMoment
      */
-    public Observable<Boolean> exercise16(Observable<Movies> movies) {
+    public Observable<Boolean> exercise16(Observable<Movies> movieLists) {
         // ------------ INSERT CODE HERE! ----------------------------
         // Return true is there is an epic movie.
         // Use Observable.exists();
@@ -543,7 +543,7 @@ public class ObservableExercises {
      * For more info, please visit:
      * <ul>
      *     <li>https://github.com/ReactiveX/RxJava/wiki</li>
-     *     <li>http://reactivex.iohttp://reactivex.io/documentation/operators/flatmap.html</li>
+     *     <li>http://reactivex.io/documentation/operators/flatmap.html</li>
      * </ul>
      * @return true when you understand what's going on
      */
