@@ -194,7 +194,8 @@ public class ObservableExercises {
 
         });
 
-        return message.toString();
+        //return message.toString();
+        throw new UnsupportedOperationException("Not Implemented");
     }
 
     /**
