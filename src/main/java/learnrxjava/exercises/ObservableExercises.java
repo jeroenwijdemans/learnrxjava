@@ -390,9 +390,11 @@ public class ObservableExercises {
      * Exercise 14 - Don't skip this one
      * <p/>
      * Return an observable that returns the titles of the movies on the second page
+     * Use pageLength to get the movies for the second page
      * <p/>
      *
      * @param movieLists an observable of lists of movies to work your magic on
+     * @param pageLength the pageLength of the pages
      * @return the movies on the second page
      */
     public Observable<String> exercise14(Observable<Movies> movieLists, int pageLength) {
