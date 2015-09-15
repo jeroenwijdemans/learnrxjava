@@ -445,11 +445,11 @@ public class ObservableExercises {
     /**
      * Exercise 17 - Are these movies suitable?
      * <p/>
-     * Return true if all movies in the marathonCandidates are suitable for everyone;
+     * Return true if all movies in the marathonCandidates are suitable for everyone.
      * <p/>
      *
      * @param marathonCandidates an observable of movies to work your magic on
-     * @return An Observable that emits true if the marathonCandidates are suitable
+     * @return An Observable that emits false if a marathonCandidates has a minimalAge of 18 and true otherwise
      */
     public Observable<Boolean> exercise17(Observable<Movies> marathonCandidates) {
         // ------------ INSERT CODE HERE! ----------------------------
@@ -474,7 +474,7 @@ public class ObservableExercises {
         Observable<String> data = Observable.just("one", "two", "three", "four", "five");
 
         // ------------ INSERT CODE HERE! ----------------------------
-        // use Observable.interval to get an item emitted each second.
+        // Use Observable.interval to get an item emitted each second.
         // Use Observable.zip to achieve the desired output
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
