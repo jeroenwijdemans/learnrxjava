@@ -409,16 +409,16 @@ public class ObservableExercises {
     /**
      * Exercise 15 - No limit
      * <p/>
-     * Return an observable that only emits the best movies.
+     * Return an observable that only emits the best 5 movies or less.
      * <p/>
      *
      * @param movieLists an observable of movies to work your magic on
-     * @return all movies with a rating equal or higher than 4.5 and no more than 5
+     * @return all movies with a rating equal or higher than 4.5 and give 5 movies or less
      */
     public Observable<String> exercise15(Observable<Movies> movieLists) {
         // ------------ INSERT CODE HERE! ----------------------------
         // Return all movies that are equal to or higher than 4.5 in rating. 
-        // Also just give me 5 good ones or less. Use Observable.limit().
+        // Also just give me 5 good movies or less. Use Observable.limit().
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
