@@ -620,7 +620,8 @@ public class ObservableExercises {
      */
     public Observable<String> exercise22(Observable<Movies> movieLists, Scheduler scheduler) {
         // ------------ INSERT CODE HERE! ----------------------------
-        // Use Observable.sample() and the provided scheduler
+        // Use Observable.sample() and the provided scheduler.
+        // Don't worry about schedulers yet. In time you will learn.
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
@@ -672,6 +673,8 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    // TODO exercise 25 infinite observables?
+    
     /**
      * Exercise 26 - Throttling!
      *

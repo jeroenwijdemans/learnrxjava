@@ -296,6 +296,8 @@ public class ObservableExercisesTest {
         assertTrue(onNextEvents.size() > 3);
     }
 
+    // TODO exercise25
+    
     @Test
     public void exercise26() {
         TestSubscriber<Double> testSubscriber = new TestSubscriber<>();
