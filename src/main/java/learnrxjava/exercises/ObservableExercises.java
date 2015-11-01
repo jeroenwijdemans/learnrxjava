@@ -1,5 +1,6 @@
 package learnrxjava.exercises;
 
+import java.util.Arrays;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movies;
 import rx.Observable;
@@ -7,7 +8,16 @@ import rx.Scheduler;
 import rx.Subscriber;
 
 import java.util.List;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import learnrxjava.examples.SubscribeOnObserveOnExample;
+import rx.Subscription;
 import rx.observables.GroupedObservable;
+import rx.observers.TestSubscriber;
+import rx.schedulers.TestScheduler;
+
+// TODO Intro with references to composable list exercises for people that took the shortcut
 
 /**
  * Now you have mastered the ComposableList, it is time to move on. The exercises
@@ -34,6 +44,11 @@ import rx.observables.GroupedObservable;
 public class ObservableExercises {
 
     /**
+     * We start with looking at the composability of Observables. This should feel
+     * familiar if you've done the ComposableList exercises.
+     */
+    
+    /**
      * Exercise 0 - mapping
      * <p/>
      * Transform the incoming Observable from just a list of names to a
@@ -57,14 +72,14 @@ public class ObservableExercises {
     /**
      * Exercise 1 - filtering
      * <p/>
-     * Given an observable of numbers, filter out the even numbers:
+     * Given an observable of numbers, filter for even numbers:
      * <p/>
      * [1, 2, 3, 4, 5] -> [2, 4]
      */
     public Observable<Integer> exercise01(Observable<Integer> nums) {
 
         // ------------ INSERT CODE HERE! ----------------------------
-        // Filter out the even numbers        
+        // Filter for even numbers        
         // ------------ INSERT CODE HERE! ----------------------------
         // return nums. // TODO add implementation
 
@@ -77,7 +92,7 @@ public class ObservableExercises {
      * Just like with our ComposableList we can compose different functions
      * with Observables.
      * <p/>
-     * Given an observable of numbers, filter out the even ones and transform them
+     * Given an observable of numbers, filter for the even ones and transform them
      * to a String like the following:
      * <p/>
      * [1,2,3,4,5,6] -> ["2-Even", "4-Even", "6-Even"]
@@ -111,6 +126,22 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    /**
+     * Introducing callbacks. 
+     * 
+     * Observable takes its name from the Observer pattern. The Observer observes
+     * the Observable. For the Observable to notify the Observer, the Observer
+     * will have to register itself with the Observable. The Observable can then
+     * call(back) each Observer when it produced something. This should sound familiar
+     * if you ever worked with for example something like Swing and Event Listeners.
+     * 
+     * In the following exercises we dive into this 'callback' principle. Note that
+     * everything still happens synchronously. We encourage you to try this out 
+     * by adding some printlns in your code and the test code. Using callbacks 
+     * are the first step however to opening the door for asynchronicity. And it's
+     * the asynchronous stuff where we will see the powers of the Observable.
+     */
+    
     /**
      * Exercise 4 - Observable basics
      * <p/>
@@ -279,7 +310,8 @@ public class ObservableExercises {
                 throw new UnsupportedOperationException("Not Implemented");
             } catch (Exception e) {
                 // ------------ INSERT CODE HERE! ----------------------------
-                // emit - not throw! - the Exception
+                // Emit - not throw! - the Exception. Can you think of a reason
+                // why it would be unwise to rethrow here?
                 // ------------ INSERT CODE HERE! ----------------------------
                 // TODO add implementation
                 throw new UnsupportedOperationException("Not Implemented");
@@ -288,9 +320,17 @@ public class ObservableExercises {
     }
 
     /**
+     * A short tour of the API.
+     * 
+     * Before we dive into timing, we will build some API knowledge. This should
+     * be useful later on. If you're anxious and don't mind learning the API on
+     * the go you could skip to exercise 18.
+     */
+    
+    /**
      * Exercise 9 - just do it
      * <p/>
-     * rxjava actually has an operator to do that which you have just (!) programmed in exercises 07 and 08.
+     * RxJava actually has an operator to do that which you have just (!) programmed in exercises 07 and 08.
      * <p/>
      * Its name is - just as you expected - Observable.just().
      * <p/>
@@ -327,8 +367,6 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
-    // The following exercises are meant to obtain some API knowledge
-
     /**
      * Exercise 11 - First come, first served
      * <p/>
@@ -336,7 +374,7 @@ public class ObservableExercises {
      * them. It can help you when you don't feel the need to look further.
      * <p/>
      * So don't look further and finish the exercise. Just for fun, we threw in
-     * a little flatMap as well...
+     * a little concatMap as well...
      * 
      * @param movieLists an observable of lists of movies to work your magic on
      * @return the title of the first video of the first list of movies
@@ -358,6 +396,9 @@ public class ObservableExercises {
      *
      * @param movieLists an observable of movies to work your magic on
      * @return the title of the latest movie that matches a rating
+     * 
+     * PS: Comparing doubles with ==??? Yuck. We know. Not proud of it but for 
+     *     these exercises it works :)
      */
     public Observable<String> exercise12(Observable<Movies> movieLists, double rating) {
         // ------------ INSERT CODE HERE! ----------------------------
@@ -394,7 +435,7 @@ public class ObservableExercises {
      * <p/>
      *
      * @param movieLists an observable of lists of movies to work your magic on
-     * @param pageLength the pageLength of the pages
+     * @param pageLength the number of items on a page
      * @return the movies on the second page
      */
     public Observable<String> exercise14(Observable<Movies> movieLists, int pageLength) {
@@ -413,11 +454,11 @@ public class ObservableExercises {
      * <p/>
      *
      * @param movieLists an observable of movies to work your magic on
-     * @return all movies with a rating equal or higher than 4.5 and give 5 movies or less
+     * @return all titles of movies with a rating equal or higher than 4.5 and give 5 movies or less
      */
     public Observable<String> exercise15(Observable<Movies> movieLists) {
         // ------------ INSERT CODE HERE! ----------------------------
-        // Return all movies that are equal to or higher than 4.5 in rating. 
+        // Return all the titles of the movies that are equal to or higher than 4.5 in rating. 
         // Also just give me 5 good movies or less. Use Observable.limit().
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
@@ -443,13 +484,14 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 17 - Are these movies suitable?
+     * Exercise 17 - Rated R.
      * <p/>
-     * Return true if all movies in the marathonCandidates are suitable for everyone.
+     * Return true if all movies in the marathonCandidates are suitable for non adults.
      * <p/>
      *
      * @param marathonCandidates an observable of movies to work your magic on
-     * @return An Observable that emits false if a marathonCandidates has a minimalAge of 18 and true otherwise
+     * @return An Observable that emits true if all movies are suitable for someone under 18 years
+     *         of age, false otherwise
      */
     public Observable<Boolean> exercise17(Observable<Movies> marathonCandidates) {
         // ------------ INSERT CODE HERE! ----------------------------
@@ -460,6 +502,15 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    /**
+     * The time has come to learn about timing. This is the point of no return*.
+     * Dealing with timing issues is where we will start to see Rx shine. The
+     * combination of the callback structure, rich API and functional composability
+     * allow for elegant solutions to some otherwise more complex problems.
+     * 
+     * * = Backward time travelling excluded
+     */
+    
     /**
      * Exercise 18 - Timing is everything
      * <p/>
@@ -490,10 +541,9 @@ public class ObservableExercises {
      * 
      * @param odd  an observable that emits an odd number every odd second
      * @param even an observable that emits an even number every even second
-     * @param scheduler the scheduler you should use to merge
      * @return an Observable with the results
      */
-    public Observable<Long> exercise19(Observable<Long> odd, Observable<Long> even, Scheduler scheduler) {
+    public Observable<Long> exercise19(Observable<Long> odd, Observable<Long> even) {
         // ------------ INSERT CODE HERE! ----------------------------
         // use Observable.mergeWith to interleave the two streams
         // ------------ INSERT CODE HERE! ----------------------------
@@ -533,7 +583,7 @@ public class ObservableExercises {
      * Let's read up on marble diagrams. Marble diagrams depict data flows for each of the reactive Observables.
      * They help enormously in understanding what's going on.
      * <p/>
-     * For your convenience, they're included in the rxjava javadoc. You can revisit
+     * For your convenience, they're included in the RxJava javadoc. You can revisit
      * your solutions to two previous exercises, and lookup the javadoc in your IDE.
      * <p/>
      * @see ObservableExercises#exercise03(Observable) - here you used concatMap
@@ -643,6 +693,62 @@ public class ObservableExercises {
     }
 
     /**
+     * Exercise 27 & 28 - Hot and Cold Observables.
+     * 
+     * The tables have turned. Instead of writing the implementation, you will
+     * have to complete the test code. You will grow faster when you look at 
+     * things from a different perspective now and then. 
+     * 
+     * Your journey continues in ObservableExercisesTest. Good luck! If you work
+     * diligently and with purpose in your heart, we will meet again here.
+     */
+    public void exercise27(
+            Observable<Long> nums, 
+            TestScheduler scheduler, 
+            TestSubscriber immediateSubscriber,
+            TestSubscriber delayedSubscriber) {
+        
+        nums.subscribe(immediateSubscriber);
+        scheduler.advanceTimeBy(5, SECONDS);
+        nums.subscribe(delayedSubscriber);
+    } 
+        
+    /** 
+     * Exercises 27 - 33 reside in ObservableExercisesTest. Of course you'd 
+     * known this if you read the instructions for exercise 27. And you wouldn't
+     * skip ahead without our permission, right?
+     */
+
+    /**
+     * Welcome back! 
+     * 
+     * By now we've transformed, composed, traveled in time and and even walked 
+     * different threads. All in the name of Reactive Programming. There's still
+     * something missing though. Can you guess what it is?
+     * 
+     * Correct! What's reactive programming without some resilience. We might be
+     * non-blocking now, but that alone doesn't prevent failure. In a real system
+     * nothing will. That's why we better prepare for the worst by adding some
+     * resilience.
+     * 
+     * Finally, this is one of those few lucky times where you can throw errors
+     * all over the place and nobody will get upset.
+     */
+    public void exercise34(Observable<Movies> movieLists) {
+        
+    }
+    
+    /**
+     * Exercise 34 - I love it when a plan fails but it still comes together in another plan
+     *
+     * @param planA Will probably fail
+     * @param planB To rescue us when plan A fails
+     */
+    public void exercise34(Observable<Movies> planA, Observable<Movies> planB) {
+        
+    }
+    
+    /**
      * Exercise 29 - Group By
      * 
      * This exercise is more advanced. Don't worry if it takes some time to wrap your head around it.
@@ -659,6 +765,83 @@ public class ObservableExercises {
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
+    
+    /**
+     * Schedulers
+     * http://reactivex.io/documentation/scheduler.html
+     * 
+     * 1. start with observable that immediately exits
+     * 2. fix it by observing on the right scheduler
+     * 3. redirect to examples
+     */
+    
+    
+    /**
+     * 
+     * 
+     * 
+     * @return true when you're inspired enough by the TestSuite
+     */
+    public boolean exercise34() {
+        return false;
+    }
+    
+    /**
+     * TODO
+     * 
+     * Timing
+     * 25. infinite observables
+     * 
+     * Composing multiple observables
+     * 27. combining (??) -> replace with hot vs cold?
+     * 28. reduce & scan (ComposableList 13-19, 2ndlvl 5,6,7)
+     * 27 & 28 replaced with hot and cold.
+     * 
+     * Error handling / Resilience
+     * 30. onErrorReturn (2ndlvl 9 todo)
+     * 31. onErrorResumeNext (2ndlvl 8)
+     * 32. retry (2ndlvl 10,12)
+     *  
+     * Testing and debugging
+     * 33. doOn…
+     * 34. TestSubscriber / unit testing
+     * 35. toBlocking
+     * 
+     * Advanced / Extra
+     * 36. hot vs cold
+     * 37. wat gebeurt er qua threading / blocking bij subscribe
+     * 38. materialize (2ndlvl 11)
+     * 39. debounce
+     * 40. observeOn
+     * 41. subscribeOn
+     * 42. Subject
+     * 43. switch
+     * 44. sorting (2ndlvl 1, 2)
+     * 45. distinct (2ndlvl 3)
+     * 46. backpressure
+     * 47. reactive streams
+     */
+    
+    /**
+     * Hot vs Cold
+     */
+    public void exercise36() {
+        
+    }
+    
+    /**
+     * Congratulations! Our guidance ends here. From here on you will have to follow your own path.
+     * Take a look at the examples in the learnrxjava.examples package, study the API or try
+     * to build your own reactive application.
+     * 
+     * We hope you enjoyed this workshop. If you're interested and want to know more, don't hesitate and
+     * contact us.
+     * 
+     * Regards,
+     * 
+     * Hedzer Westra <hedzer.westra@ordina.nl>
+     * Remko de Jong <remko.de.jong@ordina.nl>
+     */
     
     /*
      * **************
@@ -722,6 +905,19 @@ public class ObservableExercises {
 
         public int getSum() {
             return sum;
+        }
+    }
+    
+    /**
+     * Used for educational purposes. Thread.sleep in an asynchronous context is
+     * almost always a bad idea. Come to think about it, Thread.sleep in a synchronous
+     * context is a bad idea too.
+     */
+    public static void delay(int seconds) {
+        try {
+            Thread.sleep(1000 * seconds);
+        } catch (InterruptedException ex) {
+            // Do nothing
         }
     }
 }

@@ -11,7 +11,6 @@ public class ConnectableObservableExample {
     public static void main(String[] args) {
         // Use publish not replay
         ConnectableObservable<Long> hotObservable = Observable.interval(1, TimeUnit.SECONDS).publish();
-//        ConnectableObservable<Long> hotObservable = (ConnectableObservable<Long>) ConnectableObservable.interval(1, TimeUnit.SECONDS);
         hotObservable.connect();
         hotObservable.subscribe(System.out::println);
         

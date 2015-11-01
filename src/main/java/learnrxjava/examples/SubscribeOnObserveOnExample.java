@@ -11,10 +11,6 @@ import rx.schedulers.Schedulers;
 public class SubscribeOnObserveOnExample {
 
     public static void main(String[] args) {
-        // Main thread, synchronous
-        //Observable<Long> nums = Observable.interval(1, TimeUnit.SECONDS).take(20);
-//        Observable<Long> nums = Observable.from(Arrays.asList(1, 2, 3, 4, 5));
-        //Observable<Integer> nums = Observable.range(1, 500);
         Observable<Integer> nums = Observable.create(subscriber -> {
             for (int i=0; i<100; i++) {
                 System.out.println("Pushing value " + i + " on thread " + Thread.currentThread().getName());
@@ -23,7 +19,6 @@ public class SubscribeOnObserveOnExample {
             subscriber.onCompleted();
         });
 //        nums.subscribe(new MySubscriber());
-        
 //        nums.subscribeOn(Schedulers.computation()).subscribe(new MySubscriber());
         nums.subscribeOn(Schedulers.io()).observeOn(Schedulers.computation()).subscribe(new MySubscriber());
         

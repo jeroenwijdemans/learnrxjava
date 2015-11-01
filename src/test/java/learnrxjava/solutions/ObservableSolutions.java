@@ -16,6 +16,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import rx.observables.GroupedObservable;
 import rx.observables.MathObservable;
 import static rx.observables.MathObservable.averageDouble;
+import rx.observers.TestSubscriber;
+import rx.schedulers.TestScheduler;
 
 public class ObservableSolutions extends ObservableExercises {
     
@@ -170,7 +172,7 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     @Override
-    public Observable<Long> exercise19(Observable<Long> odd, Observable<Long> even, Scheduler scheduler) {
+    public Observable<Long> exercise19(Observable<Long> odd, Observable<Long> even) {
         return odd.mergeWith(even);
     }
 
@@ -211,6 +213,12 @@ public class ObservableSolutions extends ObservableExercises {
                         .map(movie1 -> movie1.rating));
     }
 
+    @Override
+    public void exercise27(Observable<Long> nums, TestScheduler scheduler, TestSubscriber immediateSubscriber, TestSubscriber delayedSubscriber) {
+        // Can reuse the exercise implementation, supposed to fix test
+        super.exercise27(nums, scheduler, immediateSubscriber, delayedSubscriber);
+    }
+    
     @Override
     public Observable<GroupedObservable<String, Double>> exercise29(Observable<Movies> movieLists) {
         return movieLists.flatMap(movieList -> movieList.videos)

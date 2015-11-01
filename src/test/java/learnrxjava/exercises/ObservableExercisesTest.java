@@ -1,5 +1,6 @@
 package learnrxjava.exercises;
 
+import java.util.ArrayList;
 import learnrxjava.types.InterestingMoment;
 import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
@@ -20,12 +21,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.util.Arrays.asList;
 import java.util.HashMap;
 import java.util.List;
+import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import learnrxjava.types.Bookmark;
 import learnrxjava.types.BoxArt;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static rx.Observable.*;
+import rx.Subscription;
+import rx.observables.ConnectableObservable;
 import rx.observables.GroupedObservable;
 
 public class ObservableExercisesTest {
@@ -209,7 +213,7 @@ public class ObservableExercisesTest {
         TestSubscriber<Long> ts = new TestSubscriber<>();
         Observable<Long> odd = Observable.interval(1, SECONDS, scheduler).filter(i -> i % 2 != 0);
         Observable<Long> even = Observable.interval(1, SECONDS, scheduler).filter(i -> i % 2 == 0);
-        getImpl().exercise19(odd, even, scheduler).subscribe(ts);
+        getImpl().exercise19(odd, even).subscribe(ts);
         scheduler.advanceTimeBy(10, SECONDS);
         ts.assertReceivedOnNext(Arrays.asList(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L));
     }
@@ -298,6 +302,278 @@ public class ObservableExercisesTest {
         getImpl().exercise26(gimmeSomeMoreMovies()).subscribe(testSubscriber);
     }
 
+    /**
+     * Welcome my friend. You now reached the other side. Time to start looking at
+     * things from here. May you gain the insights to advance your journey.
+     * 
+     * Observables come in multiple flavors. Sometimes they are served hot, sometimes
+     * cold. In the next exercises we will look at the difference. And since we're
+     * here now, we will help you to tame testing these beasts.
+     */
+   
+    /**
+     * Exercise 27 - Observables are a dish best served cold
+     * 
+     * A cold observable will always start emitting items from the beginning,
+     * even if you subscribe later.
+     */
+    @Test
+    public void exercise27() {
+        // Don't worry about these TestSchedulers and TestSubscrobers yet.
+        // More details will follow later.
+        TestScheduler testScheduler = Schedulers.test();
+        TestSubscriber<Long> immediateSubscriber = new TestSubscriber<>();
+        TestSubscriber<Long> delayedSubscriber = new TestSubscriber<>();
+        
+        // Emits 10 items in total, one every second
+        final Observable<Long> nums = Observable.interval(1, SECONDS, testScheduler).take(10);
+        
+        getImpl().exercise27(nums, testScheduler, immediateSubscriber, delayedSubscriber);
+        
+        // We will use the awesome power of the TestScheduler to advance time 
+        // at our will. Enough to make sure we end the stream.
+        testScheduler.advanceTimeBy(100, SECONDS);
+        
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use your knowledge about cold Observables to predict the output.
+        // Try to reason about the output first. You could just look
+        // at the test output, but where'd be the fun in that?
+        List<Long> expectedImmediate = Arrays.asList();
+        List<Long> expectedDelayed = Arrays.asList();
+        // ------------ INSERT CODE HERE! ----------------------------
+        
+        fail(); // Remove this line when you finished your implementation
+        immediateSubscriber.assertReceivedOnNext(expectedImmediate);
+        delayedSubscriber.assertReceivedOnNext(expectedDelayed);
+        
+        // Congratulations, assuming you reached this point, you may now move on.
+    }
+    
+    /**
+     * Exercise 28 - Be careful, hot
+     * 
+     * A hot observable resembles an ordinary Observable, except that it does 
+     * not begin emitting items when it is subscribed to, but only when its 
+     * connect() method is called. In this way you can wait for all intended 
+     * Subscribers to subscribe to the Observable before the Observable begins 
+     * emitting items.
+     */
+    @Test
+    public void exercise28() {
+        // Still no worries, you will be enlightened soon. We promise.
+        TestScheduler testScheduler = Schedulers.test();
+        TestSubscriber<Long> immediateSubscriber = new TestSubscriber<>();
+        TestSubscriber<Long> delayedSubscriber = new TestSubscriber<>();
+        
+        // Note the use of publish to create a 'hot' observable (in RxJava known as a ConnectableObservable)
+        ConnectableObservable<Long> nums = Observable.interval(1, SECONDS, testScheduler).take(10).publish();
+        
+        // We need to 'connect' to the Observable to trigger it to start submitting items
+        nums.connect();
+        
+        // We reuse the implementation of exercise 27. Can you see why?
+        getImpl().exercise27(nums, testScheduler, immediateSubscriber, delayedSubscriber);
+        
+        // Advance time enough to make sure we end the stream
+        testScheduler.advanceTimeBy(100, SECONDS); 
+        
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Again, try not to take a peek at the answer. We trust you.
+        List<Long> expectedImmediate = Arrays.asList( /* Insert your expectations here */ );
+        List<Long> expectedDelayed = Arrays.asList( /* Insert your expectations here */ );
+        // ------------ INSERT CODE HERE! ----------------------------
+        
+        fail(); // Remove this line when you finished your implementation
+        immediateSubscriber.assertReceivedOnNext(expectedImmediate);
+        delayedSubscriber.assertReceivedOnNext(expectedDelayed);
+        
+        // TODO think of examples of hot and cold observables and make multiple choice
+        // Now you've learned the difference between hot and cold Observables, can you
+        // tell of which type the examples are? Insert your answers ('hot' or 'cold') at
+        // the ?.
+        
+        // Mouseclicks:       ?
+        // Stock information: ?
+        // TODO More examples of cold observables needed
+        
+        // You can read more about ConnectableObservable here:
+        // https://github.com/ReactiveX/RxJava/wiki/Connectable-Observable-Operators
+    }
+    
+    /**
+     * Exercise 30 - Your first test
+     * 
+     * We start easy. Verify the output of the unverifiedObservable. You can use
+     * the other tests in this suite as inspiration.
+     */
+    @Test
+    public void exercise30() {
+        Observable<Integer> unverifiedObservable = Observable.from(Arrays.asList(1,2,3,4,5,6,7,8,9,10))
+            .filter(x -> x % 2 == 0)
+            .map(x -> x * 2 + 1);
+
+        // TODO remove solution
+        
+        // ------------ INSERT CODE HERE! ----------------------------
+        // First we will need a subscriber, but not any will suffice. We
+        // are looking for one with test capabilities
+        TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
+        
+        // Now subscribe that special subscriber to the the unverifiedObservable
+        unverifiedObservable.subscribe(testSubscriber);
+        
+        // Finally use the subscriber to assert what you hold to be the truth
+        // about the unverifiedObservable
+        // ------------ INSERT CODE HERE! ----------------------------
+        testSubscriber.assertReceivedOnNext(Arrays.asList(5, 9, 13, 17, 21));
+        // You may remove this when done
+//        fail();
+    }
+    
+    /**
+     * Exercise 31 - Testing with time
+     * 
+     * To make it interesting we will add a touch of time now. We do want our
+     * unit test to keep running fast though, so your main assignment here is 
+     * to find a way to control time. Use your powers wisely though.
+     */
+    @Test
+    public void exercise31() {
+        // TODO remove solution
+        
+        // Below waits an observable that emits an item every day. Yawn.
+        // You will
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Change the initialization and pick the right scheduler. You
+        // should be able to find it in this file.
+        Scheduler scheduler = Schedulers.test(); //null; 
+        // ------------ INSERT CODE HERE! ----------------------------
+        
+        // Emits an item every day. Now you know why we'd like to control time.
+        Observable<Long> sluggishObservable = Observable.interval(1, TimeUnit.DAYS, scheduler).take(10);
+        
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Again we will need a subscriber
+        // ------------ INSERT CODE HERE! ----------------------------
+        TestSubscriber<Long> testSubscriber = new TestSubscriber<>();
+        sluggishObservable.subscribe(testSubscriber);
+        
+        // ------------ INSERT CODE HERE! ----------------------------
+        //
+        // SPOILER ALERT!!! Do not read ahead until you implemented the question above!
+        //
+        // Of course we didn't need a cast if we used the specialized type
+        // above. But we wouldn't want it to be too easy, would we?
+        // Shame on you if ignored the spoiler alert and read until here. This
+        // is your last chance to play fair.
+        TestScheduler testScheduler = (TestScheduler) scheduler;
+        
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use the scheduler to advance time
+        // ------------ INSERT CODE HERE! ----------------------------
+        testScheduler.advanceTimeBy(10, DAYS);
+        // ------------ INSERT CODE HERE! ----------------------------
+        
+        // ------------ INSERT CODE HERE! ----------------------------        
+        // Assert to see if your time travel worked
+        // ------------ INSERT CODE HERE! ----------------------------
+        testSubscriber.assertReceivedOnNext(Arrays.asList(0L, 1L,2L,3L,4L,5L,6L,7L,8L,9L));
+        
+        // Congratulations if this test finished the same day instead of 10 days later.
+        // Although, seriously, who would wait that long?
+    }
+    
+    /**
+     * Exercise 32 - And... it's gone
+     * 
+     * An exercise of mind this one. Run the test and try to explain... 
+     */
+    @Test
+    public void exercise32() {
+        Observable<Long> nums = Observable.interval(1, TimeUnit.MICROSECONDS).take(1000);
+        List<Long> result = new ArrayList<>();
+        
+        nums.subscribe(x -> { 
+            // Uncomment the following line to receive more information
+            // System.out.println("Adding to result: " + x); 
+            result.add(x); 
+        });
+        
+        // Why does this test fail?
+        // If you think you have the answer, comment the assertion below and continue
+        assertTrue("Items received: " + result.size(), result.size() == 1000);
+        
+        // Uncomment this line to continue
+        //assertTrue(true);
+    }
+    
+    /**
+     * Exercise 33 - Tying the threads together
+     * 
+     * You might have guessed what's going on in the previous exercise. When using 
+     * interval the callback for onNext passed as an argument to the subscribe() 
+     * method is called on a different thread. Assuming you do not work on laptop
+     * with heavily outdated hardware, before the Observable is able to blast 
+     * through all the items and call the callback for each item, the main Thread
+     * will already have moved on and executed the assertion.
+     * 
+     * Tip: Name your Threads. You see this happen often in a non-blocking
+     * environment. Naming your Threads and including the name in the log messages
+     * can help greatly when debugging bugs.
+     * 
+     * Now let's find out how to fix this.
+     * 
+     */
+    @Test
+    public void exercise33() {
+        // TODO remove solution
+        Observable<Long> nums = Observable.interval(
+                1 
+                , TimeUnit.MICROSECONDS
+                // ------------ INSERT CODE HERE! ----------------------------        
+                // You can use the subscribeOn() method to execute the callback
+                // on a specific thread. Use the Schedulers class to pass the 
+                // right thread. (RxJava has some built in Threadpools called
+                // Schedulers) 
+                , Schedulers.immediate() 
+                // ------------ INSERT CODE HERE! ----------------------------        
+        ).take(1000);
+        
+        List<Long> result = new ArrayList<>();
+        
+        nums
+            .subscribe(x -> { 
+            // Uncomment the following line to receive more information
+            //System.out.println("Thread " + Thread.currentThread().getName() + ". Adding to result: " + x); 
+            result.add(x); 
+        });
+        
+        assertTrue("Items received: " + result.size(), result.size() == 1000);
+    }
+
+    /**
+     * Executing on different threads forms the heart of an asynchronous or non-
+     * blocking system. Working with threads is usually hard and error prone. 
+     * RxJava tries to simplify things by introducing the concept of Schedulers.
+     * In short, you could view a Scheduler as Threadpool.
+     * 
+     * Now take another look at the Schedulers class. Can you think of the 
+     * purpose of each Scheduler? And what would that purpose mean for the
+     * characteristics of that Scheduler? (Think of threadpool properties 
+     * such as number of threads, etc.)
+     * 
+     * In RxJava you can also choose to subscribe and observe on different 
+     * threads using Schedulers. 
+     * 
+     * @see learnrxjava.examples.SubscribeOnObserveOnExample to play around with
+     * subscribeOn and observeOn.
+     * 
+     * This ends our intermezzo here. Time for you to return to the safety of 
+     * already implemented tests and just focusing on the implementation. You
+     * may return to ObservableExercises and pick up from where you left off.
+     */
+    
+    // TODO renumber exercise29
     @Test
     public void exercise29() {
         TestSubscriber<GroupedObservable<String, Double>> ts = new TestSubscriber<>();
