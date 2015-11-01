@@ -220,7 +220,7 @@ public class ObservableSolutions extends ObservableExercises {
     }
     
     @Override
-    public Observable<GroupedObservable<String, Double>> exercise29(Observable<Movies> movieLists) {
+    public Observable<GroupedObservable<String, Double>> exercise40(Observable<Movies> movieLists) {
         return movieLists.flatMap(movieList -> movieList.videos)
                 .flatMap(movie -> 
                         movie.topCast.map(actor -> 

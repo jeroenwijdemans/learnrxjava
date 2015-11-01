@@ -701,6 +701,8 @@ public class ObservableExercises {
      * 
      * Your journey continues in ObservableExercisesTest. Good luck! If you work
      * diligently and with purpose in your heart, we will meet again here.
+     * 
+     * Go now!
      */
     public void exercise27(
             Observable<Long> nums, 
@@ -719,6 +721,28 @@ public class ObservableExercises {
      * skip ahead without our permission, right?
      */
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * Welcome back! 
      * 
@@ -734,29 +758,41 @@ public class ObservableExercises {
      * Finally, this is one of those few lucky times where you can throw errors
      * all over the place and nobody will get upset.
      */
-    public void exercise34(Observable<Movies> movieLists) {
+    
+    /**
+     * Exercise 34 - onErrorReturn (2ndlvl 9 todo)
+     */
+    public void exercise34() {
         
     }
     
     /**
-     * Exercise 34 - I love it when a plan fails but it still comes together in another plan
+     * Exercise 35 - I love it when a plan fails but it still comes together in another plan
      *
      * @param planA Will probably fail
      * @param planB To rescue us when plan A fails
      */
     public void exercise34(Observable<Movies> planA, Observable<Movies> planB) {
+        // onErrorResumeNext
+    }
+    
+    /**
+     * Exercise 35 - retry (2ndlvl 10, 12)
+     */
+    public void exercise35() {
         
     }
     
     /**
-     * Exercise 29 - Group By
+     * // TODO renumber
+     * Exercise 40 - Group By
      * 
      * This exercise is more advanced. Don't worry if it takes some time to wrap your head around it.
      * 
      * @param movieLists an observable of movies to work your magic on
      * @return the ratings of all the movies made per actor
      */
-    public Observable<GroupedObservable<String, Double>> exercise29(Observable<Movies> movieLists) {
+    public Observable<GroupedObservable<String, Double>> exercise40(Observable<Movies> movieLists) {
         // ------------ INSERT CODE HERE! ----------------------------
         // Use Observable.groupBy()
         // Hint1: You can find the actors in the topCast property of a Movie
@@ -764,26 +800,6 @@ public class ObservableExercises {
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
-    }
-    
-    /**
-     * Schedulers
-     * http://reactivex.io/documentation/scheduler.html
-     * 
-     * 1. start with observable that immediately exits
-     * 2. fix it by observing on the right scheduler
-     * 3. redirect to examples
-     */
-    
-    
-    /**
-     * 
-     * 
-     * 
-     * @return true when you're inspired enough by the TestSuite
-     */
-    public boolean exercise34() {
-        return false;
     }
     
     /**

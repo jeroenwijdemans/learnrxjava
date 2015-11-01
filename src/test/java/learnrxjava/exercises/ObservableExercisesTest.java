@@ -401,13 +401,15 @@ public class ObservableExercisesTest {
     }
     
     /**
-     * Exercise 30 - Your first test
+     * Exercise 29 - Your first test
+     * 
+     * We promised you enlightenment about testing. We will now complete that promise.
      * 
      * We start easy. Verify the output of the unverifiedObservable. You can use
      * the other tests in this suite as inspiration.
      */
     @Test
-    public void exercise30() {
+    public void exercise29() {
         Observable<Integer> unverifiedObservable = Observable.from(Arrays.asList(1,2,3,4,5,6,7,8,9,10))
             .filter(x -> x % 2 == 0)
             .map(x -> x * 2 + 1);
@@ -424,21 +426,23 @@ public class ObservableExercisesTest {
         
         // Finally use the subscriber to assert what you hold to be the truth
         // about the unverifiedObservable
-        // ------------ INSERT CODE HERE! ----------------------------
+        
         testSubscriber.assertReceivedOnNext(Arrays.asList(5, 9, 13, 17, 21));
+        // ------------ INSERT CODE HERE! ----------------------------
+
         // You may remove this when done
-//        fail();
+        //  fail();
     }
     
     /**
-     * Exercise 31 - Testing with time
+     * Exercise 30 - Testing with time
      * 
      * To make it interesting we will add a touch of time now. We do want our
      * unit test to keep running fast though, so your main assignment here is 
      * to find a way to control time. Use your powers wisely though.
      */
     @Test
-    public void exercise31() {
+    public void exercise30() {
         // TODO remove solution
         
         // Below waits an observable that emits an item every day. Yawn.
@@ -484,12 +488,12 @@ public class ObservableExercisesTest {
     }
     
     /**
-     * Exercise 32 - And... it's gone
+     * Exercise 31 - And... it's gone
      * 
      * An exercise of mind this one. Run the test and try to explain... 
      */
     @Test
-    public void exercise32() {
+    public void exercise31() {
         Observable<Long> nums = Observable.interval(1, TimeUnit.MICROSECONDS).take(1000);
         List<Long> result = new ArrayList<>();
         
@@ -508,7 +512,7 @@ public class ObservableExercisesTest {
     }
     
     /**
-     * Exercise 33 - Tying the threads together
+     * Exercise 32 - Tying the threads together
      * 
      * You might have guessed what's going on in the previous exercise. When using 
      * interval the callback for onNext passed as an argument to the subscribe() 
@@ -525,7 +529,7 @@ public class ObservableExercisesTest {
      * 
      */
     @Test
-    public void exercise33() {
+    public void exercise32() {
         // TODO remove solution
         Observable<Long> nums = Observable.interval(
                 1 
@@ -552,6 +556,8 @@ public class ObservableExercisesTest {
     }
 
     /**
+     * Exercise 33 - RTFCode
+     * 
      * Executing on different threads forms the heart of an asynchronous or non-
      * blocking system. Working with threads is usually hard and error prone. 
      * RxJava tries to simplify things by introducing the concept of Schedulers.
@@ -565,19 +571,26 @@ public class ObservableExercisesTest {
      * In RxJava you can also choose to subscribe and observe on different 
      * threads using Schedulers. 
      * 
-     * @see learnrxjava.examples.SubscribeOnObserveOnExample to play around with
-     * subscribeOn and observeOn.
-     * 
+     * Execute learnrxjava.examples.SubscribeOnObserveOnExample and play around 
+     * with subscribeOn and observeOn until you get the concepts.
+     */
+    @Test
+    public void exercise33() {
+        // Change to true when done
+        assertTrue(false);
+    }
+    
+    /**   
      * This ends our intermezzo here. Time for you to return to the safety of 
      * already implemented tests and just focusing on the implementation. You
      * may return to ObservableExercises and pick up from where you left off.
      */
     
-    // TODO renumber exercise29
+    // TODO renumber exercise40
     @Test
-    public void exercise29() {
+    public void exercise40() {
         TestSubscriber<GroupedObservable<String, Double>> ts = new TestSubscriber<>();
-        getImpl().exercise29(gimmeSomeMoreMovies()).subscribe(ts);
+        getImpl().exercise40(gimmeSomeMoreMovies()).subscribe(ts);
         ts.assertNoErrors();
         List<GroupedObservable<String, Double>> ratingsPerActor = ts.getOnNextEvents();
         assertThat(ratingsPerActor.size(), is(7));        
