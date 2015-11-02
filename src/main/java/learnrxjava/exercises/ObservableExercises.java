@@ -526,7 +526,8 @@ public class ObservableExercises {
 
         // ------------ INSERT CODE HERE! ----------------------------
         // Use Observable.interval to get an item emitted each second.
-        // Use Observable.zip to achieve the desired output
+        // Use Observable.zip (static) or Observable.zipWith (instance)
+        // to achieve the desired output
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
