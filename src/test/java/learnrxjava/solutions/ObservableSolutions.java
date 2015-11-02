@@ -96,7 +96,6 @@ public class ObservableSolutions extends ObservableExercises {
     public Observable<String> exercise07(String name) {
         return Observable.create(subscriber -> {
             subscriber.onNext(name);
-            subscriber.onNext("end-of-names");
             subscriber.onCompleted();
         });
     }
@@ -213,11 +212,9 @@ public class ObservableSolutions extends ObservableExercises {
                         .map(movie1 -> movie1.rating));
     }
 
-    @Override
-    public void exercise27(Observable<Long> nums, TestScheduler scheduler, TestSubscriber immediateSubscriber, TestSubscriber delayedSubscriber) {
-        // Can reuse the exercise implementation, supposed to fix test
-        super.exercise27(nums, scheduler, immediateSubscriber, delayedSubscriber);
-    }
+    /**
+     * Solutions for exercises 27 - 33 can be found in class ObservableSolutionsTest
+     */
     
     @Override
     public Observable<GroupedObservable<String, Double>> exercise40(Observable<Movies> movieLists) {

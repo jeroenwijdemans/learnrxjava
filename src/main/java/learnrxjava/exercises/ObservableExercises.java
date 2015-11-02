@@ -283,7 +283,8 @@ public class ObservableExercises {
         return Observable.create(subscriber -> {
             // ------------ INSERT CODE HERE! ----------------------------
             // Signal 2 events to the subscriber that has been handed to us by Observable.create().
-            // The first event must emit the name, the second must signal 'end-of-names'.
+            // The first event must emit the name, the second must signal that
+            // the emission of the name was the last event and no more are coming.
             // ------------ INSERT CODE HERE! ----------------------------
             // TODO add implementation
             throw new UnsupportedOperationException("Not Implemented");

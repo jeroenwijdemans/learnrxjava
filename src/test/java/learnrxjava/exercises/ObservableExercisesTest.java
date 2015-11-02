@@ -101,7 +101,7 @@ public class ObservableExercisesTest {
         getImpl().exercise07("Just - a single value").subscribe(ts);
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList("Just - a single value", "end-of-names"));
+        ts.assertReceivedOnNext(Arrays.asList("Just - a single value"));
     }
 
     @Test
@@ -321,7 +321,7 @@ public class ObservableExercisesTest {
      */
     @Test
     public void exercise27() {
-        // Don't worry about these TestSchedulers and TestSubscrobers yet.
+        // Don't worry about these TestSchedulers and TestSubscribers yet.
         // More details will follow later.
         TestScheduler testScheduler = Schedulers.test();
         TestSubscriber<Long> immediateSubscriber = new TestSubscriber<>();
@@ -340,8 +340,8 @@ public class ObservableExercisesTest {
         // Use your knowledge about cold Observables to predict the output.
         // Try to reason about the output first. You could just look
         // at the test output, but where'd be the fun in that?
-        List<Long> expectedImmediate = Arrays.asList();
-        List<Long> expectedDelayed = Arrays.asList();
+        List<Long> expectedImmediate = Arrays.asList( /* Insert your expectations here */ );
+        List<Long> expectedDelayed = Arrays.asList( /* Insert your expectations here */ );
         // ------------ INSERT CODE HERE! ----------------------------
         
         fail(); // Remove this line when you finished your implementation
@@ -389,14 +389,16 @@ public class ObservableExercisesTest {
         immediateSubscriber.assertReceivedOnNext(expectedImmediate);
         delayedSubscriber.assertReceivedOnNext(expectedDelayed);
         
-        // TODO think of examples of hot and cold observables and make multiple choice
+        // For extra credit:
         // Now you've learned the difference between hot and cold Observables, can you
         // tell of which type the examples are? Insert your answers ('hot' or 'cold') at
         // the ?.
         
-        // Mouseclicks:       ?
-        // Stock information: ?
-        // TODO More examples of cold observables needed
+        // Mouseclicks:                    ?
+        // Grades to calculate an average: ?
+        // Stock information:              ?
+        // Video frames:                   ?
+        // Can you think of more examples?
         
         // You can read more about ConnectableObservable here:
         // https://github.com/ReactiveX/RxJava/wiki/Connectable-Observable-Operators
@@ -416,24 +418,18 @@ public class ObservableExercisesTest {
             .filter(x -> x % 2 == 0)
             .map(x -> x * 2 + 1);
 
-        // TODO remove solution
-        
         // ------------ INSERT CODE HERE! ----------------------------
         // First we will need a subscriber, but not any will suffice. We
         // are looking for one with test capabilities
-        TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
         
         // Now subscribe that special subscriber to the the unverifiedObservable
-        unverifiedObservable.subscribe(testSubscriber);
         
         // Finally use the subscriber to assert what you hold to be the truth
         // about the unverifiedObservable
         
-        testSubscriber.assertReceivedOnNext(Arrays.asList(5, 9, 13, 17, 21));
         // ------------ INSERT CODE HERE! ----------------------------
 
-        // You may remove this when done
-        //  fail();
+        fail(); // You may remove this line when done
     }
     
     /**
@@ -445,14 +441,12 @@ public class ObservableExercisesTest {
      */
     @Test
     public void exercise30() {
-        // TODO remove solution
-        
         // Below waits an observable that emits an item every day. Yawn.
         // You will
         // ------------ INSERT CODE HERE! ----------------------------
         // Change the initialization and pick the right scheduler. You
         // should be able to find it in this file.
-        Scheduler scheduler = Schedulers.test(); //null; 
+        Scheduler scheduler = null; 
         // ------------ INSERT CODE HERE! ----------------------------
         
         // Emits an item every day. Now you know why we'd like to control time.
@@ -460,12 +454,7 @@ public class ObservableExercisesTest {
         
         // ------------ INSERT CODE HERE! ----------------------------
         // Again we will need a subscriber
-        // ------------ INSERT CODE HERE! ----------------------------
-        TestSubscriber<Long> testSubscriber = new TestSubscriber<>();
-        sluggishObservable.subscribe(testSubscriber);
         
-        // ------------ INSERT CODE HERE! ----------------------------
-        //
         // SPOILER ALERT!!! Do not read ahead until you implemented the question above!
         //
         // Of course we didn't need a cast if we used the specialized type
@@ -476,14 +465,10 @@ public class ObservableExercisesTest {
         
         // ------------ INSERT CODE HERE! ----------------------------
         // Use the scheduler to advance time
-        // ------------ INSERT CODE HERE! ----------------------------
-        testScheduler.advanceTimeBy(10, DAYS);
-        // ------------ INSERT CODE HERE! ----------------------------
         
-        // ------------ INSERT CODE HERE! ----------------------------        
         // Assert to see if your time travel worked
+        
         // ------------ INSERT CODE HERE! ----------------------------
-        testSubscriber.assertReceivedOnNext(Arrays.asList(0L, 1L,2L,3L,4L,5L,6L,7L,8L,9L));
         
         // Congratulations if this test finished the same day instead of 10 days later.
         // Although, seriously, who would wait that long?
@@ -532,7 +517,6 @@ public class ObservableExercisesTest {
      */
     @Test
     public void exercise32() {
-        // TODO remove solution
         Observable<Long> nums = Observable.interval(
                 1 
                 , TimeUnit.MICROSECONDS
@@ -541,7 +525,6 @@ public class ObservableExercisesTest {
                 // on a specific thread. Use the Schedulers class to pass the 
                 // right thread. (RxJava has some built in Threadpools called
                 // Schedulers) 
-                , Schedulers.immediate() 
                 // ------------ INSERT CODE HERE! ----------------------------        
         ).take(1000);
         
