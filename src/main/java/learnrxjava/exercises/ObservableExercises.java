@@ -909,8 +909,38 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    /**
+     * Exercise 41 - Sort it out 
+     *
+     * Sorting is a simple operation. Keep in mind that sorting requires buffering _all_ items - the last one may very well
+     * be the smallest. This is reflected by the fact that a _List_ of the input type is returned.
+     *
+     * The sort buffer may require quite some memory when streaming a large number of items, so be careful!
+     */
+    public Observable<List<String>> exercise41(Observable<String> data) {
+        // ------------ ASSIGNMENT ----------------------------
+        // Use Observable's 'toSortedList' operator to sort lexicographically
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 42 - Sort it out by length
+     *
+     * Sorting is by default done by using the Comparable implementation of the items themselves.
+     *
+     * In this exercise, you will build an external sorter. Should be simple enough: supply the comparison as a lambda expression.
+     */
+    public Observable<List<String>> exercise42(Observable<String> data) {
+        // ------------ ASSIGNMENT ----------------------------
+        // Use an overload of Observable's 'toSortedList' operator, supplying a sortFunction
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+    
     // TODO
-    // 41, 42 sorting (2ndlvl 1, 2)
     // 43 distinct (2ndlvl 3)
     // 44 materialize (2ndlvl 11)
     // 45 from(Future) (2ndlvl 4)

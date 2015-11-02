@@ -266,6 +266,17 @@ public class ObservableSolutions extends ObservableExercises {
         }).map(maxBoxart -> ObservableExercises.json("id", v.id, "title", v.title, "boxart", maxBoxart.url))));
     }
 
+    @Override
+    public Observable<List<String>> exercise41(Observable<String> data) {
+        return data.toSortedList();
+    }
+
+    @Override
+    public Observable<List<String>> exercise42(Observable<String> data) {
+        return data.toSortedList((string1, string2) -> string1.length() - string2.length());
+    }
+
+
     /*
      * **************
      * below are helper methods

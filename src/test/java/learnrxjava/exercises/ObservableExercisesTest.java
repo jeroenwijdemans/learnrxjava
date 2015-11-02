@@ -721,6 +721,26 @@ public class ObservableExercisesTest {
         Assert.assertEquals(map.get(675465).toString(), "{boxart=http://cdn-0.nflximg.com/images/2891/Fracture120.jpg, id=675465, title=Fracture}");
     }
 
+    @Test
+    public void exercise41() {
+        TestSubscriber<List<String>> ts = new TestSubscriber<>();
+        getImpl().exercise41(from(asList("Remko", "Hedzer", "Dirk", "Teije", "Gerlo", "Robbert"))).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        List<String> sortedNames = Arrays.asList("Dirk", "Gerlo", "Hedzer", "Remko", "Robbert", "Teije");
+        ts.assertReceivedOnNext(Arrays.asList(sortedNames));
+    }
+
+    @Test
+    public void exercise42() {
+        TestSubscriber<List<String>> ts = new TestSubscriber<>();
+        getImpl().exercise42(from(asList("Remko", "Hedzer", "Dirk", "Teije", "Gerlo", "Robbert"))).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        List<String> sortedNames = Arrays.asList("Dirk", "Remko", "Teije", "Gerlo", "Hedzer", "Robbert");
+        ts.assertReceivedOnNext(Arrays.asList(sortedNames));
+    }
+
     /*
      * **************
      * below are helper methods
