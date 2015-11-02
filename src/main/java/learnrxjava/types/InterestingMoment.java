@@ -6,6 +6,7 @@ public class InterestingMoment {
         return "InterestingMoment{" + "type=" + type + ", time=" + time + '}';
     }
 
+    // TODO refactor to enum
     public String type;
     public int time;
 

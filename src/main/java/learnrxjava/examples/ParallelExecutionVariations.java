@@ -7,19 +7,19 @@ public class ParallelExecutionVariations {
 
     public static void main(String[] args) {
         System.out.println("------------ mergingAsync");
-        //mergingAsync();
+        mergingAsync();
         System.out.println("------------ mergingSync");
-        //mergingSync();
+        mergingSync();
         System.out.println("------------ mergingSyncMadeAsync");
-        //mergingSyncMadeAsync();
+        mergingSyncMadeAsync();
         System.out.println("------------ flatMapExampleSync");
-        //flatMapExampleSync();
+        flatMapExampleSync();
         System.out.println("------------ flatMapExampleAsync");
-        //flatMapExampleAsync();
+        flatMapExampleAsync();
         System.out.println("------------ flatMapBufferedExampleAsync");
         flatMapBufferedExampleAsync();
         System.out.println("------------ flatMapWindowedExampleAsync");
-        //flatMapWindowedExampleAsync();
+        flatMapWindowedExampleAsync();
         System.out.println("------------");
     }
 
