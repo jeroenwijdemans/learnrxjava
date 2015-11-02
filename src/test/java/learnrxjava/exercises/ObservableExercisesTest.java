@@ -710,7 +710,6 @@ public class ObservableExercisesTest {
         );
 
         Map<Integer, JSON> map = getImpl().exercise40(movies).toMap(i -> (int) i.get("id")).toBlocking().single();
-        System.out.println(map);
         assertTrue(map.containsKey(70111470));
         Assert.assertEquals(map.get(70111470).toString(), "{boxart=http://cdn-0.nflximg.com/images/2891/DieHard150.jpg, id=70111470, title=Die Hard}");
         assertTrue(map.containsKey(654356453));

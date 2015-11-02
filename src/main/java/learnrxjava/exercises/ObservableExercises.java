@@ -1051,7 +1051,7 @@ public class ObservableExercises {
     protected  <T> Observable<T> failingObservable(int fails, Observable.OnSubscribe<T> action) {
         final AtomicInteger c = new AtomicInteger();
         return Observable.create((Subscriber<? super T> s) -> {
-            System.out.println("Try: " + c.get());
+//            System.out.println("Try: " + c.get());
             if (c.incrementAndGet() < fails) {
                 s.onError(new RuntimeException("recoverable"));
             } else {
@@ -1093,12 +1093,15 @@ public class ObservableExercises {
      * Final notes
      * ****************************
      *
-     * Congratulations! Our guidance ends here. From here on you will have to follow your own path.
+     * CONGRATULATIONS!
+     *
+     * Our guidance ends here. From here on you will have to follow your own path.
+     *
      * Take a look at the examples in the learnrxjava.examples package, study the API, read about reactive streams
      * and backpressure or try to build your own reactive application.
      * 
-     * We hope you enjoyed this workshop. If you're interested and want to know more, don't hesitate and
-     * contact us.
+     * We hope you enjoyed the ride and emerged enlightened. If you're interested and want to know more,
+     * don't hesitate and contact us.
      * 
      * Regards,
      * 
@@ -1129,12 +1132,14 @@ public class ObservableExercises {
      * Functional Reactive Programming with RxJava
      * https://www.youtube.com/watch?v=Dk8cR1Kxj0Y
      *
+     * Other
+     * Google has all the answers my friend. If you're paranoid DuckDuckGo will help you too :)
      */
     
     /*
-     * ****************************
-     * below are helper methods
-     * ****************************
+     * ****************************************************************
+     * below are helper methods, you are free to look at them of course
+     * ****************************************************************
      */
 
     // This function can be used to build JSON objects within an expression
