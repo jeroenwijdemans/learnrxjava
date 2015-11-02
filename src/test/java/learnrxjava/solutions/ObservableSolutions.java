@@ -226,6 +226,11 @@ public class ObservableSolutions extends ObservableExercises {
                     ).groupBy(entry -> entry.getKey(), entry -> entry.getValue());
     }
 
+    @Override
+    public Observable<Long> exercise34(Observable<Long> faultyObservable) {
+        return faultyObservable.onErrorReturn(e -> -1L);
+    }
+
     /*
      * **************
      * below are helper methods

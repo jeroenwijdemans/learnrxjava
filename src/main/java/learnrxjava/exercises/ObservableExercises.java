@@ -773,10 +773,19 @@ public class ObservableExercises {
      */
     
     /**
-     * Exercise 34 - onErrorReturn (2ndlvl 9 todo)
+     * Exercise 34 - Fallback
+     *
+     * We start of easy. When an Observable emits an error, the stream is stopped
+     * in the normal flow. We can however provide a default fallback value that is
+     * to emitted should such a situation occur. The stream is terminated after
+     * that.
      */
-    public void exercise34() {
-        
+    public Observable<Long> exercise34(Observable<Long> faultyObservable) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Use Observable.onErrorReturn()
+        // Return -1 as default value
+        // ------------ INSERT CODE HERE! ----------------------------
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
     
     /**

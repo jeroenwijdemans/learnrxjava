@@ -583,7 +583,21 @@ public class ObservableExercisesTest {
      * already implemented tests and just focusing on the implementation. You
      * may return to ObservableExercises and pick up from where you left off.
      */
-    
+
+    @Test
+    public void exercise34() {
+        TestSubscriber<Long> testSubscriber = new TestSubscriber<>();
+        Observable<Long> faultyObservable = Observable.create(subscriber -> {
+            for (long i = 0; i < 10; i++) {
+                subscriber.onNext(i);
+            }
+            subscriber.onError(new RuntimeException("Failing like a boss"));
+        });
+        getImpl().exercise34(faultyObservable).subscribe(testSubscriber);
+        testSubscriber.assertNoErrors();
+        testSubscriber.assertReceivedOnNext(Arrays.asList(0L,1L,2L,3L,4L,5L,6L,7L,8L,9L,-1L));
+    }
+
     // TODO renumber exercise40
     @Test
     public void exercise40() {
