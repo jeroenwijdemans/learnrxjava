@@ -215,6 +215,7 @@ public class ObservableExercisesTest {
         Observable<Long> even = Observable.interval(1, SECONDS, scheduler).filter(i -> i % 2 == 0);
         getImpl().exercise19(odd, even).subscribe(ts);
         scheduler.advanceTimeBy(10, SECONDS);
+        ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L));
     }
     
@@ -223,6 +224,7 @@ public class ObservableExercisesTest {
         TestSubscriber<Map<Integer, Integer>> ts = new TestSubscriber<>();
         // as we can't rely on the ordering this time, we use different assertions for exercise03
         Map<Integer, Integer> map = getImpl().exercise20(gimmeSomeMovies()).toMap(i -> i).toBlocking().single();
+        ts.assertNoErrors();
         assertTrue(map.containsKey(70111470));
         assertTrue(map.containsKey(654356453));
         assertTrue(map.containsKey(65432445));
@@ -240,8 +242,10 @@ public class ObservableExercisesTest {
         TestSubscriber<String> ts = new TestSubscriber<>();
         getImpl().exercise22(gimmeSomeMoviesEvery(3, SECONDS, scheduler), scheduler).subscribe(ts);
         scheduler.advanceTimeBy(4, SECONDS);
+        ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList("Die Hard", "Bad Boys"));
         scheduler.advanceTimeBy(4, SECONDS);
+        ts.assertNoErrors();
         ts.assertTerminalEvent();
     }
 
