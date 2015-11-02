@@ -476,7 +476,7 @@ public class ObservableExercises {
      */
     public Observable<Boolean> exercise16(Observable<Movies> movieLists) {
         // ------------ INSERT CODE HERE! ----------------------------
-        // Return true is there is an epic movie.
+        // Return true is there is an epic (type.equals("epic")) movie.
         // Use Observable.exists();
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
