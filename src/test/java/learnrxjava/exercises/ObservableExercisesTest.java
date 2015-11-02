@@ -348,13 +348,15 @@ public class ObservableExercisesTest {
         // at our will. Enough to make sure we end the stream.
         testScheduler.advanceTimeBy(100, SECONDS);
         
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use your knowledge about cold Observables to predict the output.
         // Try to reason about the output first. You could just look
         // at the test output, but where'd be the fun in that?
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
         List<Long> expectedImmediate = Arrays.asList( /* Insert your expectations here */ );
         List<Long> expectedDelayed = Arrays.asList( /* Insert your expectations here */ );
-        // ------------ INSERT CODE HERE! ----------------------------
+
         
         fail(); // Remove this line when you finished your implementation
         immediateSubscriber.assertReceivedOnNext(expectedImmediate);
@@ -391,12 +393,13 @@ public class ObservableExercisesTest {
         // Advance time enough to make sure we end the stream
         testScheduler.advanceTimeBy(100, SECONDS); 
         
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Again, try not to take a peek at the answer. We trust you.
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
         List<Long> expectedImmediate = Arrays.asList( /* Insert your expectations here */ );
         List<Long> expectedDelayed = Arrays.asList( /* Insert your expectations here */ );
-        // ------------ INSERT CODE HERE! ----------------------------
-        
+
         fail(); // Remove this line when you finished your implementation
         immediateSubscriber.assertReceivedOnNext(expectedImmediate);
         delayedSubscriber.assertReceivedOnNext(expectedDelayed);
@@ -430,16 +433,18 @@ public class ObservableExercisesTest {
             .filter(x -> x % 2 == 0)
             .map(x -> x * 2 + 1);
 
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // First we will need a subscriber, but not any will suffice. We
         // are looking for one with test capabilities
-        
+        // TODO add implementation
+
         // Now subscribe that special subscriber to the the unverifiedObservable
-        
+        // TODO add implementation
+
         // Finally use the subscriber to assert what you hold to be the truth
         // about the unverifiedObservable
-        
-        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+        // ------------ ASSIGNMENT ----------------------------
 
         fail(); // You may remove this line when done
     }
@@ -455,18 +460,17 @@ public class ObservableExercisesTest {
     public void exercise30() {
         // Below waits an observable that emits an item every day. Yawn.
         // You will
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Change the initialization and pick the right scheduler. You
         // should be able to find it in this file.
-        Scheduler scheduler = null; 
-        // ------------ INSERT CODE HERE! ----------------------------
-        
+        Scheduler scheduler = null; // TODO add implementation
+
         // Emits an item every day. Now you know why we'd like to control time.
         Observable<Long> sluggishObservable = Observable.interval(1, TimeUnit.DAYS, scheduler).take(10);
         
-        // ------------ INSERT CODE HERE! ----------------------------
         // Again we will need a subscriber
-        
+        // TODO add implementation
+
         // SPOILER ALERT!!! Do not read ahead until you implemented the question above!
         //
         // Of course we didn't need a cast if we used the specialized type
@@ -475,12 +479,13 @@ public class ObservableExercisesTest {
         // is your last chance to play fair.
         TestScheduler testScheduler = (TestScheduler) scheduler;
         
-        // ------------ INSERT CODE HERE! ----------------------------
         // Use the scheduler to advance time
-        
+        // TODO add implementation
+
         // Assert to see if your time travel worked
-        
-        // ------------ INSERT CODE HERE! ----------------------------
+        // TODO add implementation
+
+        // ------------ ASSIGNMENT ----------------------------
         
         fail(); // You may remove this line when done
         
@@ -534,12 +539,13 @@ public class ObservableExercisesTest {
         Observable<Long> nums = Observable.interval(
                 1 
                 , TimeUnit.MICROSECONDS
-                // ------------ INSERT CODE HERE! ----------------------------        
+                // ------------ ASSIGNMENT ----------------------------        
                 // You can use the subscribeOn() method to execute the callback
                 // on a specific thread. Use the Schedulers class to pass the 
                 // right thread. (RxJava has some built in Threadpools called
                 // Schedulers) 
-                // ------------ INSERT CODE HERE! ----------------------------        
+                // ------------ ASSIGNMENT ----------------------------
+                // TODO add implementation
         ).take(1000);
         
         List<Long> result = new ArrayList<>();

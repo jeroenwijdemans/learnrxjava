@@ -60,10 +60,10 @@ public class ObservableExercises {
      */
     public Observable<String> exercise00(Observable<String> names) {
 
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Change the Strings in the names Observable using map.
         // Hint: You can use autocomplete.
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
 
         // return names. // TODO add implementation
 
@@ -79,9 +79,9 @@ public class ObservableExercises {
      */
     public Observable<Integer> exercise01(Observable<Integer> nums) {
 
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Filter for even numbers        
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // return nums. // TODO add implementation
 
         return Observable.error(new RuntimeException("Not Implemented"));
@@ -100,9 +100,9 @@ public class ObservableExercises {
      */
     public Observable<String> exercise02(Observable<Integer> nums) {
 
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Compose filter and map
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // return nums. // TODO add implementation
 
         return Observable.error(new RuntimeException("Not Implemented"));
@@ -174,10 +174,10 @@ public class ObservableExercises {
 
             @Override
             public void onNext(Integer t) {
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // Update sum with the running total
                 // Use auto complete
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
             }
 
@@ -216,9 +216,9 @@ public class ObservableExercises {
 
             @Override
             public void onError(Throwable t) {
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // Extract the error message and return it
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
 
                 throw new UnsupportedOperationException("Not Implemented");
@@ -246,17 +246,17 @@ public class ObservableExercises {
             int count = 0;
             @Override
             public void onNext(Integer t) {
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // Increment count by one
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
             }
 
             @Override
             public void onCompleted() {
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // Set the message to "found <count> items"
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
             }
 
@@ -282,11 +282,11 @@ public class ObservableExercises {
      */
     public Observable<String> exercise07(String name) {
         return Observable.create(subscriber -> {
-            // ------------ INSERT CODE HERE! ----------------------------
+            // ------------ ASSIGNMENT ----------------------------
             // Signal 2 events to the subscriber that has been handed to us by Observable.create().
             // The first event must emit the name, the second must signal that
             // the emission of the name was the last event and no more are coming.
-            // ------------ INSERT CODE HERE! ----------------------------
+            // ------------ ASSIGNMENT ----------------------------
             // TODO add implementation
             throw new UnsupportedOperationException("Not Implemented");
         });
@@ -306,16 +306,16 @@ public class ObservableExercises {
         return Observable.create(subscriber -> {
             try {
                 int quotient = 42 / divisor;
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // Emit just the value "The number 42 divided by your input is: <quotient>"
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
                 throw new UnsupportedOperationException("Not Implemented");
             } catch (Exception e) {
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // Emit - not throw! - the Exception. Can you think of a reason
                 // why it would be unwise to rethrow here?
-                // ------------ INSERT CODE HERE! ----------------------------
+                // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
                 throw new UnsupportedOperationException("Not Implemented");
             }
@@ -341,9 +341,9 @@ public class ObservableExercises {
      * values, by supplying up to 9 arguments.
      */
     public Observable<String> exercise09() {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // emit a single value "Hello World!"
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -363,9 +363,9 @@ public class ObservableExercises {
      * output will be equal to _the minimum_ of the number of items in both of the input streams.
      */
     public Observable<String> exercise10(Observable<String> a, Observable<String> b) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // zip up Observable a and b using a combiner function that concatenates the input from both values
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -383,9 +383,9 @@ public class ObservableExercises {
      * @return the title of the first video of the first list of movies
      */
     public Observable<String> exercise11(Observable<Movies> movieLists) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use Observable.first(), you might need some concatMap too...
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -404,10 +404,10 @@ public class ObservableExercises {
      *     these exercises it works :)
      */
     public Observable<String> exercise12(Observable<Movies> movieLists, double rating) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Get the last movie title that the Observable emits that matches the given rating.
         // Use Observable.last()
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -422,10 +422,10 @@ public class ObservableExercises {
      * @return the titles of the first 5 movies
      */
     public Observable<String> exercise13(Observable<Movies> movieLists) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Get the first 5 movie titles
         // Use Observable.take()
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -442,10 +442,10 @@ public class ObservableExercises {
      * @return the movies on the second page
      */
     public Observable<String> exercise14(Observable<Movies> movieLists, int pageLength) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Skip the movies on the first page and return the titles of the movies 
         // that are on the second page. Use Observable.skip()
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -460,10 +460,10 @@ public class ObservableExercises {
      * @return all titles of movies with a rating equal or higher than 4.5 and give 5 movies or less
      */
     public Observable<String> exercise15(Observable<Movies> movieLists) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Return all the titles of the movies that are equal to or higher than 4.5 in rating. 
         // Also just give me 5 good movies or less. Use Observable.limit().
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -478,10 +478,10 @@ public class ObservableExercises {
      * @return An Observable that emits true if a movie has an epic interestingMoment
      */
     public Observable<Boolean> exercise16(Observable<Movies> movieLists) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Return true is there is an epic (type.equals("epic")) movie.
         // Use Observable.exists();
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -497,10 +497,10 @@ public class ObservableExercises {
      *         of age, false otherwise
      */
     public Observable<Boolean> exercise17(Observable<Movies> marathonCandidates) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Return true if all movies have a minimalAge lower than 18
         // Use Observable.all();
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -527,14 +527,14 @@ public class ObservableExercises {
     public Observable<String> exercise18(Scheduler scheduler) {
         Observable<String> data = Observable.just("one", "two", "three", "four", "five");
 
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use Observable.interval to get an item emitted each second.
         // Use the overload of interval that takes a scheduler and pass
         // the provided scheduler. Don't break your head on this one,
         // more about schedulers will follow in time.
         // Use Observable.zip (static) or Observable.zipWith (instance)
         // to achieve the desired output
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
         
@@ -553,9 +553,9 @@ public class ObservableExercises {
      * @return an Observable with the results
      */
     public Observable<Long> exercise19(Observable<Long> odd, Observable<Long> even) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // use Observable.mergeWith to interleave the two streams
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -579,9 +579,9 @@ public class ObservableExercises {
      * @return Observable of Integers of Movies.videos.id
      */
     public Observable<Integer> exercise20(Observable<Movies> movieLists) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use flatMap
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -628,10 +628,10 @@ public class ObservableExercises {
      * @return the titles of the movies at the point of sampling (after four seconds)
      */
     public Observable<String> exercise22(Observable<Movies> movieLists, Scheduler scheduler) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use Observable.sample() and the provided scheduler.
         // Don't worry about schedulers yet. In time you will learn.
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -656,9 +656,9 @@ public class ObservableExercises {
      * @return buffered Lists of suggestedVideoIds at 500ms intervals
      */
     public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use Observable.buffer()
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -675,9 +675,9 @@ public class ObservableExercises {
      * @return video id's incremented with 5, where foreach second we will create a window of 200 milliseconds each 1000 milliseconds
      */
     public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use Observable.window() and increment each id with 5
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -697,9 +697,9 @@ public class ObservableExercises {
      * @return The average rating of the _throttled_ movies
      */
     public Observable<Double> exercise26(Observable<Movies> movieLists) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use Observable.throttleFirst()
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
          return Observable.error(new RuntimeException("Not Implemented"));
     }
@@ -782,10 +782,11 @@ public class ObservableExercises {
      * @param faultyObservable
      */
     public Observable<Integer> exercise34(Observable<Integer> faultyObservable) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use Observable.onErrorReturn()
         // Return -1 as default value
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
     
@@ -796,15 +797,16 @@ public class ObservableExercises {
      * @param planB To rescue us when plan A fails
      */
     public Observable<Integer> exercise35(Observable<Integer> planA, Observable<Integer> planB) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Resume from an error in observable planA by switching to planB
         // No hint this time. Look in the API for the right method
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
     
     /**
-     * Exercise 36 - retry (2ndlvl 10, 12)
+     * Exercise 36 - Third time's a charm
      *
      * The supplied data stream (supplied by the unit test) fails intermittently.
      * Your task is to return the stream, augmented with retry capability.
@@ -812,17 +814,22 @@ public class ObservableExercises {
      * @param intermittentStream a stream of data that fails intermittently
      */
     public Observable<String> exercise36(Observable<String> intermittentStream) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // use retry()
         // Hint: just retry without parameters is not enough...
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    /**********************************************************************************
+     * My friend, you've neared the end. Following are some extra exercises, should
+     * your hunger have not laid down by now. After that, you will have gained enough
+     * knowledge to lay down your own path.
+     **********************************************************************************/
 
     /**
-     * // TODO renumber
-     * Exercise 40 - Group By
+     * Exercise 37 - The inevitable Group By
      * 
      * This exercise is more advanced. Don't worry if it takes some time to wrap your head around it.
      * 
@@ -830,11 +837,11 @@ public class ObservableExercises {
      * @return the ratings of all the movies made per actor
      */
     public Observable<GroupedObservable<String, Double>> exercise40(Observable<Movies> movieLists) {
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // Use Observable.groupBy()
         // Hint1: You can find the actors in the topCast property of a Movie
         // Hint2: You can use AbstractMap.SimpleEntry<K, V> to store the relation between an actor and its movies
-        // ------------ INSERT CODE HERE! ----------------------------
+        // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
