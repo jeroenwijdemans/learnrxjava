@@ -8,7 +8,6 @@ import learnrxjava.utils.Utils;
 import org.junit.Test;
 import rx.Observable;
 import rx.Scheduler;
-import rx.observables.BlockingObservable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
@@ -22,14 +21,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.util.Arrays.asList;
 import java.util.HashMap;
 import java.util.List;
-import static java.util.concurrent.TimeUnit.DAYS;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 import learnrxjava.types.Bookmark;
 import learnrxjava.types.BoxArt;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static rx.Observable.*;
-import rx.Subscription;
+
 import rx.observables.ConnectableObservable;
 import rx.observables.GroupedObservable;
 
@@ -616,11 +615,10 @@ public class ObservableExercisesTest {
         ts.assertReceivedOnNext(Arrays.asList("Success!"));
     }
 
-    // TODO renumber exercise40
     @Test
-    public void exercise40() {
+    public void exercise37() {
         TestSubscriber<GroupedObservable<String, Double>> ts = new TestSubscriber<>();
-        getImpl().exercise40(gimmeSomeMoreMovies()).subscribe(ts);
+        getImpl().exercise37(gimmeSomeMoreMovies()).subscribe(ts);
         ts.assertNoErrors();
         List<GroupedObservable<String, Double>> ratingsPerActor = ts.getOnNextEvents();
         assertThat(ratingsPerActor.size(), is(7));        

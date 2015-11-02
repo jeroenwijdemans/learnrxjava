@@ -836,7 +836,7 @@ public class ObservableExercises {
      * @param movieLists an observable of movies to work your magic on
      * @return the ratings of all the movies made per actor
      */
-    public Observable<GroupedObservable<String, Double>> exercise40(Observable<Movies> movieLists) {
+    public Observable<GroupedObservable<String, Double>> exercise37(Observable<Movies> movieLists) {
         // ------------ ASSIGNMENT ----------------------------
         // Use Observable.groupBy()
         // Hint1: You can find the actors in the topCast property of a Movie
@@ -845,45 +845,13 @@ public class ObservableExercises {
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
-    
+
+
     /**
-     * TODO
-     * 
-     * Timing
-     * 25. infinite observables
-     * 
-     * Composing multiple observables
-     * 27. combining (??) -> replace with hot vs cold?
-     * 28. reduce & scan (ComposableList 13-19, 2ndlvl 5,6,7)
-     * 27 & 28 replaced with hot and cold.
-     * 
-     * Error handling / Resilience
-     * 30. onErrorReturn (2ndlvl 9 todo)
-     * 31. onErrorResumeNext (2ndlvl 8)
-     * 32. retry (2ndlvl 10,12)
-     *  
-     * Testing and debugging
-     * 33. doOn…
-     * 34. TestSubscriber / unit testing
-     * 35. toBlocking
-     * 
-     * Advanced / Extra
-     * 36. hot vs cold
-     * 37. wat gebeurt er qua threading / blocking bij subscribe
-     * 38. materialize (2ndlvl 11)
-     * 39. debounce
-     * 40. observeOn
-     * 41. subscribeOn
-     * 42. Subject
-     * 43. switch
-     * 44. sorting (2ndlvl 1, 2)
-     * 45. distinct (2ndlvl 3)
-     * 46. backpressure
-     * 47. reactive streams
-     */
-    
-    
-    /**
+     * ****************************
+     * Final notes
+     * ****************************
+     *
      * Congratulations! Our guidance ends here. From here on you will have to follow your own path.
      * Take a look at the examples in the learnrxjava.examples package, study the API or try
      * to build your own reactive application.
@@ -897,7 +865,7 @@ public class ObservableExercises {
      * Remko de Jong <remko.de.jong@ordina.nl>
      */
     
-    /*
+    /**
      * ****************************
      * References & Further reading
      * ****************************

@@ -211,16 +211,6 @@ public class ObservableSolutions extends ObservableExercises {
     /**
      * Solutions for exercises 27 - 33 can be found in class ObservableSolutionsTest
      */
-    
-    @Override
-    public Observable<GroupedObservable<String, Double>> exercise40(Observable<Movies> movieLists) {
-        return movieLists.flatMap(movieList -> movieList.videos)
-                .flatMap(movie -> 
-                        movie.topCast.map(actor -> 
-                            new AbstractMap.SimpleEntry<String, Double>(actor, movie.rating)
-                        )
-                    ).groupBy(entry -> entry.getKey(), entry -> entry.getValue());
-    }
 
     @Override
     public Observable<Integer> exercise34(Observable<Integer> faultyObservable) {
@@ -235,6 +225,16 @@ public class ObservableSolutions extends ObservableExercises {
     @Override
     public Observable<String> exercise36(Observable<String> intermittentStream) {
         return intermittentStream.retry(3);
+    }
+
+    @Override
+    public Observable<GroupedObservable<String, Double>> exercise37(Observable<Movies> movieLists) {
+        return movieLists.flatMap(movieList -> movieList.videos)
+                .flatMap(movie ->
+                                movie.topCast.map(actor ->
+                                                new AbstractMap.SimpleEntry<String, Double>(actor, movie.rating)
+                                )
+                ).groupBy(entry -> entry.getKey(), entry -> entry.getValue());
     }
 
     /*
