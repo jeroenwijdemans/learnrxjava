@@ -899,8 +899,7 @@ public class ObservableExercises {
      * width of 150px. This time we'll use reduce() instead of filter() to retrieve the _smallest_ box art in
      * the boxarts list.
      * <p/>
-     * @see ComposableListExercises#exercise19()
-     * and  ComposableListSolutions#exercise19()
+     * @see ComposableListExercises#exercise13() - ComposableListExercises#exercise19()
      */
     public Observable<JSON> exercise40(Observable<Movies> movies) {
         // ------------ ASSIGNMENT ----------------------------
