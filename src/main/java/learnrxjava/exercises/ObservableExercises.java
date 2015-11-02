@@ -791,6 +791,7 @@ public class ObservableExercises {
     
     /**
      * Exercise 35 - I love it when a plan fails but it still comes together in another plan
+     *
      * @param planA Will probably fail
      * @param planB To rescue us when plan A fails
      */
@@ -804,11 +805,21 @@ public class ObservableExercises {
     
     /**
      * Exercise 36 - retry (2ndlvl 10, 12)
+     *
+     * The supplied data stream (supplied by the unit test) fails intermittently.
+     * Your task is to return the stream, augmented with retry capability.
+     *
+     * @param intermittentStream a stream of data that fails intermittently
      */
-    public void exercise36() {
-        
+    public Observable<String> exercise36(Observable<String> intermittentStream) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // use retry()
+        // Hint: just retry without parameters is not enough...
+        // ------------ INSERT CODE HERE! ----------------------------
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
-    
+
+
     /**
      * // TODO renumber
      * Exercise 40 - Group By

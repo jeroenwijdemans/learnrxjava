@@ -1,5 +1,6 @@
 package learnrxjava.utils;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import learnrxjava.examples.SubscribeOnObserveOnExample;
@@ -36,6 +37,22 @@ public class Utils {
                 subscriber.onNext(i);
             }
             subscriber.onError(new RuntimeException("Failing like a boss"));
+        });
+    }
+
+    /**
+     * @param n number of times to fail before output is produced
+     * @return an Observable that fails n times before producing single output 'Success'
+     */
+    public static Observable<String> intermittentlyFailing(int n) {
+        AtomicInteger c = new AtomicInteger();
+        return Observable.create(s -> {
+            if (c.incrementAndGet() <= n) {
+                s.onError(new RuntimeException("Failed " + c.get() + " times"));
+            } else {
+                s.onNext("Success!");
+                s.onCompleted();
+            }
         });
     }
 }

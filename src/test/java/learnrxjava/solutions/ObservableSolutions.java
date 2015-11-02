@@ -232,6 +232,11 @@ public class ObservableSolutions extends ObservableExercises {
         return planA.onErrorResumeNext(planB);
     }
 
+    @Override
+    public Observable<String> exercise36(Observable<String> intermittentStream) {
+        return intermittentStream.retry(3);
+    }
+
     /*
      * **************
      * below are helper methods

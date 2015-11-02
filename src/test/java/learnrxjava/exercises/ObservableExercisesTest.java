@@ -601,6 +601,15 @@ public class ObservableExercisesTest {
         testSubscriber.assertReceivedOnNext(Arrays.asList(0,1,2,3,4,5,6,7,8,9));
     }
 
+    @Test
+    public void exercise36() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise36(Utils.intermittentlyFailing(3)).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList("Success!"));
+    }
+
     // TODO renumber exercise40
     @Test
     public void exercise40() {
