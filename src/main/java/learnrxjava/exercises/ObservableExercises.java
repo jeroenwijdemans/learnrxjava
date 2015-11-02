@@ -846,6 +846,75 @@ public class ObservableExercises {
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    /**
+     * Exercise 38 - Reductio ad adsurdum
+     *
+     * Retrieve the largest number.
+     * <p/>
+     * Use reduce to select the maximum value in a list of numbers.
+     * <p/>
+     * Reduction works iteratively, processing each item one by one, applying it to the result
+     * of the previous step. The process is started by combining the first two emitted items.
+     * <p/>
+     * The combiner function is named 'accumulator'.
+     * <p/>
+     * Only the _last_ result of invoking the accumulated is emitted, so reduce() emits (at most) one item.
+     */
+    public Observable<Integer> exercise38(Observable<Integer> nums) {
+        // ------------ ASSIGNMENT ----------------------------
+        // use reduce() to find the maximum number
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    /**
+     * Exercise 39 - Scan
+     *
+     * Scan works just like reduce, with the distinction that it emits all intermediate results.
+     * The number of emitted results equals the number emitted by the Observable being scanned.
+     * 
+     * Your assignment is the same as in the previous exercise, but this time use scan to find
+     * the maximum number (and all intermediate results)
+     */
+    public Observable<Integer> exercise39(Observable<Integer> nums) {
+        // ------------ ASSIGNMENT ----------------------------
+        // use scan()
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+        
+        // Do you understand the subtle difference between reduce and scan? Looking
+        // at the tests could provide some extra insights.
+    }
+
+    /**
+     * Exercise 40 - reduce, composed
+     *
+     * Retrieve the id, title, and <b>smallest</b> box art url for every video.
+     * <p/>
+     * Now let's try combining reduce() with our other functions to build more complex queries.
+     * <p/>
+     * This is a variation of the problem we solved earlier, where we retrieved the url of the boxart with a
+     * width of 150px. This time we'll use reduce() instead of filter() to retrieve the _smallest_ box art in
+     * the boxarts list.
+     * <p/>
+     * @see ComposableListExercises#exercise19()
+     * and  ComposableListSolutions#exercise19()
+     */
+    public Observable<JSON> exercise40(Observable<Movies> movies) {
+        // ------------ ASSIGNMENT ----------------------------
+        // use reduce() - see ComposableListSolutions#exercise19() for more hints
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
+    // TODO
+    // 41, 42 sorting (2ndlvl 1, 2)
+    // 43 distinct (2ndlvl 3)
+    // 44 materialize (2ndlvl 11)
+    // 45 from(Future) (2ndlvl 4)
 
     /**
      * ****************************

@@ -1,10 +1,10 @@
 package learnrxjava.exercises;
 
 import java.util.ArrayList;
-import learnrxjava.types.InterestingMoment;
-import learnrxjava.types.Movie;
-import learnrxjava.types.Movies;
+
+import learnrxjava.types.*;
 import learnrxjava.utils.Utils;
+import org.junit.Assert;
 import org.junit.Test;
 import rx.Observable;
 import rx.Scheduler;
@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
-import learnrxjava.types.Bookmark;
-import learnrxjava.types.BoxArt;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static rx.Observable.*;
@@ -638,7 +636,91 @@ public class ObservableExercisesTest {
             ts1.assertReceivedOnNext(expectedRatingsPerActor.get(actorRatings.getKey()));
         });
     }
-    
+
+    @Test
+    public void exercise38() {
+        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        getImpl().exercise38(just(3, 6, 8, 9, 4, 12, 4, 2)).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList(12));
+    }
+
+    @Test
+    public void exercise39() {
+        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        getImpl().exercise39(just(3, 6, 8, 9, 4, 12, 4, 2)).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList(3, 6, 8, 9, 9, 12, 12, 12));
+    }
+
+    @Test
+    public void exercise40() {
+        TestSubscriber<Map<Integer, JSON>> ts = new TestSubscriber<>();
+
+        Observable<Movies> movies = just(
+                new Movies(
+                        "New Releases",
+                        Arrays.asList(
+                                new Movie(
+                                        70111470,
+                                        "Die Hard",
+                                        4.0,
+                                        Collections.emptyList(),
+                                        Arrays.asList(
+                                                new BoxArt(150, 200, "http://cdn-0.nflximg.com/images/2891/DieHard150.jpg"),
+                                                new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/DieHard200.jpg")
+                                        )),
+                                new Movie(
+                                        654356453,
+                                        "Bad Boys",
+                                        5.0,
+                                        Collections.emptyList(),
+                                        Arrays.asList(
+                                                new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/BadBoys200.jpg"),
+                                                new BoxArt(140, 200, "http://cdn-0.nflximg.com/images/2891/BadBoys140.jpg")
+                                        ))
+                        )
+                ),
+                new Movies(
+                        "Thrillers",
+                        Arrays.asList(
+                                new Movie(
+                                        65432445,
+                                        "The Chamber",
+                                        3.0,
+                                        Collections.emptyList(),
+                                        Arrays.asList(
+                                                new BoxArt(130, 200, "http://cdn-0.nflximg.com/images/2891/TheChamber130.jpg"),
+                                                new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/TheChamber200.jpg")
+                                        )),
+                                new Movie(
+                                        675465,
+                                        "Fracture",
+                                        4.0,
+                                        Collections.emptyList(),
+                                        Arrays.asList(
+                                                new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/Fracture200.jpg"),
+                                                new BoxArt(120, 200, "http://cdn-0.nflximg.com/images/2891/Fracture120.jpg"),
+                                                new BoxArt(300, 200, "http://cdn-0.nflximg.com/images/2891/Fracture300.jpg")
+                                        ))
+                        )
+                )
+        );
+
+        Map<Integer, JSON> map = getImpl().exercise40(movies).toMap(i -> (int) i.get("id")).toBlocking().single();
+        System.out.println(map);
+        assertTrue(map.containsKey(70111470));
+        Assert.assertEquals(map.get(70111470).toString(), "{boxart=http://cdn-0.nflximg.com/images/2891/DieHard150.jpg, id=70111470, title=Die Hard}");
+        assertTrue(map.containsKey(654356453));
+        Assert.assertEquals(map.get(654356453).toString(), "{boxart=http://cdn-0.nflximg.com/images/2891/BadBoys140.jpg, id=654356453, title=Bad Boys}");
+        assertTrue(map.containsKey(65432445));
+        Assert.assertEquals(map.get(65432445).toString(), "{boxart=http://cdn-0.nflximg.com/images/2891/TheChamber130.jpg, id=65432445, title=The Chamber}");
+        assertTrue(map.containsKey(675465));
+        Assert.assertEquals(map.get(675465).toString(), "{boxart=http://cdn-0.nflximg.com/images/2891/Fracture120.jpg, id=675465, title=Fracture}");
+    }
+
     /*
      * **************
      * below are helper methods

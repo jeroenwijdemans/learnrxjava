@@ -237,6 +237,35 @@ public class ObservableSolutions extends ObservableExercises {
                 ).groupBy(entry -> entry.getKey(), entry -> entry.getValue());
     }
 
+    @Override
+    public Observable<Integer> exercise38(Observable<Integer> nums) {
+        return nums.reduce((max, item) -> {
+            if (item > max) {
+                return item;
+            } else {
+                return max;
+            }
+        });
+    }
+
+    @Override
+    public Observable<Integer> exercise39(Observable<Integer> nums) {
+        return nums.scan(Math::max);
+    }
+
+    @Override
+    public Observable<JSON> exercise40(Observable<Movies> movies) {
+        return movies.flatMap(ml -> ml.videos.<JSON> flatMap(v -> v.boxarts.reduce((max, box) -> {
+            int maxSize = max.height * max.width;
+            int boxSize = box.height * box.width;
+            if (boxSize < maxSize) {
+                return box;
+            } else {
+                return max;
+            }
+        }).map(maxBoxart -> ObservableExercises.json("id", v.id, "title", v.title, "boxart", maxBoxart.url))));
+    }
+
     /*
      * **************
      * below are helper methods
