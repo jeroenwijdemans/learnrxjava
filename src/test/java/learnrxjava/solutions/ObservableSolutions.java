@@ -162,9 +162,9 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     @Override
-    public Observable<String> exercise18() {
+    public Observable<String> exercise18(Scheduler scheduler) {
         Observable<String> data = Observable.just("one", "two", "three", "four", "five");
-        Observable<Long> interval = Observable.interval(1, TimeUnit.SECONDS);
+        Observable<Long> interval = Observable.interval(1, TimeUnit.SECONDS, scheduler);
         return Observable.zip(data, interval, (d, t) -> {
             return d + " " + (t + 1);
         });

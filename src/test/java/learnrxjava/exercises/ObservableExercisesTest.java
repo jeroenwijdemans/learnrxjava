@@ -197,11 +197,13 @@ public class ObservableExercisesTest {
         ts2.assertReceivedOnNext(Collections.singletonList(true));
     }
     
+    // TODO performance
     @Test
     public void exercise18() {
         TestSubscriber<String> ts = new TestSubscriber<>();
-        getImpl().exercise18().subscribe(ts);
-        // note that we don't assert on timing. Should be possible using TestScheduler though.
+        TestScheduler scheduler = Schedulers.test();
+        getImpl().exercise18(scheduler).subscribe(ts);
+        scheduler.advanceTimeBy(10, SECONDS);
         ts.awaitTerminalEvent();
         ts.assertNoErrors();
         ts.assertReceivedOnNext(Arrays.asList("one 1", "two 2", "three 3", "four 4", "five 5"));
@@ -249,6 +251,7 @@ public class ObservableExercisesTest {
         ts.assertTerminalEvent();
     }
 
+    // TODO performance
     @Test
     public void exercise23() {
         final int NUMBER_OF_BURSTY_ITEMS = 10000;
@@ -287,6 +290,7 @@ public class ObservableExercisesTest {
         assertNotEquals(maxBufferSize.get(), 500);
     }
 
+    // TODO performance
     @Test
     public void exercise24() {
         TestSubscriber<Observable<Integer>> ts = new TestSubscriber<>();

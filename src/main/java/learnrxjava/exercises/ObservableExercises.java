@@ -12,6 +12,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import learnrxjava.examples.SubscribeOnObserveOnExample;
+import learnrxjava.utils.Utils;
 import rx.Subscription;
 import rx.observables.GroupedObservable;
 import rx.observers.TestSubscriber;
@@ -510,7 +511,7 @@ public class ObservableExercises {
      * combination of the callback structure, rich API and functional composability
      * allow for elegant solutions to some otherwise more complex problems.
      * 
-     * * = Backward time travelling excluded
+     * * = Backward time traveling excluded
      */
     
     /**
@@ -523,16 +524,21 @@ public class ObservableExercises {
      * <p/>
      * @return an Observable with items "one 1", "two 2", etc., each 1 second apart
      */
-    public Observable<String> exercise18() {
+    public Observable<String> exercise18(Scheduler scheduler) {
         Observable<String> data = Observable.just("one", "two", "three", "four", "five");
 
         // ------------ INSERT CODE HERE! ----------------------------
         // Use Observable.interval to get an item emitted each second.
+        // Use the overload of interval that takes a scheduler and pass
+        // the provided scheduler. Don't break your head on this one,
+        // more about schedulers will follow in time.
         // Use Observable.zip (static) or Observable.zipWith (instance)
         // to achieve the desired output
         // ------------ INSERT CODE HERE! ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
+        
+        // Test still failing? Did you forget to add the scheduler?
     }
 
     /**
@@ -866,9 +872,34 @@ public class ObservableExercises {
      */
     
     /*
-     * **************
+     * ****************************
+     * References & Further reading
+     * ****************************
+     * 
+     * Code repository for RxJava
+     * https://github.com/ReactiveX/RxJava
+     * 
+     * Javadoc for RxJava
+     * http://reactivex.io/RxJava/javadoc/
+     *
+     * Official Reactive Streams website
+     * http://www.reactive-streams.org/
+     * 
+     * HTML5DevConf Jafar Husain, Netflix: Asyncronous JavaScript at Netflix
+     * https://www.youtube.com/watch?v=5uxSu-F5Kj0&list=PLtP5WGrJAq4C2QGp5J0U2m1QmJ4sumvGX&index=1
+     *
+     * Functional Reactive Programming with RxJava by Ben Christensen
+     * https://www.youtube.com/watch?v=_t06LRX0DV0&list=PLtP5WGrJAq4C2QGp5J0U2m1QmJ4sumvGX&index=2
+     * 
+     * Functional Reactive Programming with RxJava
+     * https://www.youtube.com/watch?v=Dk8cR1Kxj0Y&index=3&list=PLtP5WGrJAq4C2QGp5J0U2m1QmJ4sumvGX
+     *
+     */
+    
+    /*
+     * ****************************
      * below are helper methods
-     * **************
+     * ****************************
      */
 
     // This function can be used to build JSON objects within an expression
@@ -930,16 +961,4 @@ public class ObservableExercises {
         }
     }
     
-    /**
-     * Used for educational purposes. Thread.sleep in an asynchronous context is
-     * almost always a bad idea. Come to think about it, Thread.sleep in a synchronous
-     * context is a bad idea too.
-     */
-    public static void delay(int seconds) {
-        try {
-            Thread.sleep(1000 * seconds);
-        } catch (InterruptedException ex) {
-            // Do nothing
-        }
-    }
 }
