@@ -3,7 +3,6 @@ package learnrxjava.solutions;
 import java.util.AbstractMap;
 import learnrxjava.exercises.ObservableExercises;
 import learnrxjava.types.JSON;
-import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
 import rx.Observable;
 import rx.Scheduler;
@@ -15,9 +14,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import rx.observables.GroupedObservable;
 import rx.observables.MathObservable;
-import static rx.observables.MathObservable.averageDouble;
-import rx.observers.TestSubscriber;
-import rx.schedulers.TestScheduler;
 
 public class ObservableSolutions extends ObservableExercises {
     
@@ -227,8 +223,13 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     @Override
-    public Observable<Long> exercise34(Observable<Long> faultyObservable) {
-        return faultyObservable.onErrorReturn(e -> -1L);
+    public Observable<Integer> exercise34(Observable<Integer> faultyObservable) {
+        return faultyObservable.onErrorReturn(e -> -1);
+    }
+
+    @Override
+    public Observable<Integer> exercise35(Observable<Integer> planA, Observable<Integer> planB) {
+        return planA.onErrorResumeNext(planB);
     }
 
     /*

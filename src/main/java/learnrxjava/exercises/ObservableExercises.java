@@ -779,8 +779,9 @@ public class ObservableExercises {
      * in the normal flow. We can however provide a default fallback value that is
      * to emitted should such a situation occur. The stream is terminated after
      * that.
+     * @param faultyObservable
      */
-    public Observable<Long> exercise34(Observable<Long> faultyObservable) {
+    public Observable<Integer> exercise34(Observable<Integer> faultyObservable) {
         // ------------ INSERT CODE HERE! ----------------------------
         // Use Observable.onErrorReturn()
         // Return -1 as default value
@@ -790,12 +791,15 @@ public class ObservableExercises {
     
     /**
      * Exercise 35 - I love it when a plan fails but it still comes together in another plan
-     *
      * @param planA Will probably fail
      * @param planB To rescue us when plan A fails
      */
-    public void exercise35(Observable<Movies> planA, Observable<Movies> planB) {
-        // onErrorResumeNext
+    public Observable<Integer> exercise35(Observable<Integer> planA, Observable<Integer> planB) {
+        // ------------ INSERT CODE HERE! ----------------------------
+        // Resume from an error in observable planA by switching to planB
+        // No hint this time. Look in the API for the right method
+        // ------------ INSERT CODE HERE! ----------------------------
+        return Observable.error(new RuntimeException("Not Implemented"));
     }
     
     /**

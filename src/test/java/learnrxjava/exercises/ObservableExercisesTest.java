@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import learnrxjava.types.InterestingMoment;
 import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
+import learnrxjava.utils.Utils;
 import org.junit.Test;
 import rx.Observable;
 import rx.Scheduler;
@@ -586,16 +587,18 @@ public class ObservableExercisesTest {
 
     @Test
     public void exercise34() {
-        TestSubscriber<Long> testSubscriber = new TestSubscriber<>();
-        Observable<Long> faultyObservable = Observable.create(subscriber -> {
-            for (long i = 0; i < 10; i++) {
-                subscriber.onNext(i);
-            }
-            subscriber.onError(new RuntimeException("Failing like a boss"));
-        });
-        getImpl().exercise34(faultyObservable).subscribe(testSubscriber);
+        TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
+        getImpl().exercise34(Utils.faultyObservable(10)).subscribe(testSubscriber);
         testSubscriber.assertNoErrors();
-        testSubscriber.assertReceivedOnNext(Arrays.asList(0L,1L,2L,3L,4L,5L,6L,7L,8L,9L,-1L));
+        testSubscriber.assertReceivedOnNext(Arrays.asList(0,1,2,3,4,5,6,7,8,9,-1));
+    }
+
+    @Test
+    public void exercise35() {
+        TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
+        getImpl().exercise35(Utils.faultyObservable(5), Observable.range(5, 5)).subscribe(testSubscriber);
+        testSubscriber.assertNoErrors();
+        testSubscriber.assertReceivedOnNext(Arrays.asList(0,1,2,3,4,5,6,7,8,9));
     }
 
     // TODO renumber exercise40
