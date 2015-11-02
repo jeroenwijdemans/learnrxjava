@@ -302,6 +302,9 @@ public class ObservableExercisesTest {
     public void exercise26() {
         TestSubscriber<Double> testSubscriber = new TestSubscriber<>();
         getImpl().exercise26(gimmeSomeMoreMovies()).subscribe(testSubscriber);
+        
+        //TODO finish test
+        fail();
     }
 
     /**
@@ -469,6 +472,8 @@ public class ObservableExercisesTest {
         // Assert to see if your time travel worked
         
         // ------------ INSERT CODE HERE! ----------------------------
+        
+        fail(); // You may remove this line when done
         
         // Congratulations if this test finished the same day instead of 10 days later.
         // Although, seriously, who would wait that long?
