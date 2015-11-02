@@ -939,9 +939,42 @@ public class ObservableExercises {
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
+
+    /**
+     * Exercise 43 - A distinctive exercise
+     *
+     * One way of protecting against overload - e.g. if the stream needs to be sorted - is to filter out items from the stream.
+     *
+     * Of course, you'll have to decide, based on your specific domain, in which cases 'forgetting' items
+     * from the stream is desirable.
+     *
+     * Filtering can be done in any number of ways. Examples are:
+     * - sample(time): return one item per time interval
+     * - distinct: remove duplicates
+     * - first: take _only_ the first item
+     * - takeWhile(condition): take while 'condition' is true
+     * - skip(n), skip(time): skip n items, or skip until the time interval has passed
+     * - take(n), take(time), takeLast(n), takeLast(time): take the first or last n items
+     * - take(time), takeLast(time): take the first or last items in the specified time interval
+     *
+     * ... and many others, like skip(time), last, first(condition), firstOrDefault(default),
+     * lastOrDefault(default), elementAt(x), elementAtOrDefault(x, default), skipLast(n), distinctUntilChanged, etc.
+     *
+     * But, we're getting ahead of ourselves. That's a pretty hefty list of operators, which we can't possibly
+     * all cover in this workshop.
+     *
+     * You've seen skip() before. This time we will introduce you to another 'pruning' operator: distinct().
+     */
+    public Observable<String> exercise43(Observable<String> movieIds) {
+        // ------------ ASSIGNMENT ----------------------------
+        // Skip the first 3 movies. Of the remaining movies, return only the movies that are different from
+        // what has already been emitted
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
     
     // TODO
-    // 43 distinct (2ndlvl 3)
     // 44 materialize (2ndlvl 11)
     // 45 from(Future) (2ndlvl 4)
 

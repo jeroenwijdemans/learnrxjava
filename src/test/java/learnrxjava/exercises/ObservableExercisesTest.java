@@ -741,6 +741,16 @@ public class ObservableExercisesTest {
         ts.assertReceivedOnNext(Arrays.asList(sortedNames));
     }
 
+    @Test
+    public void exercise43() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise43(from(asList("aap", "noot", "mies", "Remko", "Robbert", "Hedzer", "Dirk", "Teije", "Hedzer", "Gerlo", "Robbert"))).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        List<String> sortedNames = Arrays.asList("Remko", "Robbert", "Hedzer", "Dirk", "Teije", "Gerlo");
+        ts.assertReceivedOnNext(sortedNames);
+    }
+
     /*
      * **************
      * below are helper methods

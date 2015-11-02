@@ -276,6 +276,10 @@ public class ObservableSolutions extends ObservableExercises {
         return data.toSortedList((string1, string2) -> string1.length() - string2.length());
     }
 
+    @Override
+    public Observable<String> exercise43(Observable<String> movieIds) {
+        return movieIds.skip(3).distinct();
+    }
 
     /*
      * **************
