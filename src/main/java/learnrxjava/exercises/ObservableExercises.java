@@ -297,7 +297,8 @@ public class ObservableExercises {
      * to signal an exceptional situation. The enables the consumer to take corrective action.
      * <p/>
      * @param divisor will divide the number 42
-     * @return Observable that emits a single value "The number 42 divided by your input is: <number>"
+     * @return Observable that emits a single value, either "The number 42 divided by your input is: <number>"
+     *         or an error.
      */
     public Observable<String> exercise08(int divisor) {
         return Observable.create(subscriber -> {
