@@ -4,14 +4,19 @@ import java.util.AbstractMap;
 import learnrxjava.exercises.ObservableExercises;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movies;
+import rx.Notification;
 import rx.Observable;
 import rx.Scheduler;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
+import rx.Subscriber;
 import rx.observables.GroupedObservable;
 import rx.observables.MathObservable;
 
@@ -279,6 +284,22 @@ public class ObservableSolutions extends ObservableExercises {
     @Override
     public Observable<String> exercise43(Observable<String> movieIds) {
         return movieIds.skip(3).distinct();
+    }
+
+    @Override
+    public Observable<Integer> exercise44(Observable<Integer> videoIds) {
+        return videoIds.materialize().flatMap((Notification<Integer> notification) -> {
+                    switch (notification.getKind()) {
+                        case OnNext:
+                            return Observable.just(Notification.createOnNext(notification.getValue() + 1));
+                        case OnError:
+                            return Observable.error(notification.getThrowable());
+                        case OnCompleted:
+                        default:
+                            return Observable.just(notification);
+                    }
+                }
+        ).dematerialize();
     }
 
     /*

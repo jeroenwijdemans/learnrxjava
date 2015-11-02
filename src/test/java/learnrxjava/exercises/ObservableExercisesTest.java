@@ -751,6 +751,24 @@ public class ObservableExercisesTest {
         ts.assertReceivedOnNext(sortedNames);
     }
 
+    @Test
+    public void exercise44() {
+        TestSubscriber<Integer> ts = new TestSubscriber<>();
+        getImpl().exercise44(range(1, 10)).subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertNoErrors();
+        ts.assertReceivedOnNext(Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 11));
+    }
+
+    @Test
+    public void exercise45() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        getImpl().exercise45("From Dusk till Dawn").subscribe(ts);
+        ts.awaitTerminalEvent();
+        ts.assertReceivedOnNext(Arrays.asList("From Dusk till Dawn"));
+        assertTrue(ts.getOnErrorEvents().get(0) instanceof IllegalStateException);
+    }
+
     /*
      * **************
      * below are helper methods

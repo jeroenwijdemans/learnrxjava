@@ -3,17 +3,17 @@ package learnrxjava.exercises;
 import java.util.Arrays;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movies;
-import rx.Observable;
-import rx.Scheduler;
-import rx.Subscriber;
+import rx.*;
 
 import java.util.List;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import learnrxjava.examples.SubscribeOnObserveOnExample;
 import learnrxjava.utils.Utils;
-import rx.Subscription;
 import rx.observables.GroupedObservable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.TestScheduler;
@@ -973,10 +973,120 @@ public class ObservableExercises {
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
-    
-    // TODO
-    // 44 materialize (2ndlvl 11)
-    // 45 from(Future) (2ndlvl 4)
+
+    /**
+     * Exercise 44 - (de)materialize
+     *
+     * In some cases, it's useful to be able to make the 3 event types (element, error or complete)
+     * explicit. This is named 'materialization'. The reverse is 'dematerialization'. Effectively, this (un)wraps
+     * events with a Notification, which has an enum Kind property with values OnNext, OnError and OnCompleted.
+     * <p/>
+     * Materializing an Observable enables you to switch on the type, instead of supplying a closure for each
+     * event.
+     * <p/>
+     * Your assignment: complete the given code to make it equivalent to: map(i -> i + 1)
+     * <p/>
+     * As you can see, materializing adds a lot of boilerplate. Use it only when required for complicated use cases - see the next exercise.
+     * <p/>
+     * Note the use of flatMap to concatenate the individual single-event Observables returned by the switch-construction.
+     * @param videoIds an Observable of videoIds
+     * @return Observable of videoIds, increased by one
+     */
+    public Observable<Integer> exercise44(Observable<Integer> videoIds) {
+        return videoIds.materialize().flatMap((Notification<Integer> notification) -> {
+                    switch (notification.getKind()) {
+                        case OnNext:
+                            // ------------ ASSIGNMENT ----------------------------
+                            // use Notification.createOnNext()
+                            // ------------ ASSIGNMENT ----------------------------
+                            // TODO add implementation
+                            return Observable.error(new RuntimeException("Not Implemented"));
+                        case OnError:
+                            return Observable.error(notification.getThrowable());
+                        case OnCompleted:
+                        default:
+                            return Observable.just(notification);
+                    }
+                }
+        ).dematerialize();
+    }
+
+    /**
+     * Exercise 45 - retry and (de)materialize, composed
+     *
+     * A 'reading' exercise. Its drives the point home of using materialize() only when really needed.
+     * The focal point, however, is the retry() operator. The conditionalRetry() method 'lifts'
+     * it to (infinitely) retry only *recoverable* errors.
+     *
+     * This feature is illustrated by simply concatenating the results of an (eventually) succeeding Observable, and one
+     * that fails with an unrecoverable IllegalStateException.
+     *
+     * There is no code to be added for this 'exercise'. Simply read, execute & learn.
+     */
+    public Observable<String> exercise45(String name) {
+        Observable<String> oWithRuntimeException = failingObservable(3, s -> {
+            s.onNext(name);
+            s.onCompleted();
+        });
+        Observable<String> oWithIllegalStateException = failingObservable(3, s -> s.onError(new IllegalStateException()));
+
+        Observable<String> helloObservable = conditionalRetry(oWithRuntimeException, t -> t instanceof IllegalStateException);
+        Observable<String> failingObservable = conditionalRetry(oWithIllegalStateException, t -> t instanceof IllegalStateException);
+
+        return helloObservable.concatWith(failingObservable);
+    }
+
+    /**
+     * This is a helper method for exercise 45.
+     *
+     * Creates an Observable that will fail the first 'fails' times with a RuntimeException.
+     * This simulates a recoverable error.
+     * Finally, the supplied action will be invoked, passing in the Subscriber.
+     *
+     * @param fails number of simulated failures
+     * @param action subscription action
+     * @param <T> type of emitted items
+     * @return recoverable Observable
+     */
+    protected  <T> Observable<T> failingObservable(int fails, Observable.OnSubscribe<T> action) {
+        final AtomicInteger c = new AtomicInteger();
+        return Observable.create((Subscriber<? super T> s) -> {
+            System.out.println("Try: " + c.get());
+            if (c.incrementAndGet() < fails) {
+                s.onError(new RuntimeException("recoverable"));
+            } else {
+                action.call(s);
+            }
+        });
+    }
+
+    /**
+     * This is a helper method for exercise 45.
+     *
+     * Modifies the supplied Observable to be conditionally retryable. Inifinite retries will be performed,
+     * unless the error event matches the supplied isFatal condition.
+     *
+     * @param o Observable to make conditionally retryable
+     * @param isFatal predicate to determine whether an error event is fatal
+     * @return conditionally retryable Observable
+     */
+    protected  <T> Observable<T> conditionalRetry(final Observable<T> o, Predicate<Throwable> isFatal) {
+        return o.materialize().flatMap(n -> {
+            if (n.isOnError()) {
+                if (isFatal.test(n.getThrowable())) {
+                    /* this will emit the IllegalStateException during dematerialize();
+                       effectively IllegalStateException won't be retried by retry() because
+                       it's wrapped in a Notification of Kind.OnError.
+                     */
+                    return Observable.just(n);
+                } else /* RuntimeException - let's 'rethrow' to let retry() kick in */ {
+                    return Observable.error(n.getThrowable());
+                }
+            } else {
+                return Observable.just(n);
+            }
+        }).retry().dematerialize();
+    }
 
     /**
      * ****************************
@@ -984,8 +1094,8 @@ public class ObservableExercises {
      * ****************************
      *
      * Congratulations! Our guidance ends here. From here on you will have to follow your own path.
-     * Take a look at the examples in the learnrxjava.examples package, study the API or try
-     * to build your own reactive application.
+     * Take a look at the examples in the learnrxjava.examples package, study the API, read about reactive streams
+     * and backpressure or try to build your own reactive application.
      * 
      * We hope you enjoyed this workshop. If you're interested and want to know more, don't hesitate and
      * contact us.
@@ -1011,13 +1121,13 @@ public class ObservableExercises {
      * http://www.reactive-streams.org/
      * 
      * HTML5DevConf Jafar Husain, Netflix: Asyncronous JavaScript at Netflix
-     * https://www.youtube.com/watch?v=5uxSu-F5Kj0&list=PLtP5WGrJAq4C2QGp5J0U2m1QmJ4sumvGX&index=1
+     * https://www.youtube.com/watch?v=5uxSu-F5Kj0
      *
      * Functional Reactive Programming with RxJava by Ben Christensen
-     * https://www.youtube.com/watch?v=_t06LRX0DV0&list=PLtP5WGrJAq4C2QGp5J0U2m1QmJ4sumvGX&index=2
-     * 
+     * https://www.youtube.com/watch?v=_t06LRX0DV0
+     *
      * Functional Reactive Programming with RxJava
-     * https://www.youtube.com/watch?v=Dk8cR1Kxj0Y&index=3&list=PLtP5WGrJAq4C2QGp5J0U2m1QmJ4sumvGX
+     * https://www.youtube.com/watch?v=Dk8cR1Kxj0Y
      *
      */
     
