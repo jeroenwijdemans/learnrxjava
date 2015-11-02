@@ -1,10 +1,5 @@
 package learnrxjava.examples;
 
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import learnrxjava.utils.Utils;
 import static learnrxjava.utils.Utils.delay;
 import rx.Observable;
 import rx.Subscriber;
@@ -13,39 +8,92 @@ import rx.schedulers.Schedulers;
 // TODO finish documentation (is referenced from exercise)
 
 /**
- * Explanation of subscribeOn() and observeOn()
+ * Explanation of subscribeOn() and observeOn().
+ * 
+ * IMPORTANT NOTE! Examples may vary on used hardware (multicore, speed, etc.)
+ * 
+ * Try to predict the output before running the examples.
+ * @see http://reactivex.io/documentation/operators/subscribeon.html
  */
 public class SubscribeOnObserveOnExample {
 
     public static void main(String[] args) {
-
-        // run all on same thread -> alternating pattern
-        // subscribe on other thread
-        // observe on other thread
-        // subscribe and observe on other thread
+        String mainThread = Thread.currentThread().getName();
+        System.out.println("Thread " + mainThread + " has finished...");
         
-        // Create an observable that outputs 
-        Observable<Integer> nums = nums(100);
+        // Uncomment and comment the methods below to experience the differences
         
+        // 1
         runOnSameThread();
+  
+        // 2
+        //subscribeOnDifferentThread();
         
-//        nums.subscribe(new MySubscriber());
-//        nums.subscribeOn(Schedulers.computation()).subscribe(new MySubscriber());
-//        nums.subscribeOn(Schedulers.io()).observeOn(Schedulers.computation()).subscribe(new MySubscriber());
+        // 3
+        //observeOnDifferentThread();
         
-        // Give the other threads time to finish
-//        delay(1000);
+        // 4 This is the fully reactive stuff we're talking about!
+        //subscribeAndObserveOnDifferentThreads();
         
-        System.out.println("Thread " + Thread.currentThread().getName() + " has finished...");
+        System.out.println("Thread " + mainThread + " has finished...");
     }
     
+    /**
+     * Run everything on the same thread. Think about this. Is this asynchronous?
+     */
     private static void runOnSameThread() {
-        Observable<Integer> nums = nums(100);
-        
-        // Run everything on the same thread
-        // You should witness an alternating pattern of emissions and onNext 
-        // calls. Think about this. Is this asynchronous?
+        System.out.println("Run everything on the same thread (main)");
+        Observable<Integer> nums = nums(10);
         nums.subscribe(new MySubscriber());
+        System.out.println("----------------------------------------\n");
+    }
+
+    /**
+     * Subscribe on a different thread. With subscribeOn you can instruct an 
+     * Observable to do its work on a particular Scheduler. This means both the
+     * emission of values as well as the observation of them. Take a moment
+     * to think about the implications: what does this mean for the output 
+     * pattern on the thread you run the Observable and Observer run?
+     */
+    private static void subscribeOnDifferentThread() {
+        System.out.println("Subscribe on different thread");
+        Observable<Integer> nums = nums(10);
+        nums.subscribeOn(Schedulers.newThread()).subscribe(new MySubscriber());
+        System.out.println("----------------------------------------\n");
+    }
+    
+    /**
+     * Observe on a different thread. The ObserveOn operator is similar, but 
+     * more limited. It instructs the Observable to send notifications to 
+     * observers on a specified Scheduler.
+     */
+    private static void observeOnDifferentThread() {
+        System.out.println("Observe on different thread");
+        Observable<Integer> nums = nums(100); // Play with this number a bit
+                                              // Can you see why we increased
+                                              // it for this exercise?
+        nums.observeOn(Schedulers.newThread()).subscribe(new MySubscriber());
+        System.out.println("----------------------------------------\n");
+        
+        delay(1000); // What happens to the output when you remove this line?
+    }
+    
+    /**
+     * Subscribe and observe on different threads. As a bonus we used one of the
+     * built in threadpools of RxJava called Schedulers. We chose the computation
+     * pool. Feel free to experiment with changing the scheduler and see if you
+     * can predict the influence on the output.
+     */
+    private static void subscribeAndObserveOnDifferentThreads() {
+        System.out.println("Subscribe and observe on different threads");
+        Observable<Integer> nums = nums(100);
+        // We used the computation threadpool. Feel free to change and experiment.
+        nums.subscribeOn(Schedulers.computation())
+            .observeOn(Schedulers.computation())
+            .subscribe(new MySubscriber());
+        System.out.println("----------------------------------------\n");
+        
+        delay(1000); 
     }
     
     /**
@@ -55,13 +103,15 @@ public class SubscribeOnObserveOnExample {
      */
     private static Observable<Integer> nums(int n) {
         return Observable.create(subscriber -> {
-            for (int i=0; i<100; i++) {
-                System.out.println("Pushing value " + i + " on thread " + Thread.currentThread().getName());
+            for (int i=0; i<n; i++) {
+                System.out.println("Pushing value " + i + " on thread " + 
+                        Thread.currentThread().getName());
                 subscriber.onNext(i);
             }
             subscriber.onCompleted();
         });
     }
+
 }
 
 /**
