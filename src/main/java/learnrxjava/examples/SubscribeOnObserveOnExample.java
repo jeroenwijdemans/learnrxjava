@@ -5,8 +5,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
-// TODO finish documentation (is referenced from exercise)
-
 /**
  * Explanation of subscribeOn() and observeOn().
  * 

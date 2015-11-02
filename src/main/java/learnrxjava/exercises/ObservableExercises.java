@@ -704,6 +704,7 @@ public class ObservableExercises {
          return Observable.error(new RuntimeException("Not Implemented"));
     }
 
+    // TODO add line number at reference to test
     /**
      * Exercise 27 & 28 - Hot and Cold Observables.
      * 
@@ -784,14 +785,14 @@ public class ObservableExercises {
      * @param planA Will probably fail
      * @param planB To rescue us when plan A fails
      */
-    public void exercise34(Observable<Movies> planA, Observable<Movies> planB) {
+    public void exercise35(Observable<Movies> planA, Observable<Movies> planB) {
         // onErrorResumeNext
     }
     
     /**
-     * Exercise 35 - retry (2ndlvl 10, 12)
+     * Exercise 36 - retry (2ndlvl 10, 12)
      */
-    public void exercise35() {
+    public void exercise36() {
         
     }
     
@@ -850,12 +851,6 @@ public class ObservableExercises {
      * 47. reactive streams
      */
     
-    /**
-     * Hot vs Cold
-     */
-    public void exercise36() {
-        
-    }
     
     /**
      * Congratulations! Our guidance ends here. From here on you will have to follow your own path.
