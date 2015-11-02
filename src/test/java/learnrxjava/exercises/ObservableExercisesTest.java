@@ -195,7 +195,6 @@ public class ObservableExercisesTest {
         ts2.assertReceivedOnNext(Collections.singletonList(true));
     }
     
-    // TODO performance
     @Test
     public void exercise18() {
         TestSubscriber<String> ts = new TestSubscriber<>();

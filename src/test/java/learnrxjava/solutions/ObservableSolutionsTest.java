@@ -23,16 +23,6 @@ public class ObservableSolutionsTest extends ObservableExercisesTest {
     }
 
     @Override
-    public void exercise23() {
-        // TODO - remove
-    }
-
-    @Override
-    public void exercise24() {
-        // TODO - remove
-    }
-
-    @Override
     public void exercise27() {
         TestScheduler testScheduler = Schedulers.test();
         TestSubscriber<Long> immediateSubscriber = new TestSubscriber<>();
