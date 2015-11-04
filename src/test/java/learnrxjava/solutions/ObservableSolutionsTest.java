@@ -9,6 +9,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import learnrxjava.exercises.ObservableExercises;
 import learnrxjava.exercises.ObservableExercisesTest;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
 import rx.Observable;
 import rx.Scheduler;
 import rx.observables.ConnectableObservable;

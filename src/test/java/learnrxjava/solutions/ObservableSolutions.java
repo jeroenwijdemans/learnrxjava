@@ -1,24 +1,23 @@
 package learnrxjava.solutions;
 
-import java.util.AbstractMap;
 import learnrxjava.exercises.ObservableExercises;
 import learnrxjava.types.JSON;
+import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
 import rx.Notification;
 import rx.Observable;
 import rx.Scheduler;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
-
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import rx.Subscriber;
+import rx.functions.Func1;
 import rx.observables.GroupedObservable;
 import rx.observables.MathObservable;
+import rx.schedulers.TestScheduler;
+import rx.subjects.ReplaySubject;
+import rx.subjects.Subject;
+
+import java.util.AbstractMap;
+import java.util.List;
+
+import static java.util.concurrent.TimeUnit.*;
 
 public class ObservableSolutions extends ObservableExercises {
     
@@ -165,7 +164,7 @@ public class ObservableSolutions extends ObservableExercises {
     @Override
     public Observable<String> exercise18(Scheduler scheduler) {
         Observable<String> data = Observable.just("one", "two", "three", "four", "five");
-        Observable<Long> interval = Observable.interval(1, TimeUnit.SECONDS, scheduler);
+        Observable<Long> interval = Observable.interval(1, SECONDS, scheduler);
         return Observable.zip(data, interval, (d, t) -> {
             return d + " " + (t + 1);
         });
@@ -195,21 +194,30 @@ public class ObservableSolutions extends ObservableExercises {
     }
 
     @Override
-    public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds) {
-        return burstySuggestedVideoIds.buffer(500, MILLISECONDS);
+    public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds, Scheduler scheduler) {
+        return burstySuggestedVideoIds.buffer(500, MILLISECONDS, scheduler);
     }
 
     @Override
-    public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
-        return burstySuggestedVideoIds.window(200, 1000, TimeUnit.MILLISECONDS)
-                .map(integerObservable -> integerObservable.map(videoId -> videoId + 5));
+    public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds, Scheduler scheduler) {
+        return burstySuggestedVideoIds.window(200, 1000, MILLISECONDS, scheduler);
     }
 
     @Override
-    public Observable<Double> exercise26(Observable<Movies> movieLists) {
+    public Observable<Movie> exercise25(Observable<Movie> movies, Func1<Movie, Observable<Movie>> advertFunction, Scheduler scheduler) {
+        return movies
+                .map(advertFunction)
+                //.doOnNext(_movieLists -> System.out.println("movie @" + scheduler.now()))
+                .flatMap(ads -> ads.delay(10, SECONDS, scheduler))
+                //.doOnNext(_movieLists -> System.out.println("movie, delayed: @" + scheduler.now()))
+                ;
+    }
+
+    @Override
+    public Observable<Double> exercise26(Observable<Movie> movieLists, Scheduler scheduler) {
         return MathObservable.averageDouble(
-                movieLists.flatMap(movies -> movies.videos)
-                        .throttleLast(200, TimeUnit.MILLISECONDS)
+                movieLists
+                        .throttleLast(200, MILLISECONDS, scheduler)
                         .map(movie1 -> movie1.rating));
     }
 
@@ -300,6 +308,14 @@ public class ObservableSolutions extends ObservableExercises {
                     }
                 }
         ).dematerialize();
+    }
+
+    // Note: exercise45() is only in ObservableExercises
+
+    public Subject<String,String> exercise46(String initialMovieName, TestScheduler scheduler) {
+        ReplaySubject<String> subject = ReplaySubject.createWithTime(5, HOURS, scheduler);
+        subject.onNext(initialMovieName);
+        return subject;
     }
 
     /*

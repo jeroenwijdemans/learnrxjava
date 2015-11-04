@@ -2,28 +2,42 @@ package learnrxjava.exercises;
 
 import java.util.Arrays;
 import learnrxjava.types.JSON;
+import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
 import rx.*;
 
 import java.util.List;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import learnrxjava.examples.SubscribeOnObserveOnExample;
 import learnrxjava.utils.Utils;
+import rx.functions.Func1;
 import rx.observables.GroupedObservable;
+import rx.observables.MathObservable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.TestScheduler;
-
-// TODO Intro with references to composable list exercises for people that took the shortcut
+import rx.subjects.ReplaySubject;
+import rx.subjects.Subject;
 
 /**
- * Now you have mastered the ComposableList, it is time to move on. The exercises
- * in this class will help you gain an understanding of Observables. Before we go
- * in depth about explaining what Observables are, first think of them as 
+ * Now that you have mastered the ComposableList, it is time to move on.
+ *
+ * If you plunged directly into here, welcome!
+ *
+ * A summary of what you've skipped:
+ * ComposableList introduces you gradually to functional composition and operators, using (and extending)
+ * standard JDK collections.
+ * Introduced operators are: forEach, map, filter, concatMap, reduce, zip. Some you implement yourself.
+ * A few complex assignments require you to combine them wisely. Some exercises in here refer back to
+ * ComposableList. In case you really need to, you may peek at ComposableListSolutions.
+ *
+ * Whatever path took you here; the exercises in this class will help you gain an understanding of Observables.
+ * Before we go in depth about explaining what Observables are, first think of them as
  * ComposableLists or some other collection.
  * 
  * This means you can apply the same compositional methods (map, filter, etc) to 
@@ -638,24 +652,27 @@ public class ObservableExercises {
 
     /**
      * Exercise 23 - buffer that burst, or the bubble will burst!
-     *
+     * <p/>
      * Picture this: an external service pushes ids of suggested video's to watch.
      * Being an external service on a network, its traffic can be 'bursty': the one moment a lot of data,
      * the other hardly anything. The bursts might swamp us.
-     *
+     * <p/>
      * The buffer operator partially insulates us from these bursts, by buffering them up and emitting the
      * buffers as a List of items. On what conditions these Lists are emitted is entirely configurable,
      * by way of 12 different overloads of Observable.buffer()!
-     *
+     * <p/>
      * The objective: buffer the incoming burstySuggestedVideoIds in intervals of 500ms.
-     *
+     * <p/>
      * Your task: look up the buffer operator at http://reactivex.io/documentation/operators/buffer.html.
      * Click through to the RxJava Language-Specific Information, and find the required variant.
-
+     * <p/>
+     * Note !! You must invoke buffer() on the specified Scheduler, otherwise the unit test will not pass !!
+     * More about scheduling & testing will be revealed in exercise 30.
+     *
      * @param burstySuggestedVideoIds an Observable that emits a lot of video id's
      * @return buffered Lists of suggestedVideoIds at 500ms intervals
      */
-    public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds) {
+    public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds, Scheduler scheduler) {
         // ------------ ASSIGNMENT ----------------------------
         // Use Observable.buffer()
         // ------------ ASSIGNMENT ----------------------------
@@ -672,39 +689,66 @@ public class ObservableExercises {
      * Have a look at http://reactivex.io/documentation/operators/window.html to see the difference between buffer and window.
      *
      * @param burstySuggestedVideoIds an Observable that emits a lot of video id's
-     * @return video id's incremented with 5, where foreach second we will create a window of 200 milliseconds each 1000 milliseconds
+     * @return video id's, in windows of 200 milliseconds, one window every 1000 milliseconds
      */
-    public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds) {
+    public Observable<Observable<Integer>> exercise24(Observable<Integer> burstySuggestedVideoIds, Scheduler scheduler) {
         // ------------ ASSIGNMENT ----------------------------
-        // Use Observable.window() and increment each id with 5
+        // Use Observable.window()
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
     }
 
-    // TODO exercise 25 infinite observables?
-    
+    /**
+     * Exercise 25 - no pay? delay!
+     * <p/>
+     * In this exercise, we will give a free-loading movie watcher the opportunity to watch each movie for 10 seconds,
+     * then show one or more adverts in parallel, then the next movie for 10s, then some ads, et cetera.
+     * <p/>
+     * Your assignment is to map the advertFunction on the movies the user selected, and then flatMap to apply a 10sec
+     * delay to each ad.
+     * <p/>
+     * The result should be a delayed stream of advert movies. It's assumed the actual movies are displayed/merged in the caller
+     * of your function - you only have to worry about getting ads out, 10 secs after receiving the movie.
+     * <p/>
+     * Note that Observable.delay() has four variants. We use the simplest variant: timeshift all items at once.
+     * This is why you need to delay _inside_ flatMap - otherwise the user will only see 1 video for 10s and then all ads.
+     *
+     * @param movieLists movies user wants to view
+     * @param advertFunction function that generates adverts based on the selected movie
+     * @return advert movies, 10s apart
+     */
+    public Observable<Movie> exercise25(Observable<Movie> movies, Func1<Movie, Observable<Movie>> advertFunction, Scheduler scheduler) {
+        // ------------ ASSIGNMENT ----------------------------
+        // Use Observable.delay() (and map and flatMap)
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
+        return Observable.error(new RuntimeException("Not Implemented"));
+    }
+
     /**
      * Exercise 26 - Throttling!
-     *
+     * <p/>
      * By now you should be familiar with the Observable.sample(). (Exercise 22)
      * With the throttling methods of Observable you have more options in how to take a _sample_ of a stream.
-     *
-     * Let's sample this stream of movies every 200 milliseconds and figure what the average rating is.
+     * <p/>
+     * Let's sample this stream of movies every 200 milliseconds and figure out what the average rating is.
      * MathObservable will be your friend :)
+     * <p/>
+     * As with the previous exercise, don't forget to hand Scheduler to the throttling operator. You wouldn't want to use
+     * wall clock timing in a unit test, would you?
      *
      * @param movieLists an Observable of movies to work your your magic on
      * @return The average rating of the _throttled_ movies
      */
-    public Observable<Double> exercise26(Observable<Movies> movieLists) {
+    public Observable<Double> exercise26(Observable<Movie> movieLists, Scheduler scheduler) {
         // ------------ ASSIGNMENT ----------------------------
-        // Use Observable.throttleFirst()
+        // Use Observable.throttleLast()
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
          return Observable.error(new RuntimeException("Not Implemented"));
     }
 
-    // TODO add line number at reference to test
     /**
      * Exercise 27 & 28 - Hot and Cold Observables.
      * 
@@ -712,7 +756,7 @@ public class ObservableExercises {
      * have to complete the test code. You will grow faster when you look at 
      * things from a different perspective now and then. 
      * 
-     * Your journey continues in ObservableExercisesTest. Good luck! If you work
+     * Your journey continues in ObservableExercisesTest, line 364. Good luck! If you work
      * diligently and with purpose in your heart, we will meet again here.
      * 
      * Go now!
@@ -847,7 +891,7 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 38 - Reductio ad adsurdum
+     * Exercise 38 - Reductio ad absurdum
      *
      * Retrieve the largest number.
      * <p/>
@@ -1086,6 +1130,31 @@ public class ObservableExercises {
                 return Observable.just(n);
             }
         }).retry().dematerialize();
+    }
+
+    /**
+     * Exercise 46 - the intriguing subject of Subjects.
+     * <p/>
+     * A Subject is 'both an Observable and an Observer' (as per the javadoc).
+     * This means you can observe it in the usual way, but also add new items to the stream.
+     * So, items are _pushed to you_ (Observable) but you can also _push items in_ (Observer).
+     * <p/>
+     * Your task: supply your customer with an initial movie, and give them to option to subscribe
+     * to a replay (!) of movies watched so far. New movies can be pushed in. Movies older than 5 hours
+     * must be expunged.
+     * <p/>
+     * Use your knowledge built up so far to find the required Subject implementation and creation method.
+     *
+     * @param initialMovieName item to push in
+     * @param scheduler our trusty unit test scheduler
+     * @return a ReplaySubject
+     */
+    public Subject<String,String> exercise46(String initialMovieName, TestScheduler scheduler) {
+        // ------------ ASSIGNMENT ----------------------------
+        // use some implementation of rx.subjects.Subject
+        // ------------ ASSIGNMENT ----------------------------
+        // TODO add implementation
+        throw new RuntimeException("Not Implemented");
     }
 
     /**

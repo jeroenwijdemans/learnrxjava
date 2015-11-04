@@ -1,6 +1,6 @@
 package learnrxjava.exercises;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import learnrxjava.types.*;
 import learnrxjava.utils.Utils;
@@ -8,29 +8,27 @@ import org.junit.Assert;
 import org.junit.Test;
 import rx.Observable;
 import rx.Scheduler;
+import rx.functions.Func1;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Arrays.asList;
-import java.util.HashMap;
-import java.util.List;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static rx.Observable.*;
 
 import rx.observables.ConnectableObservable;
 import rx.observables.GroupedObservable;
+import rx.subjects.Subject;
 
 public class ObservableExercisesTest {
+    static final Random PRNG = new Random();
 
     public ObservableExercises getImpl() {
         return new ObservableExercises();
@@ -248,22 +246,18 @@ public class ObservableExercisesTest {
         ts.assertTerminalEvent();
     }
 
-    // TODO performance
     @Test
     public void exercise23() {
-        final int NUMBER_OF_BURSTY_ITEMS = 10000;
+        TestSubscriber<List<Integer>> ts = new TestSubscriber<>();
+        TestScheduler scheduler = Schedulers.test();
 
-        Observable<Integer> burstyParallelNumbers =
-            Observable
-                .range(0, NUMBER_OF_BURSTY_ITEMS)
-                .subscribeOn(Schedulers.computation())
-                .doOnNext(i -> /* simulate computational work */ sleep(1));
+        Observable<Integer> burstyParallelNumbers = getBurstyNumbers(10000, 3000, scheduler);
 
         AtomicInteger totalBuffers = new AtomicInteger();
         AtomicInteger totalNumbers = new AtomicInteger();
         AtomicInteger minBufferSize = new AtomicInteger(Integer.MAX_VALUE);
         AtomicInteger maxBufferSize = new AtomicInteger(Integer.MIN_VALUE);
-        getImpl().exercise23(burstyParallelNumbers).doOnNext(numbersBuffer -> {
+        getImpl().exercise23(burstyParallelNumbers, scheduler).doOnNext(numbersBuffer -> {
             totalBuffers.incrementAndGet();
             totalNumbers.addAndGet(numbersBuffer.size());
             boolean casSuccess;
@@ -277,39 +271,94 @@ public class ObservableExercisesTest {
                 int newMax = Math.max(currentMax, numbersBuffer.size());
                 casSuccess = maxBufferSize.compareAndSet(currentMax, newMax);
             } while (!casSuccess);
-        }).toBlocking().last();
+        }).subscribe(ts);
 
-        assertEquals(NUMBER_OF_BURSTY_ITEMS, totalNumbers.get());
-        // 3000ms is the approx. runtime on a 4-core CPU for 10000 items (so test might fail on 8-core or higher)
-        assertTrue(totalBuffers.get() >= 3000 / 500 || totalBuffers.get() == 1); // sometimes, some delay seems to cause all 10000 items to be buffered in one buffer?!
+        scheduler.advanceTimeBy(3500, MILLISECONDS);
 
+        ts.assertTerminalEvent();
+        assertEquals(10000, totalNumbers.get());
+        assertTrue(totalBuffers.get() >= 3000 / 500);
         assertNotEquals(minBufferSize.get(), 500);
         assertNotEquals(maxBufferSize.get(), 500);
     }
 
-    // TODO performance
+    private Observable<Integer> getBurstyNumbers(int numberOfBurstyItems, int maxDelay, TestScheduler scheduler) {
+        return Observable
+            .range(0, numberOfBurstyItems)
+            .map(Observable::just)
+            .flatMap(i -> i.delay(PRNG.nextInt(maxDelay), MILLISECONDS, scheduler));
+    }
+
     @Test
     public void exercise24() {
         TestSubscriber<Observable<Integer>> ts = new TestSubscriber<>();
-        Observable<Integer> objectObservable = Observable.range(0, 3000).doOnNext(integer -> sleep(1));
+        TestScheduler scheduler = Schedulers.test();
 
-        getImpl().exercise24(objectObservable).subscribe(ts);
+        Observable<Integer> burstyParallelNumbers = getBurstyNumbers(10000, 3500, scheduler);
+        getImpl().exercise24(burstyParallelNumbers, scheduler).subscribe(ts);
 
+        scheduler.advanceTimeBy(3500, MILLISECONDS);
+
+        ts.assertTerminalEvent();
         ts.assertNoErrors();
         List<Observable<Integer>> onNextEvents = ts.getOnNextEvents();
-        assertEquals(Integer.valueOf(15), onNextEvents.get(0).skip(10).take(1).toBlocking().first());
-        assertTrue(onNextEvents.size() > 3);
+        assertEquals(4, onNextEvents.size());
+        onNextEvents.forEach(intObs -> {
+            int count = intObs.count().toBlocking().first();
+            assertTrue(count >= 500);
+            assertTrue(count <= 700);
+        });
     }
 
-    // TODO exercise25
+    @Test
+    public void exercise25() {
+        TestSubscriber<Movie> ts = new TestSubscriber<>();
+        TestScheduler scheduler = Schedulers.test();
+
+        Func1<Movie, Observable<Movie>> advertFunction = m -> Observable.just(new Movie(m.id * 2, "ad 1", 5), new Movie(m.id * 4, "ad 2", 4));
+        getImpl().exercise25(gimmeSomeMoreMoviesFlatEvery(1, SECONDS, scheduler), advertFunction, scheduler).subscribe(ts);
+
+        assertEquals(0, ts.getOnNextEvents().size());
+
+        scheduler.advanceTimeBy(1, SECONDS);
+        ts.assertNoErrors();
+        assertEquals(0, ts.getOnNextEvents().size());
+
+        scheduler.advanceTimeBy(10, SECONDS);
+        ts.assertNoErrors();
+        assertEquals(2, ts.getOnNextEvents().size());
+
+        scheduler.advanceTimeBy(1, SECONDS);
+        ts.assertNoErrors();
+        assertEquals(4, ts.getOnNextEvents().size());
+
+        scheduler.advanceTimeBy(1, SECONDS);
+        ts.assertNoErrors();
+        assertEquals(6, ts.getOnNextEvents().size());
+
+        scheduler.advanceTimeBy(9, SECONDS);
+        ts.assertNoErrors();
+        assertEquals(24, ts.getOnNextEvents().size());
+
+        scheduler.advanceTimeBy(1, SECONDS);
+        ts.assertNoErrors();
+        assertEquals(26, ts.getOnNextEvents().size());
+
+        ts.assertTerminalEvent();
+    }
     
     @Test
     public void exercise26() {
-        TestSubscriber<Double> testSubscriber = new TestSubscriber<>();
-        getImpl().exercise26(gimmeSomeMoreMovies()).subscribe(testSubscriber);
-        
-        //TODO finish test
-        fail();
+        TestSubscriber<Double> ts = new TestSubscriber<>();
+        TestScheduler scheduler = Schedulers.test();
+
+        getImpl().exercise26(gimmeSomeMoreMoviesFlatEvery(50, MILLISECONDS, scheduler), scheduler).subscribe(ts);
+
+        scheduler.advanceTimeBy(1, SECONDS);
+        ts.assertNoErrors();
+        ts.assertTerminalEvent();
+        assertEquals(1, ts.getOnNextEvents().size());
+        assertEquals(4.6, ts.getOnNextEvents().get(0), 0.00001);
     }
 
     /**
@@ -462,7 +511,7 @@ public class ObservableExercisesTest {
         Scheduler scheduler = null; // TODO add implementation
 
         // Emits an item every day. Now you know why we'd like to control time.
-        Observable<Long> sluggishObservable = Observable.interval(1, TimeUnit.DAYS, scheduler).take(10);
+        Observable<Long> sluggishObservable = Observable.interval(1, DAYS, scheduler).take(10);
         
         // Again we will need a subscriber
         // TODO add implementation
@@ -496,7 +545,7 @@ public class ObservableExercisesTest {
      */
     @Test
     public void exercise31() {
-        Observable<Long> nums = Observable.interval(1, TimeUnit.MICROSECONDS).take(1000);
+        Observable<Long> nums = Observable.interval(1, MICROSECONDS).take(1000);
         List<Long> result = new ArrayList<>();
         
         nums.subscribe(x -> { 
@@ -534,7 +583,7 @@ public class ObservableExercisesTest {
     public void exercise32() {
         Observable<Long> nums = Observable.interval(
                 1 
-                , TimeUnit.MICROSECONDS
+                , MICROSECONDS
                 // ------------ ASSIGNMENT ----------------------------        
                 // You can use the subscribeOn() method to execute the callback
                 // on a specific thread. Use the Schedulers class to pass the 
@@ -767,6 +816,40 @@ public class ObservableExercisesTest {
         assertTrue(ts.getOnErrorEvents().get(0) instanceof IllegalStateException);
     }
 
+    @Test
+    public void exercise46() {
+        TestSubscriber<String> ts = new TestSubscriber<>();
+        TestSubscriber<String> ts2 = new TestSubscriber<>();
+        TestSubscriber<String> ts3 = new TestSubscriber<>();
+        TestScheduler scheduler = new TestScheduler();
+
+        Subject replaySubject = getImpl().exercise46("From Dusk till Dawn", scheduler);
+        replaySubject.subscribe(ts);
+        // verify immediate replay
+        ts.assertReceivedOnNext(Arrays.asList("From Dusk till Dawn"));
+
+        scheduler.advanceTimeBy(1, HOURS);
+        replaySubject.onNext("foo");
+        // verify the second item
+        ts.assertReceivedOnNext(Arrays.asList("From Dusk till Dawn", "foo"));
+        replaySubject.subscribe(ts3);
+        // verify immediate replay of both items
+        ts3.assertReceivedOnNext(Arrays.asList("From Dusk till Dawn", "foo"));
+
+        scheduler.advanceTimeBy(4, HOURS);
+        replaySubject.onNext("bar");
+        // verify immediate replay of all 3 items
+        ts.assertReceivedOnNext(Arrays.asList("From Dusk till Dawn", "foo", "bar"));
+        replaySubject.subscribe(ts2);
+        // verify replay of last 2 items - the first has expired after advancing time by 1+4=5 hours
+        ts2.assertReceivedOnNext(Arrays.asList("foo", "bar"));
+
+        replaySubject.onCompleted();
+        ts.awaitTerminalEvent();
+        ts2.awaitTerminalEvent();
+        ts3.awaitTerminalEvent();
+    }
+
     /*
      * **************
      * below are helper methods
@@ -783,6 +866,11 @@ public class ObservableExercisesTest {
     private Observable<Movies> gimmeSomeMoviesEvery(long value, TimeUnit timeUnit, Scheduler scheduler) {
         Observable<Long> interval = Observable.interval(value, timeUnit, scheduler);
         return Observable.zip(gimmeSomeMovies(), interval, (movie, t) -> movie);
+    }
+
+    private Observable<Movie> gimmeSomeMoreMoviesFlatEvery(long value, TimeUnit timeUnit, Scheduler scheduler) {
+        Observable<Long> interval = Observable.interval(value, timeUnit, scheduler);
+        return Observable.zip(gimmeSomeMoreMovies().flatMap(movies -> movies.videos), interval, (movie, t) -> movie);
     }
 
     private Observable<Movies> gimmeSomeMovies() {
