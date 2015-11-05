@@ -470,7 +470,7 @@ public class ObservableExercises {
     }
 
     /**
-     * Exercise 15 - No limit
+     * Exercise 15 - No limit, Take 5
      * <p/>
      * Return an observable that only emits the best 5 movies or less.
      * <p/>
@@ -482,6 +482,7 @@ public class ObservableExercises {
         // ------------ ASSIGNMENT ----------------------------
         // Return all the titles of the movies that are equal to or higher than 4.5 in rating. 
         // Also just give me 5 good movies or less. Use Observable.limit().
+        // When done, try Observable.take() & find out the difference.
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
@@ -490,7 +491,7 @@ public class ObservableExercises {
     /**
      * Exercise 16 - Are there epic movies?
      * <p/>
-     * Return an Observable that emits true if there are any epic interestingMoments in a movie
+     * Return an Observable that emits, for each movie, whether there are any epic interestingMoments
      * <p/>
      *
      * @param movieLists an observable of movies to work your magic on

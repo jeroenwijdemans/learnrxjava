@@ -870,7 +870,8 @@ public class ObservableExercisesTest {
 
     private Observable<Movie> gimmeSomeMoreMoviesFlatEvery(long value, TimeUnit timeUnit, Scheduler scheduler) {
         Observable<Long> interval = Observable.interval(value, timeUnit, scheduler);
-        return Observable.zip(gimmeSomeMoreMovies().flatMap(movies -> movies.videos), interval, (movie, t) -> movie);
+        final Observable<Movie> movies = gimmeSomeMoreMovies().flatMap(_movies -> _movies.videos);
+        return Observable.zip(movies, interval, (movie, t) -> movie);
     }
 
     private Observable<Movies> gimmeSomeMovies() {

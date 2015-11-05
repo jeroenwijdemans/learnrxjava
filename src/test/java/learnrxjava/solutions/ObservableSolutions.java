@@ -239,12 +239,10 @@ public class ObservableSolutions extends ObservableExercises {
 
     @Override
     public Observable<GroupedObservable<String, Double>> exercise37(Observable<Movies> movieLists) {
-        return movieLists.flatMap(movieList -> movieList.videos)
-                .flatMap(movie ->
-                                movie.topCast.map(actor ->
-                                                new AbstractMap.SimpleEntry<String, Double>(actor, movie.rating)
-                                )
-                ).groupBy(entry -> entry.getKey(), entry -> entry.getValue());
+		final Observable<Movie> movies = movieLists.flatMap(movieList -> movieList.videos);
+		final Observable<AbstractMap.SimpleEntry<String, Double>> actorRatings = movies
+				.flatMap(movie -> movie.topCast.map(actor -> new AbstractMap.SimpleEntry<String, Double>(actor, movie.rating)));
+		return actorRatings.groupBy(entry -> entry.getKey(), entry -> entry.getValue());
     }
 
     @Override
