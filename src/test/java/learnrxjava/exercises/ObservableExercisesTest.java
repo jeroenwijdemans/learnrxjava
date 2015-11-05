@@ -144,7 +144,7 @@ public class ObservableExercisesTest {
         TestSubscriber<String> ts = new TestSubscriber<>();
         getImpl().exercise12(gimmeSomeMoreMovies(), 5.0).subscribe(ts);
         ts.assertNoErrors();
-        ts.assertReceivedOnNext(Arrays.asList("My Little Pony"));
+        ts.assertReceivedOnNext(Arrays.asList("Fracture"));
     }
 
     @Test
@@ -990,7 +990,7 @@ public class ObservableExercisesTest {
                                 new Movie(675469, "All quiet on the Western front", 4.3),
                                 new Movie(675470, "Hitman", 4.3),
                                 new Movie(675471, "Fury", 4.8),
-                                new Movie(6754, "My Little Pony", 5.0)))
+                                new Movie(6754, "My Little Pony", 4.7)))
         );
     }
 }

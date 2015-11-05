@@ -207,10 +207,7 @@ public class ObservableSolutions extends ObservableExercises {
     public Observable<Movie> exercise25(Observable<Movie> movies, Func1<Movie, Observable<Movie>> advertFunction, Scheduler scheduler) {
         return movies
                 .map(advertFunction)
-                //.doOnNext(_movieLists -> System.out.println("movie @" + scheduler.now()))
-                .flatMap(ads -> ads.delay(10, SECONDS, scheduler))
-                //.doOnNext(_movieLists -> System.out.println("movie, delayed: @" + scheduler.now()))
-                ;
+                .flatMap(ads -> ads.delay(10, SECONDS, scheduler));
     }
 
     @Override

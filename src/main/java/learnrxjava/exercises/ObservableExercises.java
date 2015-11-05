@@ -199,6 +199,11 @@ public class ObservableExercises {
 
         //return sum.getSum();
         throw new UnsupportedOperationException("Not Implemented");
+
+        // Sidenote: the pattern used here with adding values to an object outside the scope of
+        // the onNext() is solely for educational purposes. We wouldn't advise using it, i.e.
+        // not without using an appropriate concurrent structure. You may ponder this or just
+        // wait until the section about Schedulers.
     }
 
     /**
@@ -552,7 +557,7 @@ public class ObservableExercises {
         // TODO add implementation
         return Observable.error(new RuntimeException("Not Implemented"));
         
-        // Test still failing? Did you forget to add the scheduler?
+        // Test slow? Did you forget to add the scheduler?
     }
 
     /**
