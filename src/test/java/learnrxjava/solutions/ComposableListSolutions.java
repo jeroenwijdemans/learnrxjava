@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 public class ComposableListSolutions<T> extends ArrayList<T> implements ComposableList<T> {
     private static final long serialVersionUID = 1L;
 
+    // for
     public static void exercise1() {
         ComposableListSolutions<String> names = ComposableListSolutions.of("Ben", "Jafar", "Matt", "Priya", "Brian");
 
@@ -18,6 +19,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         }
     }
 
+    // foreach
     public static void exercise2() {
         ComposableListSolutions<String> names = ComposableListSolutions.of("Ben", "Jafar", "Matt", "Priya", "Brian");
 
@@ -26,6 +28,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         });
     }
 
+    // forEach
     public static ComposableList<JSON> exercise3() {
         ComposableListSolutions<Video> newReleases = ComposableListSolutions.of(
                 new Video(70111470, "Die Hard", 4.0),
@@ -42,6 +45,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         return videoAndTitlePairs;
     }
 
+    // map impl
     public <R> ComposableList<R> map(Function<T, R> projectionFunction) {
         ComposableListSolutions<R> results = new ComposableListSolutions<R>();
         this.forEach(itemInList -> {
@@ -50,7 +54,8 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         
         return results;
     }
-    
+
+    // map use
     public static ComposableList<JSON> exercise5() {
         ComposableListSolutions<Video> newReleases = ComposableListSolutions.of(
             new Video(70111470, "Die Hard", 4.0),
@@ -63,6 +68,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         });
     }
 
+    // filter custom
     public static ComposableList<Video> exercise6() {
         ComposableListSolutions<Video> newReleases = ComposableListSolutions.of(
             new Video(
@@ -96,7 +102,8 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         
         return highRatedVideos;
     }
-    
+
+    // filter impl
     public ComposableList<T> filter(Predicate<T> predicateFunction) {
         ComposableListSolutions<T> results = new ComposableListSolutions<T>();
         this.forEach(itemInList -> {
@@ -108,6 +115,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         return results;
     }
 
+    // filter use
     public static ComposableList<Integer> exercise8() {
         ComposableListSolutions<Video> newReleases
             = ComposableListSolutions.of(
@@ -135,6 +143,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         return newReleases.filter(v -> v.rating == 5).map(v -> v.id);
     }
 
+    // tree/nesting
     public static ComposableList<Integer> exercise9() {
         ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(new MovieList(
                 "New Releases",
@@ -157,7 +166,8 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
 
         return allVideoIdsInMovieLists;
     }
-    
+
+    // concatMap impl
     public <R> ComposableList<R> concatMap(
         Function<T, ComposableList<R>> projectionFunctionThatReturnsList) {
         ComposableListSolutions<R> results = new ComposableListSolutions<R>();
@@ -170,7 +180,8 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         
         return results;
     }
-    
+
+    // concatMap+map use
     public static ComposableList<Integer> exercise11() {
         ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(
                 new MovieList("New Releases", ComposableListSolutions.of( 
@@ -184,7 +195,8 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
              concatMap(movieList -> 
                  movieList.videos.map(video -> video.id));
     }
-    
+
+    // complex!!
     public static ComposableList<JSON> exercise12() {
         ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(new MovieList(
                 "Instant Queue",
@@ -231,6 +243,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
             )
         );
 
+        // can be more compact - oneliner!
         return movieLists.concatMap(ml -> {
            return ml.videos.concatMap(v -> {
                ComposableList<BoxArt> boxart = v.boxarts.filter(ba -> ba.width == 150 && ba.height == 200);
@@ -241,6 +254,8 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         });
     }
 
+    // reduce custom
+    // not in learnrxjs
     public static BoxArt exercise13() {
         ComposableListSolutions<BoxArt> boxarts = ComposableListSolutions.of(
             new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/Fracture200.jpg"),
@@ -264,6 +279,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         return largestBoxart;
     }
 
+    // reduce impl
     public ComposableList<T> reduce(BiFunction<T, T, T> combiner) {
         int counter = 1;
         T accumulatedValue = null;
@@ -280,6 +296,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         }
     }
 
+    // reduce with initial impl
     public <R> ComposableList<R> reduce(R initialValue, BiFunction<R, T, R> combiner) {
         int counter;
         R accumulatedValue;
@@ -298,8 +315,10 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         }
     }
 
+    // reduce use
     public static ComposableList<Integer> exercise16() {
         ComposableListSolutions<Integer> ratings = ComposableListSolutions.of(2, 3, 5, 1, 4);
+        // onliner: ratings.reduce(Math::max)
         return ratings.reduce((max, item) -> {
             if(item > max) {
                 return item;
@@ -309,6 +328,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         });
     }
 
+    // reduce+map use
     public static ComposableList<String> exercise17() {
         ComposableListSolutions<BoxArt> boxarts = ComposableListSolutions.of(
                 new BoxArt(200, 200, "http://cdn-0.nflximg.com/images/2891/Fracture200.jpg"),
@@ -317,6 +337,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
                 new BoxArt(300, 200, "http://cdn-0.nflximg.com/images/2891/Fracture300.jpg")
         );
 
+        // onliner: boxarts.reduce((max, box) -> Math.max(max.size(), box.size())).map(boxart -> boxart.url)
         return boxarts.reduce((max, box) -> {
             int maxSize = max.height * max.width;
             int boxSize = box.height * box.width;
@@ -328,6 +349,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         }).map(boxart -> boxart.url);
     }
 
+    // reduce on list; unmodifiableMap is important!
     public static ComposableList<Map<Integer, String>> exercise18() {
         ComposableListSolutions<Video> videos = ComposableListSolutions.of(
             new Video(
@@ -362,6 +384,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
                 });
     }
 
+    // reduce+map use; comparable to ex.17 (but use Math::min!)
     public static ComposableList<JSON> exercise19() {
         ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(new MovieList(
                     "New Releases",
@@ -410,8 +433,10 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
                 )
         );
 
+        // can be more compact
         return movieLists.
             concatMap(ml -> {
+                // <JSON> needed? Lambda + generics = complex!
                 return ml.videos.<JSON>concatMap(v -> {
                     return v.boxarts.reduce((max, box) -> {
                         int maxSize = max.height * max.width;
@@ -428,6 +453,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
             });
     }
 
+    // zip custom
     public static ComposableList<JSON> exercise20() {
         ComposableListSolutions<Video> videos = ComposableListSolutions.of(
                 new Video(
@@ -467,6 +493,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
          return videoIdAndBookmarkIdPairs;
     }
 
+    // zip impl
     public static <T0,T1,R> ComposableList<R> zip(ComposableList<T0> left, ComposableList<T1> right, BiFunction<T0,T1, R> combinerFunction) {
         ComposableListSolutions<R> results = new ComposableListSolutions<R>();
 
@@ -479,6 +506,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
         return results;
     }
 
+    // zip use
     public static ComposableList<JSON> exercise22() {
         ComposableListSolutions<Video> videos = ComposableListSolutions.of(
                 new Video(
@@ -515,6 +543,8 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
                 (v, b) -> json("videoId", v, "bookmarkId", b));
     }
 
+    // comparable to ex.17/19
+    // combines all: concatMap, reduce, filter, zip
     public static ComposableList<JSON> exercise23() {
         ComposableListSolutions<MovieList> movieLists = ComposableListSolutions.of(new MovieList(
                 "New Releases",
@@ -586,6 +616,7 @@ public class ComposableListSolutions<T> extends ArrayList<T> implements Composab
             )
         );
 
+        // can be more compact
         return movieLists.
             concatMap(movieList -> {
                 return movieList.videos.<JSON>concatMap(video -> {
