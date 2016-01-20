@@ -37,8 +37,10 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
         // ------------ INSERT CODE HERE! ----------------------------
         // Print the names in the list using a standard foreach loop
         // ------------ INSERT CODE HERE! ----------------------------
-        
-        throw new UnsupportedOperationException("Not implemented yet.");
+
+        names.forEach(e -> System.out.println(e));
+
+//        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     /*
@@ -71,8 +73,8 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
         // ------------ INSERT CODE HERE! ----------------------------
         
         //names. TODO add implementation
-        
-        throw new UnsupportedOperationException("Not implemented yet.");
+
+        names.forEach(e-> System.out.println(e));
     }
 
     /*
@@ -97,16 +99,17 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
                 new Video(675465, "Fracture", 5.0));
 
         ComposableList<JSON> videoAndTitlePairs = new ComposableListExercises<>();
-        
+
+        newReleases.forEach(e -> videoAndTitlePairs.add(json("id", e.id, "title", e.title)));
         // ------------ INSERT CODE HERE! ----------------------------
         // For each video, add the {id, title} json to the videoAndTitlePairs
         // list.
         // ------------ INSERT CODE HERE! ----------------------------
         
         //newReleases. // TODO add implementation
-        
-        //return videoAndTitlePairs;
-        throw new UnsupportedOperationException("Not implemented yet.");
+
+
+        return videoAndTitlePairs;
     }
 
     /*
@@ -140,11 +143,11 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
             // Note that you can apply a projectionFunction to a value like this:
             // projectionFunction.apply(5)
             // ------------ INSERT CODE HERE! ----------------------------
-            
+            results.add(projectionFunction.apply(itemInList));
         });
         
-        //return results;
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return results;
+//        throw new UnsupportedOperationException("Not implemented yet.");
     }
     
     /*
@@ -162,8 +165,8 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
          
         // complete this expression 
         
-        // return newReleases.map(video -> 
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return newReleases.map(e -> json("id", e.id, "title", e.title));
+//        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     /*
@@ -205,11 +208,11 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
             // Insert code here that adds a video to the highRatedVideos list
             // if it has a rating of 5.0.
             // ------------ INSERT CODE HERE! ----------------------------
-
+            if(video.rating >= 5.0 ) highRatedVideos.add(video);
         });
         
-        // return highRatedVideos;
-        throw new UnsupportedOperationException("Not implemented yet.");        
+        return highRatedVideos;
+//        throw new UnsupportedOperationException("Not implemented yet.");
     }
     
     /*
@@ -241,10 +244,11 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
             // predicateFunction.test(5)
             // ------------ INSERT CODE HERE! ----------------------------
 
+            if( predicateFunction.test(itemInList))  results.add(itemInList);
         });
 
-        // return results;
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return results;
+//        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     /*
@@ -283,8 +287,10 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
         // with a rating of 5.0.
         // ------------ INSERT CODE HERE! -----------------------------------
         
-        //return newReleases
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return newReleases
+                .filter(v -> v.rating >= 5.0)
+                .map(e -> e.id);
+//        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     /*
@@ -312,14 +318,15 @@ public class ComposableListExercises<T> extends ArrayList<T> implements Composab
                         new Video(675465, "Fracture", 5.0))));
 
         ComposableList<Integer> allVideoIdsInMovieLists = new ComposableListExercises<>();
+        movieLists.forEach(ml -> ml.videos.map(v -> allVideoIdsInMovieLists .add(v.id)));
 
         // ------------   INSERT CODE HERE!  -----------------------------------
         // Use two nested forEach loops to flatten the movieLists into a list of
         // video ids.
         // ------------   INSERT CODE HERE!  -----------------------------------
         
-        //return allVideoIdsInMovieLists;
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return allVideoIdsInMovieLists;
+//        throw new UnsupportedOperationException("Not implemented yet.");
     }
     
     /*

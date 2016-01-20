@@ -1,6 +1,8 @@
 package learnrxjava.exercises;
 
 import java.util.Arrays;
+
+import learnrxjava.types.InterestingMoment;
 import learnrxjava.types.JSON;
 import learnrxjava.types.Movie;
 import learnrxjava.types.Movies;
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
 import learnrxjava.examples.SubscribeOnObserveOnExample;
 import learnrxjava.utils.Utils;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.observables.GroupedObservable;
 import rx.observables.MathObservable;
 import rx.observers.TestSubscriber;
@@ -79,9 +82,12 @@ public class ObservableExercises {
         // Hint: You can use autocomplete.
         // ------------ ASSIGNMENT ----------------------------
 
+
         // return names. // TODO add implementation
 
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return names.map(n -> "Hello " + n + "!");
+
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -96,9 +102,9 @@ public class ObservableExercises {
         // ------------ ASSIGNMENT ----------------------------
         // Filter for even numbers        
         // ------------ ASSIGNMENT ----------------------------
-        // return nums. // TODO add implementation
-
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return nums.filter(n -> n % 2 ==0); // TODO add implementation
+//
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -117,9 +123,9 @@ public class ObservableExercises {
         // ------------ ASSIGNMENT ----------------------------
         // Compose filter and map
         // ------------ ASSIGNMENT ----------------------------
-        // return nums. // TODO add implementation
-
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return nums.filter(n->n%2==0).map(n-> n+"-Even"); // TODO add implementation
+//
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -138,7 +144,12 @@ public class ObservableExercises {
      * @return Observable of Integers of Movies.videos.id
      */
     public Observable<Integer> exercise03(Observable<Movies> movieLists) {
-        return Observable.error(new RuntimeException("Not Implemented"));
+//        movieLists.map(m -> m.e).concatMap(v -> v.)
+
+
+     return movieLists.concatMap(m -> m.videos).map(v -> v.id);
+
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -193,12 +204,14 @@ public class ObservableExercises {
                 // Use auto complete
                 // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
+
+                sum.increment(t);
             }
 
         });
 
-        //return sum.getSum();
-        throw new UnsupportedOperationException("Not Implemented");
+        return sum.getSum();
+//        throw new UnsupportedOperationException("Not Implemented");
 
         // Sidenote: the pattern used here with adding values to an object outside the scope of
         // the onNext() is solely for educational purposes. We wouldn't advise using it, i.e.
@@ -239,14 +252,14 @@ public class ObservableExercises {
                 // Extract the error message and return it
                 // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
-
-                throw new UnsupportedOperationException("Not Implemented");
+                message.append(t.getMessage());
+//                throw new UnsupportedOperationException("Not Implemented");
             }
 
         });
 
-        //return message.toString();
-        throw new UnsupportedOperationException("Not Implemented");
+        return message.toString();
+//        throw new UnsupportedOperationException("Not Implemented");
     }
 
     /**
@@ -269,6 +282,7 @@ public class ObservableExercises {
                 // Increment count by one
                 // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
+                count++;
             }
 
             @Override
@@ -277,12 +291,13 @@ public class ObservableExercises {
                 // Set the message to "found <count> items"
                 // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
+                message.append("found " + count+ " items");
             }
 
         });
 
-        //return message.toString();
-        throw new UnsupportedOperationException("Not Implemented");
+        return message.toString();
+//        throw new UnsupportedOperationException("Not Implemented");
     }
 
     /**
@@ -307,7 +322,10 @@ public class ObservableExercises {
             // the emission of the name was the last event and no more are coming.
             // ------------ ASSIGNMENT ----------------------------
             // TODO add implementation
-            throw new UnsupportedOperationException("Not Implemented");
+//            throw new UnsupportedOperationException("Not Implemented");
+
+            subscriber.onNext(name);
+            subscriber.onCompleted();
         });
     }
 
@@ -324,19 +342,26 @@ public class ObservableExercises {
     public Observable<String> exercise08(int divisor) {
         return Observable.create(subscriber -> {
             try {
+                System.out.println("1");
                 int quotient = 42 / divisor;
                 // ------------ ASSIGNMENT ----------------------------
                 // Emit just the value "The number 42 divided by your input is: <quotient>"
                 // ------------ ASSIGNMENT ----------------------------
                 // TODO add implementation
-                throw new UnsupportedOperationException("Not Implemented");
+                System.out.println("2");
+                subscriber.onNext("The number 42 divided by your input is: " + quotient);
+                subscriber.onCompleted();
+//                throw new UnsupportedOperationException("Not Implemented");
             } catch (Exception e) {
-                // ------------ ASSIGNMENT ----------------------------
+
+                System.out.println("3");
+// ------------ ASSIGNMENT ----------------------------
                 // Emit - not throw! - the Exception. Can you think of a reason
                 // why it would be unwise to rethrow here?
                 // ------------ ASSIGNMENT ----------------------------
+                subscriber.onError(e);
                 // TODO add implementation
-                throw new UnsupportedOperationException("Not Implemented");
+//                throw new UnsupportedOperationException("Not Implemented");
             }
         });
     }
@@ -364,7 +389,8 @@ public class ObservableExercises {
         // emit a single value "Hello World!"
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return Observable.just("Hello World!");
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -386,7 +412,15 @@ public class ObservableExercises {
         // zip up Observable a and b using a combiner function that concatenates the input from both values
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+
+        return Observable.zip(a, b, new Func2<String, String, String>() {
+            @Override
+            public String call(String s, String s2) {
+                return s+" " +s2;
+            }
+        });
+
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -406,7 +440,10 @@ public class ObservableExercises {
         // Use Observable.first(), you might need some concatMap too...
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+//        return Observable.error(new RuntimeException("Not Implemented"));
+
+        return movieLists.concatMap(m-> m.videos).first().map(v->v.title);
+
     }
     
     /**
@@ -428,7 +465,8 @@ public class ObservableExercises {
         // Use Observable.last()
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return movieLists.concatMap(m-> m.videos).filter(m->m.rating==rating).last().map(v->v.title);
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -446,7 +484,9 @@ public class ObservableExercises {
         // Use Observable.take()
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+
+        return movieLists.concatMap(m->m.videos).take(5).map(v->v.title);
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -466,7 +506,8 @@ public class ObservableExercises {
         // that are on the second page. Use Observable.skip()
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return movieLists.concatMap(m->m.videos).skip(pageLength).take(pageLength).map(v->v.title);
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -485,7 +526,10 @@ public class ObservableExercises {
         // When done, try Observable.take() & find out the difference.
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+
+        return movieLists.concatMap(m->m.videos).filter(v-> v.rating>=4.5).take(5).map(v -> v.title);
+//
+//    return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -503,7 +547,15 @@ public class ObservableExercises {
         // Use Observable.exists();
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+
+//        return Observable.just(true);
+//        return movieLists.concatMap(m-> m.videos).map(v -> v.title.equals("x") );
+
+        return movieLists.concatMap(m -> m.videos).concatMap(v -> v.interestingMoments.exists(im -> "epic".equals(im.type)));
+
+//        return movieLists.concatMap(m->m.videos).map(m->m.interestingMoments.exists(t -> t.equals("epic")));
+
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -522,7 +574,10 @@ public class ObservableExercises {
         // Use Observable.all();
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+
+        return marathonCandidates.concatMap(m-> m.videos).all(m->m.minimalAge<18);
+
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -556,8 +611,10 @@ public class ObservableExercises {
         // to achieve the desired output
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
-        
+//        return Observable.error(new RuntimeException("Not Implemented"));
+
+
+        return Observable.interval(1, TimeUnit.SECONDS, scheduler).zipWith(data, (b,a) -> a+" " +b++);
         // Test slow? Did you forget to add the scheduler?
     }
 
@@ -577,7 +634,7 @@ public class ObservableExercises {
         // use Observable.mergeWith to interleave the two streams
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return Observable.merge(odd,even);
     }
     
     /**
@@ -603,7 +660,8 @@ public class ObservableExercises {
         // Use flatMap
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+//        return Observable.error(new RuntimeException("Not Implemented"));
+        return movieLists.flatMap(ml -> ml.videos.map(v -> v.id));
     }
 
     /**
@@ -630,7 +688,7 @@ public class ObservableExercises {
      * @return true when you understand what's going on
      */
     public boolean exercise21() {
-        return false;
+        return true;
     }
 
     /**
@@ -652,8 +710,10 @@ public class ObservableExercises {
         // Use Observable.sample() and the provided scheduler.
         // Don't worry about schedulers yet. In time you will learn.
         // ------------ ASSIGNMENT ----------------------------
+
+        return movieLists.sample(4, TimeUnit.SECONDS, scheduler).flatMap(ml -> ml.videos).map(v->v.title);
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**
@@ -664,7 +724,7 @@ public class ObservableExercises {
      * the other hardly anything. The bursts might swamp us.
      * <p/>
      * The buffer operator partially insulates us from these bursts, by buffering them up and emitting the
-     * buffers as a List of items. On what conditions these Lists are emitted is entirely configurable,
+     * buffers as a List of items. On what conditions .take(1)these Lists are emitted is entirely configurable,
      * by way of 12 different overloads of Observable.buffer()!
      * <p/>
      * The objective: buffer the incoming burstySuggestedVideoIds in intervals of 500ms.
@@ -683,7 +743,8 @@ public class ObservableExercises {
         // Use Observable.buffer()
         // ------------ ASSIGNMENT ----------------------------
         // TODO add implementation
-        return Observable.error(new RuntimeException("Not Implemented"));
+        return burstySuggestedVideoIds.buffer(500, TimeUnit.MILLISECONDS,scheduler);
+//        return Observable.error(new RuntimeException("Not Implemented"));
     }
 
     /**

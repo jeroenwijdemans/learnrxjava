@@ -193,6 +193,23 @@ public class ObservableSolutions extends ObservableExercises {
         return movieLists.sample(4, SECONDS, scheduler).flatMap(movieList -> movieList.videos).map(video -> video.title);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public Observable<List<Integer>> exercise23(Observable<Integer> burstySuggestedVideoIds, Scheduler scheduler) {
         return burstySuggestedVideoIds.buffer(500, MILLISECONDS, scheduler);
